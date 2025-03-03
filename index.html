@@ -230,6 +230,7 @@
             
             // Populate time slots based on meal category
            // Fix time slots generation
+            // Populate time slots based on meal category
             function updateTimeSlots() {
                 const category = document.getElementById('category').value;
                 const startTimeSelect = document.getElementById('startTime');
@@ -250,7 +251,7 @@
                 // Add time slots in 15-minute increments
                 for (let h = startHour; h <= endHour; h += 0.25) {
                     const hour = Math.floor(h);
-                    const minute = Math.floor((h - hour) * 60); // Ensure minute is an integer
+                    const minute = (h - hour) * 60;
                     const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
                     
                     const option = document.createElement('option');
@@ -365,6 +366,7 @@
                 errorAlert.style.display = 'block';
             });
         });
+    });
     </script>
 </body>
 </html>
