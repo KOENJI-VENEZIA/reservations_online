@@ -126,7 +126,6 @@ function calculateEndTime(startTime) {
 }
 
 // Handle form submission
-// Handle form submission
 function handleFormSubmit(e) {
     e.preventDefault();
     
@@ -143,7 +142,7 @@ function handleFormSubmit(e) {
         date: document.getElementById('date').value,
         category: document.getElementById('category').value,
         startTime: document.getElementById('startTime').value,
-        notes: document.getElementById('notes').value
+        notes: document.getElementById('notes').value || ""
     };
     
     // Validate form data
@@ -178,7 +177,7 @@ function handleFormSubmit(e) {
     const checkAvailabilityFn = functions.httpsCallable('checkAvailability');
     checkAvailabilityFn({
         numberOfPersons: formData.numberOfPersons,
-        date: formData.date,  // Use formData.date instead of dateString
+        date: formData.date,
         category: formData.category,
         startTime: formData.startTime,
         endTime: endTime,
@@ -202,11 +201,10 @@ function handleFormSubmit(e) {
             phone: formData.phone,
             email: formData.email,
             numberOfPersons: formData.numberOfPersons,
-            dateString: formData.date,  // Use formData.date instead of dateString
+            dateString: formData.date,
             category: formData.category,
             startTime: formData.startTime,
             endTime: endTime,
-            
             acceptance: "toConfirm",
             status: "pending",
             reservationType: "inAdvance",
