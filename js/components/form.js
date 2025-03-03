@@ -126,6 +126,7 @@ function calculateEndTime(startTime) {
 }
 
 // Handle form submission
+// Handle form submission
 function handleFormSubmit(e) {
     e.preventDefault();
     
@@ -138,7 +139,7 @@ function handleFormSubmit(e) {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
-        numberOfPersons: document.getElementById('numberOfPersons').value,
+        numberOfPersons: parseInt(document.getElementById('numberOfPersons').value),
         date: document.getElementById('date').value,
         category: document.getElementById('category').value,
         startTime: document.getElementById('startTime').value,
@@ -176,11 +177,11 @@ function handleFormSubmit(e) {
     // Final availability check before submission
     const checkAvailabilityFn = functions.httpsCallable('checkAvailability');
     checkAvailabilityFn({
-        numberOfPersons,
-        date: dateString,
-        category,
-        startTime,
-        endTime,
+        numberOfPersons: formData.numberOfPersons,
+        date: formData.date,  // Use formData.date instead of dateString
+        category: formData.category,
+        startTime: formData.startTime,
+        endTime: endTime,
         isDebug: isDebugEnvironment()
     }).then((result) => {
         const { available } = result.data;
@@ -197,13 +198,13 @@ function handleFormSubmit(e) {
         // Create reservation doc
         const reservation = {
             id: reservationId,
-            name: name,
-            phone: phone,
-            email: email,
-            numberOfPersons: numberOfPersons,
-            dateString: dateString,
-            category: category,
-            startTime: startTime,
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            numberOfPersons: formData.numberOfPersons,
+            dateString: formData.date,  // Use formData.date instead of dateString
+            category: formData.category,
+            startTime: formData.startTime,
             endTime: endTime,
             
             acceptance: "toConfirm",
