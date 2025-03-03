@@ -54,6 +54,13 @@
             font-size: 28px;
         }
 
+        h2 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-weight: 600;
+            font-size: 22px;
+        }
+
         .form-group {
             margin-bottom: 20px;
             position: relative;
@@ -320,12 +327,342 @@
             margin: 24px 0;
         }
 
+        /* Admin menu styles */
+        .admin-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 0;
+        }
+
+        .admin-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            padding: 20px;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .admin-panel.active {
+            right: 0;
+        }
+
+        .admin-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--neutral-light);
+        }
+
+        .admin-panel-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            width: auto;
+            padding: 0;
+            margin: 0;
+        }
+
+        .admin-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--neutral-light);
+        }
+
+        .admin-section:last-child {
+            border-bottom: none;
+        }
+
+        .login-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 0;
+        }
+
+        .google-signin-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: white;
+            color: #757575;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px 16px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: auto;
+        }
+
+        .google-signin-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .google-signin-button img {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .admin-list {
+            margin-top: 15px;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius-sm);
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .admin-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .admin-list-item-email {
+            flex-grow: 1;
+        }
+
+        .admin-list-item-remove {
+            background: none;
+            border: none;
+            color: var(--error-color);
+            cursor: pointer;
+            font-size: 20px;
+            width: auto;
+            padding: 0 5px;
+            margin: 0;
+        }
+
+        .env-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .env-tag.debug {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+        }
+
+        .env-tag.release {
+            background-color: var(--success-light);
+            color: var(--success-color);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin-left: 10px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--success-color);
+        }
+
+        input:focus + .toggle-slider {
+            box-shadow: 0 0 1px var(--success-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .admin-action-button {
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+            margin-top: 0;
+        }
+
+        .admin-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .admin-row label {
+            margin-bottom: 0;
+            margin-right: 10px;
+        }
+
+        .logs-container {
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: var(--box-shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            width: auto;
+            padding: 0;
+            margin: 0;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-button {
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+            margin-top: 0;
+        }
+
+        .modal-button.secondary {
+            background-color: var(--neutral-color);
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
             }
             .form-field-group {
                 grid-template-columns: 1fr;
+            }
+            .admin-panel {
+                width: 100%;
+                right: -100%;
             }
         }
     </style>
@@ -507,11 +844,110 @@
         </form>
     </div>
 
+    <!-- Admin Button -->
+    <button class="admin-button" id="adminButton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+    </button>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-panel-header">
+            <h2>Admin Panel</h2>
+            <button class="admin-panel-close" id="adminPanelClose">&times;</button>
+        </div>
+        
+        <!-- Login Section (shown when not logged in) -->
+        <div id="adminLoginSection" class="login-section">
+            <p style="margin-bottom: 20px; text-align: center;">Please sign in with your Google account to access admin features.</p>
+            <button id="googleSignInButton" class="google-signin-button">
+                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
+                Sign in with Google
+            </button>
+        </div>
+        
+        <!-- Admin Content (shown when logged in and authorized) -->
+        <div id="adminContent" style="display: none;">
+            <!-- User Info -->
+            <div class="user-info">
+                <img id="userAvatar" src="" alt="User avatar" class="user-avatar">
+                <div>
+                    <div id="userName" class="user-name"></div>
+                    <div id="userEmail" class="user-email"></div>
+                </div>
+            </div>
+            
+            <!-- Environment Section -->
+            <div class="admin-section">
+                <h3>Environment Settings <span id="environmentIndicator" class="env-tag release">Release</span></h3>
+                <div class="admin-row" style="margin-top: 15px;">
+                    <label for="envToggle">Environment:</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="envToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span id="toggleLabel">Release</span>
+                </div>
+            </div>
+            
+            <!-- Admin Users Section -->
+            <div class="admin-section">
+                <h3>Authorized Admins</h3>
+                <p style="margin-bottom: 10px; font-size: 14px;">
+                    These email addresses have admin access.
+                </p>
+                
+                <div class="form-group">
+                    <div class="admin-row">
+                        <input type="email" id="newAdminEmail" placeholder="Add new admin email">
+                        <button id="addAdminButton" class="admin-action-button">Add</button>
+                    </div>
+                </div>
+                
+                <div id="adminList" class="admin-list">
+                    <!-- Admin users will be listed here -->
+                </div>
+            </div>
+            
+            <!-- Debug Info Section -->
+            <div class="admin-section">
+                <h3>Debug Information</h3>
+                <div id="logsContainer" class="logs-container">
+                    <!-- Debug logs will appear here -->
+                </div>
+                <button id="clearLogsButton" class="admin-action-button" style="margin-top: 10px;">Clear Logs</button>
+            </div>
+            
+            <!-- Sign Out Button -->
+            <button id="signOutButton" class="admin-action-button">Sign Out</button>
+        </div>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Confirmation</div>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalMessage">
+                Are you sure you want to perform this action?
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button secondary" id="modalCancel">Cancel</button>
+                <button class="modal-button" id="modalConfirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
     <!-- Add Firebase products that you want to use -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-functions-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-auth-compat.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -530,6 +966,306 @@
             firebase.initializeApp(firebaseConfig);
             const db = firebase.firestore();
             const functions = firebase.functions();
+            const auth = firebase.auth();
+            
+            // Set up admin panel functionality
+            const adminButton = document.getElementById('adminButton');
+            const adminPanel = document.getElementById('adminPanel');
+            const adminPanelClose = document.getElementById('adminPanelClose');
+            const adminLoginSection = document.getElementById('adminLoginSection');
+            const adminContent = document.getElementById('adminContent');
+            const googleSignInButton = document.getElementById('googleSignInButton');
+            const signOutButton = document.getElementById('signOutButton');
+            const envToggle = document.getElementById('envToggle');
+            const toggleLabel = document.getElementById('toggleLabel');
+            const environmentIndicator = document.getElementById('environmentIndicator');
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+            const logsContainer = document.getElementById('logsContainer');
+            const clearLogsButton = document.getElementById('clearLogsButton');
+            const adminList = document.getElementById('adminList');
+            const newAdminEmail = document.getElementById('newAdminEmail');
+            const addAdminButton = document.getElementById('addAdminButton');
+            
+            // Modal elements
+            const confirmModal = document.getElementById('confirmModal');
+            const modalClose = document.getElementById('modalClose');
+            const modalCancel = document.getElementById('modalCancel');
+            const modalConfirm = document.getElementById('modalConfirm');
+            const modalMessage = document.getElementById('modalMessage');
+            
+            let currentUser = null;
+            let currentAdminAction = null;
+            let authorizedAdmins = ['matteo.koenji@gmail.com']; // Default admin
+            
+            // Log Function
+            function logToAdmin(message) {
+                const timestamp = new Date().toISOString().slice(11, 19);
+                const logEntry = document.createElement('div');
+                logEntry.textContent = `[${timestamp}] ${message}`;
+                logsContainer.prepend(logEntry);
+                
+                // Store in localStorage for persistence
+                const logs = JSON.parse(localStorage.getItem('adminLogs') || '[]');
+                logs.unshift(`[${timestamp}] ${message}`);
+                
+                // Limit to last 100 logs
+                if (logs.length > 100) logs.length = 100;
+                
+                localStorage.setItem('adminLogs', JSON.stringify(logs));
+            }
+            
+            // Load logs from localStorage
+            function loadLogs() {
+                const logs = JSON.parse(localStorage.getItem('adminLogs') || '[]');
+                logsContainer.innerHTML = '';
+                logs.forEach(log => {
+                    const logEntry = document.createElement('div');
+                    logEntry.textContent = log;
+                    logsContainer.appendChild(logEntry);
+                });
+            }
+            
+            // Clear logs
+            clearLogsButton.addEventListener('click', function() {
+                showConfirmationModal(
+                    'Are you sure you want to clear all logs?',
+                    () => {
+                        localStorage.setItem('adminLogs', '[]');
+                        logsContainer.innerHTML = '';
+                        logToAdmin('Logs cleared');
+                    }
+                );
+            });
+            
+            // Load authorized admins from localStorage
+            function loadAuthorizedAdmins() {
+                const savedAdmins = JSON.parse(localStorage.getItem('authorizedAdmins'));
+                if (savedAdmins && Array.isArray(savedAdmins) && savedAdmins.length > 0) {
+                    authorizedAdmins = savedAdmins;
+                } else {
+                    // Ensure default admin is always included
+                    if (!authorizedAdmins.includes('matteo.koenji@gmail.com')) {
+                        authorizedAdmins.push('matteo.koenji@gmail.com');
+                    }
+                    localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
+                }
+                renderAdminList();
+            }
+            
+            // Render admin list
+            function renderAdminList() {
+                adminList.innerHTML = '';
+                authorizedAdmins.forEach(email => {
+                    const item = document.createElement('div');
+                    item.className = 'admin-list-item';
+                    
+                    const emailSpan = document.createElement('span');
+                    emailSpan.className = 'admin-list-item-email';
+                    emailSpan.textContent = email;
+                    
+                    const removeButton = document.createElement('button');
+                    removeButton.className = 'admin-list-item-remove';
+                    removeButton.innerHTML = '&times;';
+                    removeButton.addEventListener('click', () => {
+                        if (email === 'matteo.koenji@gmail.com') {
+                            alert('Cannot remove the default admin.');
+                            return;
+                        }
+                        showConfirmationModal(
+                            `Are you sure you want to remove admin access for ${email}?`,
+                            () => removeAdmin(email)
+                        );
+                    });
+                    
+                    item.appendChild(emailSpan);
+                    item.appendChild(removeButton);
+                    adminList.appendChild(item);
+                });
+            }
+            
+            // Add new admin
+            addAdminButton.addEventListener('click', function() {
+                const email = newAdminEmail.value.trim();
+                if (!email) {
+                    alert('Please enter an email address.');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+                
+                if (authorizedAdmins.includes(email)) {
+                    alert('This email is already an admin.');
+                    return;
+                }
+                
+                showConfirmationModal(
+                    `Are you sure you want to add ${email} as an admin?`,
+                    () => {
+                        authorizedAdmins.push(email);
+                        localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
+                        renderAdminList();
+                        newAdminEmail.value = '';
+                        logToAdmin(`Added ${email} as admin`);
+                    }
+                );
+            });
+            
+            // Remove admin
+            function removeAdmin(email) {
+                const index = authorizedAdmins.indexOf(email);
+                if (index !== -1) {
+                    authorizedAdmins.splice(index, 1);
+                    localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
+                    renderAdminList();
+                    logToAdmin(`Removed admin access for ${email}`);
+                    
+                    // If current user is removed as admin, sign them out
+                    if (currentUser && currentUser.email === email) {
+                        signOut();
+                    }
+                }
+            }
+            
+            // Email validation helper
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Modal functionality
+            function showConfirmationModal(message, confirmCallback) {
+                modalMessage.textContent = message;
+                confirmModal.style.display = 'flex';
+                currentAdminAction = confirmCallback;
+            }
+            
+            modalClose.addEventListener('click', function() {
+                confirmModal.style.display = 'none';
+            });
+            
+            modalCancel.addEventListener('click', function() {
+                confirmModal.style.display = 'none';
+            });
+            
+            modalConfirm.addEventListener('click', function() {
+                if (typeof currentAdminAction === 'function') {
+                    currentAdminAction();
+                }
+                confirmModal.style.display = 'none';
+                currentAdminAction = null;
+            });
+            
+            // Close modal when clicking outside
+            confirmModal.addEventListener('click', function(event) {
+                if (event.target === confirmModal) {
+                    confirmModal.style.display = 'none';
+                }
+            });
+            
+            // Toggle admin panel
+            adminButton.addEventListener('click', function() {
+                adminPanel.classList.add('active');
+            });
+            
+            adminPanelClose.addEventListener('click', function() {
+                adminPanel.classList.remove('active');
+            });
+            
+            // Google Sign In
+            googleSignInButton.addEventListener('click', function() {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                auth.signInWithPopup(provider).catch(error => {
+                    console.error('Error signing in with Google:', error);
+                    logToAdmin(`Sign-in error: ${error.message}`);
+                });
+            });
+            
+            // Sign Out
+            signOutButton.addEventListener('click', function() {
+                signOut();
+            });
+            
+            function signOut() {
+                auth.signOut().then(() => {
+                    adminLoginSection.style.display = 'flex';
+                    adminContent.style.display = 'none';
+                    currentUser = null;
+                    logToAdmin('User signed out');
+                }).catch(error => {
+                    console.error('Error signing out:', error);
+                    logToAdmin(`Sign-out error: ${error.message}`);
+                });
+            }
+            
+            // Auth state change listener
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    // User is signed in
+                    currentUser = user;
+                    logToAdmin(`User signed in: ${user.email}`);
+                    
+                    // Check if user is authorized
+                    if (authorizedAdmins.includes(user.email)) {
+                        // Update UI for authorized user
+                        adminLoginSection.style.display = 'none';
+                        adminContent.style.display = 'block';
+                        
+                        // Set user info
+                        userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
+                        userName.textContent = user.displayName || 'Admin User';
+                        userEmail.textContent = user.email;
+                        
+                        logToAdmin('Admin access granted');
+                    } else {
+                        // Not authorized
+                        alert('You do not have admin access. Please contact an administrator.');
+                        signOut();
+                    }
+                } else {
+                    // User is signed out
+                    adminLoginSection.style.display = 'flex';
+                    adminContent.style.display = 'none';
+                }
+            });
+            
+            // Environment toggle functionality
+            envToggle.addEventListener('change', function() {
+                const isDebug = this.checked;
+                localStorage.setItem('isDebugMode', isDebug);
+                updateEnvironmentUI(isDebug);
+                logToAdmin(`Environment changed to: ${isDebug ? 'Debug' : 'Release'}`);
+            });
+            
+            // Helper to update UI based on environment
+            function updateEnvironmentUI(isDebug) {
+                toggleLabel.textContent = isDebug ? 'Debug' : 'Release';
+                environmentIndicator.textContent = isDebug ? 'Debug' : 'Release';
+                environmentIndicator.className = `env-tag ${isDebug ? 'debug' : 'release'}`;
+            }
+            
+            // Initialize environment settings from localStorage
+            const isDebugMode = localStorage.getItem('isDebugMode') === 'true';
+            envToggle.checked = isDebugMode;
+            updateEnvironmentUI(isDebugMode);
+            
+            // Helper function to get current environment (debug/release)
+            function isDebugEnvironment() {
+                return localStorage.getItem('isDebugMode') === 'true';
+            }
+            
+            // Helper function to get the correct collection name based on environment
+            function getCollectionName() {
+                return isDebugEnvironment() ? "reservations" : "reservations_release";
+            }
+            
+            // Load initial data
+            loadLogs();
+            loadAuthorizedAdmins();
             
             // Set up alert close buttons
             document.querySelectorAll('.alert-close').forEach(button => {
@@ -703,7 +1439,8 @@
                     date,
                     category,
                     startTime,
-                    endTime
+                    endTime,
+                    isDebug: isDebugEnvironment() // Pass the environment flag
                 }).then((result) => {
                     // Hide checking alert
                     availabilityAlert.style.display = 'none';
@@ -716,6 +1453,11 @@
                         occupiedTables,
                         tablesNeeded
                     } = result.data;
+                    
+                    // Log check to admin panel
+                    if (isDebugEnvironment()) {
+                        logToAdmin(`Availability check: ${date}, ${category}, ${startTime} - ${available ? 'Available' : 'Not available'}`);
+                    }
                     
                     // Update availability status with appropriate icon and detailed information
                     availabilityStatus.style.display = 'block';
@@ -798,6 +1540,9 @@
                     availabilityAlert.style.display = 'none';
                     submitButton.disabled = false;
                     submitButton.innerHTML = 'Request Reservation';
+                    
+                    // Log error to admin panel
+                    logToAdmin(`Error checking availability: ${error.message}`);
                     
                     // Show error alert
                     errorAlert.innerHTML = `
