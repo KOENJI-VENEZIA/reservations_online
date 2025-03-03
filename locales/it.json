@@ -1,0 +1,96 @@
+{
+  "title": "Prenotazione Tavolo",
+  "status": {
+    "pending": "Richiesta di Prenotazione Online"
+  },
+  "alerts": {
+    "success": "La tua richiesta di prenotazione è stata inviata con successo! Ti contatteremo presto per confermare.",
+    "error": "Si è verificato un errore durante l'invio della prenotazione. Riprova per favore.",
+    "checking": "Verifica disponibilità in corso...",
+    "processingError": "Si è verificato un errore durante l'elaborazione della tua prenotazione. Riprova per favore.",
+    "availabilityError": "Si è verificato un errore durante la verifica della disponibilità. Riprova per favore.",
+    "noLongerAvailable": "Ci dispiace, i tavoli non sono più disponibili per questa fascia oraria. Seleziona un orario diverso.",
+    "closedMonday": "Siamo chiusi il lunedì. Seleziona un altro giorno."
+  },
+  "form": {
+    "guestInfo": "Informazioni Ospite",
+    "name": "Nome *",
+    "email": "Email *",
+    "phone": "Numero di Telefono *",
+    "people": "Numero di Persone *",
+    "reservationDetails": "Dettagli Prenotazione",
+    "date": "Data *",
+    "meal": "Pasto *",
+    "lunch": "Pranzo",
+    "dinner": "Cena",
+    "time": "Orario *",
+    "endTime": "Orario di Fine Approssimativo",
+    "specialRequests": "Richieste Speciali",
+    "notes": "Note o Richieste Speciali",
+    "submit": "Richiedi Prenotazione",
+    "submitting": "Invio in corso...",
+    "checking": "Verifica in corso...",
+    "noTablesAvailable": "Nessun Tavolo Disponibile"
+  },
+  "policy": {
+    "holdTime": "La tua prenotazione sarà mantenuta per",
+    "minutes": "minuti",
+    "afterTime": "dopo l'orario prenotato.",
+    "minimumPeople": "Minimo",
+    "people": "persone",
+    "perReservation": "per prenotazione richieste.",
+    "weClosed": "Siamo",
+    "closedOn": "chiusi il lunedì",
+    "confirmation": "La prenotazione è soggetta a conferma. Riceverai un'email una volta che la tua prenotazione sarà confermata."
+  },
+  "availability": {
+    "tablesAvailable": "Tavoli disponibili: {{count}}",
+    "comfortablySeated": "Il tuo gruppo di {{count}} persone sarà comodamente sistemato.",
+    "notEnoughTables": "Ci dispiace, non abbiamo abbastanza tavoli disponibili per questa fascia oraria.",
+    "tablesNeeded": "Abbiamo bisogno di {{tablesNeeded}} tavoli per il tuo gruppo di {{numberOfPersons}} persone, ma i seguenti tavoli sono occupati: {{occupiedTables}}.",
+    "recommendTimes": "Ti consigliamo di verificare la disponibilità a:",
+    "earlier": "30 minuti prima",
+    "later": "30 minuti dopo"
+  },
+  "modal": {
+    "confirmation": "Conferma",
+    "confirmAction": "Sei sicuro di voler eseguire questa azione?",
+    "cancel": "Annulla",
+    "confirm": "Conferma"
+  },
+  "admin": {
+    "panelTitle": "Pannello di Amministrazione",
+    "signInPrompt": "Accedi con il tuo account Google per accedere alle funzionalità di amministrazione.",
+    "signInWithGoogle": "Accedi con Google",
+    "environmentSettings": "Impostazioni Ambiente",
+    "environment": "Ambiente",
+    "debug": "Debug",
+    "release": "Produzione",
+    "environmentChanged": "Ambiente cambiato a",
+    "authorizedAdmins": "Amministratori Autorizzati",
+    "adminDescription": "Questi indirizzi email hanno accesso come amministratore.",
+    "addNewAdmin": "Aggiungi nuovo email amministratore",
+    "add": "Aggiungi",
+    "debugInfo": "Informazioni di Debug",
+    "clearLogs": "Cancella Log",
+    "signOut": "Disconnetti",
+    "enterEmail": "Inserisci un indirizzo email.",
+    "invalidEmail": "Inserisci un indirizzo email valido.",
+    "alreadyAdmin": "Questa email è già un amministratore.",
+    "noAccess": "Non hai accesso come amministratore. Contatta un amministratore.",
+    "cannotRemoveDefault": "Impossibile rimuovere l'amministratore predefinito.",
+    "confirmAdd": "Sei sicuro di voler aggiungere {{email}} come amministratore?",
+    "confirmRemove": "Sei sicuro di voler rimuovere l'accesso amministratore per {{email}}?",
+    "confirmClearLogs": "Sei sicuro di voler cancellare tutti i log?",
+    "logsCleared": "Log cancellati"
+  },
+  "validation": {
+    "requiredField": "Questo campo è obbligatorio",
+    "invalidEmail": "Inserisci un indirizzo email valido",
+    "invalidPhone": "Inserisci un numero di telefono valido",
+    "invalidNumberOfPersons": "Sono richieste minimo 2 persone",
+    "invalidDate": "Inserisci una data valida",
+    "pastDate": "La data non può essere nel passato",
+    "monday": "Siamo chiusi il lunedì"
+  }
+}

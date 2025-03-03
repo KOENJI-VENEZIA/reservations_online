@@ -4,766 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Reservation</title>
-    <style>
-        :root {
-            --primary-color: #4a90e2;
-            --primary-light: rgba(74, 144, 226, 0.12);
-            --primary-dark: #3a80d2;
-            --success-color: #4bb543;
-            --success-light: rgba(75, 181, 67, 0.12);
-            --error-color: #dc3545;
-            --error-light: rgba(220, 53, 69, 0.12);
-            --warning-color: #ffc107;
-            --warning-light: rgba(255, 193, 7, 0.12);
-            --neutral-color: #6c757d;
-            --neutral-light: #e9ecef;
-            --text-primary: #333;
-            --text-secondary: #6c757d;
-            --border-radius: 12px;
-            --border-radius-sm: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background-color: #f8f9fa;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 32px;
-            box-shadow: var(--box-shadow);
-        }
-
-        h1 {
-            color: var(--text-primary);
-            margin-bottom: 24px;
-            font-weight: 700;
-            font-size: 28px;
-        }
-
-        h2 {
-            color: var(--text-primary);
-            margin-bottom: 16px;
-            font-weight: 600;
-            font-size: 22px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-primary);
-            font-size: 15px;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius-sm);
-            font-size: 16px;
-            background-color: #f9f9f9;
-            transition: all 0.2s ease;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            background-color: white;
-            box-shadow: 0 0 0 3px var(--primary-light);
-        }
-
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            font-size: 16px;
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.2s;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: var(--primary-dark);
-        }
-
-        button:disabled {
-            background-color: var(--neutral-color);
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 20px;
-            margin-right: 5px;
-        }
-
-        .alert {
-            padding: 16px;
-            margin-bottom: 20px;
-            border-radius: var(--border-radius-sm);
-            display: none;
-            animation: fadeIn 0.3s ease;
-            position: relative;
-        }
-
-        .alert-success {
-            background-color: var(--success-light);
-            color: var(--success-color);
-            border-left: 4px solid var(--success-color);
-        }
-
-        .alert-error {
-            background-color: var(--error-light);
-            color: var(--error-color);
-            border-left: 4px solid var(--error-color);
-        }
-
-        .alert-warning {
-            background-color: var(--warning-light);
-            color: var(--warning-color);
-            border-left: 4px solid var(--warning-color);
-        }
-
-        .alert-close {
-            position: absolute;
-            right: 12px;
-            top: 12px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            opacity: 0.7;
-        }
-
-        .alert-close:hover {
-            opacity: 1;
-        }
-
-        .alert-icon {
-            margin-right: 12px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            display: inline-block;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .reservation-details {
-            background-color: var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            padding: 20px;
-            margin-top: 25px;
-            margin-bottom: 25px;
-        }
-
-        .detail-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .detail-icon {
-            width: 24px;
-            color: var(--text-secondary);
-            margin-right: 16px;
-            flex-shrink: 0;
-        }
-
-        .detail-text {
-            flex: 1;
-            color: var(--text-primary);
-        }
-
-        .note {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 16px;
-        }
-
-        .availability-status {
-            padding: 16px;
-            border-radius: var(--border-radius-sm);
-            margin-top: 16px;
-            margin-bottom: 16px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .available {
-            background-color: var(--success-light);
-            color: var(--success-color);
-            border-left: 4px solid var(--success-color);
-        }
-
-        .unavailable {
-            background-color: var(--error-light);
-            color: var(--error-color);
-            border-left: 4px solid var(--error-color);
-        }
-
-        /* Status tags like in ReservationInfoCard */
-        .status-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .status-tag-icon {
-            margin-right: 6px;
-        }
-
-        .status-pending {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
-        }
-
-        .card-section {
-            padding: 24px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin-bottom: 24px;
-            border-top: 4px solid var(--primary-color);
-            transition: all 0.3s ease;
-        }
-
-        .card-section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-field-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .detail-tag {
-            padding: 12px;
-            background-color: #f5f7fa;
-            border-radius: var(--border-radius-sm);
-            margin-bottom: 12px;
-        }
-
-        .detail-tag-icon {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
-            color: var(--primary-color);
-        }
-
-        .detail-tag-label {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-            display: block;
-            margin-left: 28px;
-        }
-
-        .detail-tag-value {
-            font-size: 15px;
-            color: var(--text-primary);
-            margin-left: 28px;
-        }
-
-        .divider {
-            height: 1px;
-            background-color: #e9ecef;
-            margin: 24px 0;
-        }
-
-        /* Admin menu styles */
-        .admin-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            padding: 0;
-        }
-
-        .admin-button:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .admin-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100%;
-            background-color: white;
-            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
-            padding: 20px;
-            transition: right 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .admin-panel.active {
-            right: 0;
-        }
-
-        .admin-panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--neutral-light);
-        }
-
-        .admin-panel-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            width: auto;
-            padding: 0;
-            margin: 0;
-        }
-
-        .admin-section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--neutral-light);
-        }
-
-        .admin-section:last-child {
-            border-bottom: none;
-        }
-
-        .login-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 0;
-        }
-
-        .google-signin-button {
-            display: inline-flex;
-            align-items: center;
-            background-color: white;
-            color: #757575;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 10px 16px;
-            font-weight: 500;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            width: auto;
-        }
-
-        .google-signin-button:hover {
-            background-color: #f5f5f5;
-        }
-
-        .google-signin-button img {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            object-fit: cover;
-        }
-
-        .user-name {
-            font-weight: 500;
-        }
-
-        .user-email {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .admin-list {
-            margin-top: 15px;
-            background-color: #f9f9f9;
-            border-radius: var(--border-radius-sm);
-            padding: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .admin-list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .admin-list-item:last-child {
-            border-bottom: none;
-        }
-
-        .admin-list-item-email {
-            flex-grow: 1;
-        }
-
-        .admin-list-item-remove {
-            background: none;
-            border: none;
-            color: var(--error-color);
-            cursor: pointer;
-            font-size: 20px;
-            width: auto;
-            padding: 0 5px;
-            margin: 0;
-        }
-
-        .env-tag {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-
-        .env-tag.debug {
-            background-color: var(--warning-light);
-            color: var(--warning-color);
-        }
-
-        .env-tag.release {
-            background-color: var(--success-light);
-            color: var(--success-color);
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-            margin-left: 10px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 30px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .toggle-slider {
-            background-color: var(--success-color);
-        }
-
-        input:focus + .toggle-slider {
-            box-shadow: 0 0 1px var(--success-color);
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(30px);
-        }
-
-        .admin-action-button {
-            width: auto;
-            padding: 8px 16px;
-            font-size: 14px;
-            margin-top: 0;
-        }
-
-        .admin-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .admin-row label {
-            margin-bottom: 0;
-            margin-right: 10px;
-        }
-
-        .logs-container {
-            max-height: 200px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 12px;
-            background-color: #f5f5f5;
-            padding: 10px;
-            border-radius: 4px;
-            white-space: pre-wrap;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1002;
-        }
-
-        .modal {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            width: 400px;
-            max-width: 90%;
-            box-shadow: var(--box-shadow);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            width: auto;
-            padding: 0;
-            margin: 0;
-        }
-
-        .modal-body {
-            margin-bottom: 20px;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .modal-button {
-            width: auto;
-            padding: 8px 16px;
-            font-size: 14px;
-            margin-top: 0;
-        }
-
-        .modal-button.secondary {
-            background-color: var(--neutral-color);
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            .form-field-group {
-                grid-template-columns: 1fr;
-            }
-            .admin-panel {
-                width: 100%;
-                right: -100%;
-            }
-        }
-    </style>
+    <!-- Main CSS file that imports all other CSS files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- We'll dynamically load theme CSS based on user preference -->
+    <link rel="stylesheet" href="css/themes/light.css" id="theme-stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Language selector -->
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="it">Italiano</option>
+        </select>
+    </div>
+
+    <!-- Theme toggle button -->
+    <button id="theme-toggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </button>
+
     <div class="container">
         <div class="status-tag status-pending">
             <span class="status-tag-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
+                <i class="fas fa-clock"></i>
             </span>
-            <span>Online Reservation Request</span>
+            <span data-i18n="status.pending">Online Reservation Request</span>
         </div>
 
-        <h1>Table Reservation</h1>
+        <h1 data-i18n="title">Table Reservation</h1>
         
+        <!-- Alert containers -->
         <div id="successAlert" class="alert alert-success">
             <div class="alert-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
+                <i class="fas fa-check-circle"></i>
             </div>
-            Your reservation request has been submitted successfully! We will contact you soon to confirm.
+            <span data-i18n="alerts.success">Your reservation request has been submitted successfully! We will contact you soon to confirm.</span>
             <span class="alert-close">&times;</span>
         </div>
         
         <div id="errorAlert" class="alert alert-error">
             <div class="alert-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
+                <i class="fas fa-exclamation-circle"></i>
             </div>
-            There was an error submitting your reservation. Please try again.
+            <span data-i18n="alerts.error">There was an error submitting your reservation. Please try again.</span>
             <span class="alert-close">&times;</span>
         </div>
         
         <div id="availabilityAlert" class="alert alert-warning">
             <div class="alert-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
+                <i class="fas fa-exclamation-triangle"></i>
             </div>
-            Checking availability...
+            <span data-i18n="alerts.checking">Checking availability...</span>
             <span class="alert-close">&times;</span>
         </div>
         
+        <!-- Reservation Form -->
         <form id="reservationForm">
             <div class="card-section">
-                <h2 style="margin-bottom: 16px;">Guest Information</h2>
+                <h2 data-i18n="form.guestInfo">Guest Information</h2>
                 <div class="form-field-group">
                     <div class="form-group">
-                        <label for="name">Name *</label>
+                        <label for="name" data-i18n="form.name">Name *</label>
                         <input type="text" id="name" name="name" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Email *</label>
+                        <label for="email" data-i18n="form.email">Email *</label>
                         <input type="email" id="email" name="email" required>
                     </div>
                 </div>
                 
                 <div class="form-field-group">
                     <div class="form-group">
-                        <label for="phone">Phone Number *</label>
+                        <label for="phone" data-i18n="form.phone">Phone Number *</label>
                         <input type="tel" id="phone" name="phone" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="numberOfPersons">Number of People *</label>
+                        <label for="numberOfPersons" data-i18n="form.people">Number of People *</label>
                         <input type="number" id="numberOfPersons" name="numberOfPersons" min="2" value="2" required>
                     </div>
                 </div>
             </div>
             
             <div class="card-section">
-                <h2 style="margin-bottom: 16px;">Reservation Details</h2>
+                <h2 data-i18n="form.reservationDetails">Reservation Details</h2>
                 <div class="form-field-group">
                     <div class="form-group">
-                        <label for="date">Date *</label>
+                        <label for="date" data-i18n="form.date">Date *</label>
                         <input type="date" id="date" name="date" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="category">Meal *</label>
+                        <label for="category" data-i18n="form.meal">Meal *</label>
                         <select id="category" name="category" required>
-                            <option value="lunch">Lunch</option>
-                            <option value="dinner">Dinner</option>
+                            <option value="lunch" data-i18n="form.lunch">Lunch</option>
+                            <option value="dinner" data-i18n="form.dinner">Dinner</option>
                         </select>
                     </div>
                 </div>
                 
                 <div class="form-field-group">
                     <div class="form-group">
-                        <label for="startTime">Time *</label>
+                        <label for="startTime" data-i18n="form.time">Time *</label>
                         <select id="startTime" name="startTime" required>
                             <!-- Time slots will be populated by JavaScript -->
                         </select>
@@ -772,12 +119,9 @@
                     <div class="form-group">
                         <div id="endTimeDisplay" class="detail-tag">
                             <div class="detail-tag-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
+                                <i class="fas fa-hourglass-end"></i>
                             </div>
-                            <span class="detail-tag-label">Approximate End Time</span>
+                            <span class="detail-tag-label" data-i18n="form.endTime">Approximate End Time</span>
                             <span class="detail-tag-value" id="endTimeValue">--:--</span>
                         </div>
                     </div>
@@ -785,9 +129,9 @@
             </div>
             
             <div class="card-section">
-                <h2 style="margin-bottom: 16px;">Special Requests</h2>
+                <h2 data-i18n="form.specialRequests">Special Requests</h2>
                 <div class="form-group">
-                    <label for="notes">Notes or Special Requests</label>
+                    <label for="notes" data-i18n="form.notes">Notes or Special Requests</label>
                     <textarea id="notes" name="notes" rows="3"></textarea>
                 </div>
                 
@@ -799,989 +143,82 @@
             <div class="reservation-details">
                 <div class="detail-row">
                     <div class="detail-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
+                        <i class="fas fa-clock"></i>
                     </div>
                     <div class="detail-text">
-                        Your reservation will be held for <strong>15 minutes</strong> after the reserved time.
+                        <span data-i18n="policy.holdTime">Your reservation will be held for</span> <strong>15 <span data-i18n="policy.minutes">minutes</span></strong> <span data-i18n="policy.afterTime">after the reserved time.</span>
                     </div>
                 </div>
                 
                 <div class="detail-row">
                     <div class="detail-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
+                        <i class="fas fa-users"></i>
                     </div>
                     <div class="detail-text">
-                        Minimum <strong>2 people</strong> per reservation required.
+                        <span data-i18n="policy.minimumPeople">Minimum</span> <strong>2 <span data-i18n="policy.people">people</span></strong> <span data-i18n="policy.perReservation">per reservation required.</span>
                     </div>
                 </div>
                 
                 <div class="detail-row">
                     <div class="detail-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
+                        <i class="fas fa-calendar-times"></i>
                     </div>
                     <div class="detail-text">
-                        We are <strong>closed on Mondays</strong>.
+                        <span data-i18n="policy.weClosed">We are</span> <strong><span data-i18n="policy.closedOn">closed on Mondays</span></strong>.
                     </div>
                 </div>
                 
-                <p class="note">* Reservation is subject to confirmation. You will receive an email once your reservation is confirmed.</p>
+                <p class="note">* <span data-i18n="policy.confirmation">Reservation is subject to confirmation. You will receive an email once your reservation is confirmed.</span></p>
             </div>
             
             <div class="form-group">
-                <button type="submit" id="submitButton">Request Reservation</button>
+                <button type="submit" id="submitButton" data-i18n="form.submit">Request Reservation</button>
             </div>
         </form>
     </div>
 
     <!-- Admin Button -->
     <button class="admin-button" id="adminButton">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 20h9"></path>
-            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-        </svg>
+        <i class="fas fa-cog"></i>
     </button>
 
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel">
-        <div class="admin-panel-header">
-            <h2>Admin Panel</h2>
-            <button class="admin-panel-close" id="adminPanelClose">&times;</button>
-        </div>
-        
-        <!-- Login Section (shown when not logged in) -->
-        <div id="adminLoginSection" class="login-section">
-            <p style="margin-bottom: 20px; text-align: center;">Please sign in with your Google account to access admin features.</p>
-            <button id="googleSignInButton" class="google-signin-button">
-                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
-                Sign in with Google
-            </button>
-        </div>
-        
-        <!-- Admin Content (shown when logged in and authorized) -->
-        <div id="adminContent" style="display: none;">
-            <!-- User Info -->
-            <div class="user-info">
-                <img id="userAvatar" src="" alt="User avatar" class="user-avatar">
-                <div>
-                    <div id="userName" class="user-name"></div>
-                    <div id="userEmail" class="user-email"></div>
-                </div>
-            </div>
-            
-            <!-- Environment Section -->
-            <div class="admin-section">
-                <h3>Environment Settings <span id="environmentIndicator" class="env-tag release">Release</span></h3>
-                <div class="admin-row" style="margin-top: 15px;">
-                    <label for="envToggle">Environment:</label>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="envToggle">
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span id="toggleLabel">Release</span>
-                </div>
-            </div>
-            
-            <!-- Admin Users Section -->
-            <div class="admin-section">
-                <h3>Authorized Admins</h3>
-                <p style="margin-bottom: 10px; font-size: 14px;">
-                    These email addresses have admin access.
-                </p>
-                
-                <div class="form-group">
-                    <div class="admin-row">
-                        <input type="email" id="newAdminEmail" placeholder="Add new admin email">
-                        <button id="addAdminButton" class="admin-action-button">Add</button>
-                    </div>
-                </div>
-                
-                <div id="adminList" class="admin-list">
-                    <!-- Admin users will be listed here -->
-                </div>
-            </div>
-            
-            <!-- Debug Info Section -->
-            <div class="admin-section">
-                <h3>Debug Information</h3>
-                <div id="logsContainer" class="logs-container">
-                    <!-- Debug logs will appear here -->
-                </div>
-                <button id="clearLogsButton" class="admin-action-button" style="margin-top: 10px;">Clear Logs</button>
-            </div>
-            
-            <!-- Sign Out Button -->
-            <button id="signOutButton" class="admin-action-button">Sign Out</button>
-        </div>
-    </div>
+    <!-- Admin Panel (loaded dynamically) -->
+    <div class="admin-panel" id="adminPanel"></div>
     
     <!-- Confirmation Modal -->
     <div class="modal-overlay" id="confirmModal">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title">Confirmation</div>
+                <div class="modal-title" data-i18n="modal.confirmation">Confirmation</div>
                 <button class="modal-close" id="modalClose">&times;</button>
             </div>
             <div class="modal-body" id="modalMessage">
-                Are you sure you want to perform this action?
+                <span data-i18n="modal.confirmAction">Are you sure you want to perform this action?</span>
             </div>
             <div class="modal-footer">
-                <button class="modal-button secondary" id="modalCancel">Cancel</button>
-                <button class="modal-button" id="modalConfirm">Confirm</button>
+                <button class="modal-button secondary" id="modalCancel" data-i18n="modal.cancel">Cancel</button>
+                <button class="modal-button" id="modalConfirm" data-i18n="modal.confirm">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- Firebase App (the core Firebase SDK) -->
+    <!-- Firebase Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
-    <!-- Add Firebase products that you want to use -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-functions-compat.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-auth-compat.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Firebase (you'll need to add your config)
-            const firebaseConfig = {
-                // TODO: Add your Firebase configuration here
-                apiKey: "AIzaSyBflMPHQnuye_Vj7h1Wwks65cVDkSo2JKQ",
-                authDomain: "koenji-app.firebaseapp.com",
-                projectId: "koenji-app",
-                storageBucket: "koenji-app.firebasestorage.app",
-                messagingSenderId: "307119229497",
-                appId: "1:307119229497:ios:06d2841c6f20863c921be8"
-            };
-            
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            const functions = firebase.functions();
-            const auth = firebase.auth();
-            
-            // Set up admin panel functionality
-            const adminButton = document.getElementById('adminButton');
-            const adminPanel = document.getElementById('adminPanel');
-            const adminPanelClose = document.getElementById('adminPanelClose');
-            const adminLoginSection = document.getElementById('adminLoginSection');
-            const adminContent = document.getElementById('adminContent');
-            const googleSignInButton = document.getElementById('googleSignInButton');
-            const signOutButton = document.getElementById('signOutButton');
-            const envToggle = document.getElementById('envToggle');
-            const toggleLabel = document.getElementById('toggleLabel');
-            const environmentIndicator = document.getElementById('environmentIndicator');
-            const userAvatar = document.getElementById('userAvatar');
-            const userName = document.getElementById('userName');
-            const userEmail = document.getElementById('userEmail');
-            const logsContainer = document.getElementById('logsContainer');
-            const clearLogsButton = document.getElementById('clearLogsButton');
-            const adminList = document.getElementById('adminList');
-            const newAdminEmail = document.getElementById('newAdminEmail');
-            const addAdminButton = document.getElementById('addAdminButton');
-            
-            // Modal elements
-            const confirmModal = document.getElementById('confirmModal');
-            const modalClose = document.getElementById('modalClose');
-            const modalCancel = document.getElementById('modalCancel');
-            const modalConfirm = document.getElementById('modalConfirm');
-            const modalMessage = document.getElementById('modalMessage');
-            
-            let currentUser = null;
-            let currentAdminAction = null;
-            let authorizedAdmins = ['matteo.koenji@gmail.com']; // Default admin
-            
-            // Log Function
-            function logToAdmin(message) {
-                const timestamp = new Date().toISOString().slice(11, 19);
-                const logEntry = document.createElement('div');
-                logEntry.textContent = `[${timestamp}] ${message}`;
-                logsContainer.prepend(logEntry);
-                
-                // Store in localStorage for persistence
-                const logs = JSON.parse(localStorage.getItem('adminLogs') || '[]');
-                logs.unshift(`[${timestamp}] ${message}`);
-                
-                // Limit to last 100 logs
-                if (logs.length > 100) logs.length = 100;
-                
-                localStorage.setItem('adminLogs', JSON.stringify(logs));
-            }
-            
-            // Load logs from localStorage
-            function loadLogs() {
-                const logs = JSON.parse(localStorage.getItem('adminLogs') || '[]');
-                logsContainer.innerHTML = '';
-                logs.forEach(log => {
-                    const logEntry = document.createElement('div');
-                    logEntry.textContent = log;
-                    logsContainer.appendChild(logEntry);
-                });
-            }
-            
-            // Clear logs
-            clearLogsButton.addEventListener('click', function() {
-                showConfirmationModal(
-                    'Are you sure you want to clear all logs?',
-                    () => {
-                        localStorage.setItem('adminLogs', '[]');
-                        logsContainer.innerHTML = '';
-                        logToAdmin('Logs cleared');
-                    }
-                );
-            });
-            
-            // Load authorized admins from localStorage
-            function loadAuthorizedAdmins() {
-                const savedAdmins = JSON.parse(localStorage.getItem('authorizedAdmins'));
-                if (savedAdmins && Array.isArray(savedAdmins) && savedAdmins.length > 0) {
-                    authorizedAdmins = savedAdmins;
-                } else {
-                    // Ensure default admin is always included
-                    if (!authorizedAdmins.includes('matteo.koenji@gmail.com')) {
-                        authorizedAdmins.push('matteo.koenji@gmail.com');
-                    }
-                    localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
-                }
-                renderAdminList();
-            }
-            
-            // Render admin list
-            function renderAdminList() {
-                adminList.innerHTML = '';
-                authorizedAdmins.forEach(email => {
-                    const item = document.createElement('div');
-                    item.className = 'admin-list-item';
-                    
-                    const emailSpan = document.createElement('span');
-                    emailSpan.className = 'admin-list-item-email';
-                    emailSpan.textContent = email;
-                    
-                    const removeButton = document.createElement('button');
-                    removeButton.className = 'admin-list-item-remove';
-                    removeButton.innerHTML = '&times;';
-                    removeButton.addEventListener('click', () => {
-                        if (email === 'matteo.koenji@gmail.com') {
-                            alert('Cannot remove the default admin.');
-                            return;
-                        }
-                        showConfirmationModal(
-                            `Are you sure you want to remove admin access for ${email}?`,
-                            () => removeAdmin(email)
-                        );
-                    });
-                    
-                    item.appendChild(emailSpan);
-                    item.appendChild(removeButton);
-                    adminList.appendChild(item);
-                });
-            }
-            
-            // Add new admin
-            addAdminButton.addEventListener('click', function() {
-                const email = newAdminEmail.value.trim();
-                if (!email) {
-                    alert('Please enter an email address.');
-                    return;
-                }
-                
-                if (!isValidEmail(email)) {
-                    alert('Please enter a valid email address.');
-                    return;
-                }
-                
-                if (authorizedAdmins.includes(email)) {
-                    alert('This email is already an admin.');
-                    return;
-                }
-                
-                showConfirmationModal(
-                    `Are you sure you want to add ${email} as an admin?`,
-                    () => {
-                        authorizedAdmins.push(email);
-                        localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
-                        renderAdminList();
-                        newAdminEmail.value = '';
-                        logToAdmin(`Added ${email} as admin`);
-                    }
-                );
-            });
-            
-            // Remove admin
-            function removeAdmin(email) {
-                const index = authorizedAdmins.indexOf(email);
-                if (index !== -1) {
-                    authorizedAdmins.splice(index, 1);
-                    localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
-                    renderAdminList();
-                    logToAdmin(`Removed admin access for ${email}`);
-                    
-                    // If current user is removed as admin, sign them out
-                    if (currentUser && currentUser.email === email) {
-                        signOut();
-                    }
-                }
-            }
-            
-            // Email validation helper
-            function isValidEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
-            
-            // Modal functionality
-            function showConfirmationModal(message, confirmCallback) {
-                modalMessage.textContent = message;
-                confirmModal.style.display = 'flex';
-                currentAdminAction = confirmCallback;
-            }
-            
-            modalClose.addEventListener('click', function() {
-                confirmModal.style.display = 'none';
-            });
-            
-            modalCancel.addEventListener('click', function() {
-                confirmModal.style.display = 'none';
-            });
-            
-            modalConfirm.addEventListener('click', function() {
-                if (typeof currentAdminAction === 'function') {
-                    currentAdminAction();
-                }
-                confirmModal.style.display = 'none';
-                currentAdminAction = null;
-            });
-            
-            // Close modal when clicking outside
-            confirmModal.addEventListener('click', function(event) {
-                if (event.target === confirmModal) {
-                    confirmModal.style.display = 'none';
-                }
-            });
-            
-            // Toggle admin panel
-            adminButton.addEventListener('click', function() {
-                adminPanel.classList.add('active');
-            });
-            
-            adminPanelClose.addEventListener('click', function() {
-                adminPanel.classList.remove('active');
-            });
-            
-            // Google Sign In
-            googleSignInButton.addEventListener('click', function() {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                auth.signInWithPopup(provider).catch(error => {
-                    console.error('Error signing in with Google:', error);
-                    logToAdmin(`Sign-in error: ${error.message}`);
-                });
-            });
-            
-            // Sign Out
-            signOutButton.addEventListener('click', function() {
-                signOut();
-            });
-            
-            function signOut() {
-                auth.signOut().then(() => {
-                    adminLoginSection.style.display = 'flex';
-                    adminContent.style.display = 'none';
-                    currentUser = null;
-                    logToAdmin('User signed out');
-                }).catch(error => {
-                    console.error('Error signing out:', error);
-                    logToAdmin(`Sign-out error: ${error.message}`);
-                });
-            }
-            
-            // Auth state change listener
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    // User is signed in
-                    currentUser = user;
-                    logToAdmin(`User signed in: ${user.email}`);
-                    
-                    // Check if user is authorized
-                    if (authorizedAdmins.includes(user.email)) {
-                        // Update UI for authorized user
-                        adminLoginSection.style.display = 'none';
-                        adminContent.style.display = 'block';
-                        
-                        // Set user info
-                        userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
-                        userName.textContent = user.displayName || 'Admin User';
-                        userEmail.textContent = user.email;
-                        
-                        logToAdmin('Admin access granted');
-                    } else {
-                        // Not authorized
-                        alert('You do not have admin access. Please contact an administrator.');
-                        signOut();
-                    }
-                } else {
-                    // User is signed out
-                    adminLoginSection.style.display = 'flex';
-                    adminContent.style.display = 'none';
-                }
-            });
-            
-            // Environment toggle functionality
-            envToggle.addEventListener('change', function() {
-                const isDebug = this.checked;
-                localStorage.setItem('isDebugMode', isDebug);
-                updateEnvironmentUI(isDebug);
-                logToAdmin(`Environment changed to: ${isDebug ? 'Debug' : 'Release'}`);
-            });
-            
-            // Helper to update UI based on environment
-            function updateEnvironmentUI(isDebug) {
-                toggleLabel.textContent = isDebug ? 'Debug' : 'Release';
-                environmentIndicator.textContent = isDebug ? 'Debug' : 'Release';
-                environmentIndicator.className = `env-tag ${isDebug ? 'debug' : 'release'}`;
-            }
-            
-            // Initialize environment settings from localStorage
-            const isDebugMode = localStorage.getItem('isDebugMode') === 'true';
-            envToggle.checked = isDebugMode;
-            updateEnvironmentUI(isDebugMode);
-            
-            // Helper function to get current environment (debug/release)
-            function isDebugEnvironment() {
-                return localStorage.getItem('isDebugMode') === 'true';
-            }
-            
-            // Helper function to get the correct collection name based on environment
-            function getCollectionName() {
-                return isDebugEnvironment() ? "reservations" : "reservations_release";
-            }
-            
-            // Load initial data
-            loadLogs();
-            loadAuthorizedAdmins();
-            
-            // Set up alert close buttons
-            document.querySelectorAll('.alert-close').forEach(button => {
-                button.addEventListener('click', function() {
-                    this.parentElement.style.display = 'none';
-                });
-            });
-            
-            // Basic setup for date/time pickers, etc.
-            const today = new Date();
-            const dateInput = document.getElementById('date');
-            dateInput.min = today.toISOString().split('T')[0];
-            dateInput.value = today.toISOString().split('T')[0];
-            
-            // Set up UI elements
-            const submitButton = document.getElementById('submitButton');
-            const successAlert = document.getElementById('successAlert');
-            const errorAlert = document.getElementById('errorAlert');
-            const availabilityAlert = document.getElementById('availabilityAlert');
-            const availabilityStatus = document.getElementById('availabilityStatus');
-            const endTimeValue = document.getElementById('endTimeValue');
-            
-            // Form elements
-            const numberOfPersonsInput = document.getElementById('numberOfPersons');
-            const categorySelect = document.getElementById('category');
-            const startTimeSelect = document.getElementById('startTime');
-            
-            // Update end time display
-            function updateEndTimeDisplay(startTime) {
-                if (!startTime) {
-                    endTimeValue.textContent = "--:--";
-                    return;
-                }
-                
-                const [startHour, startMinute] = startTime.split(':').map(Number);
-                let endHour = startHour + 1;
-                let endMinute = startMinute + 45;
-                
-                if (endMinute >= 60) {
-                    endHour += 1;
-                    endMinute -= 60;
-                }
-                
-                const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
-                endTimeValue.textContent = endTime;
-            }
-            
-            // Populate time slots based on meal category
-            function updateTimeSlots() {
-                const category = categorySelect.value;
-                startTimeSelect.innerHTML = '';
-                
-                // Define time ranges based on category
-                let startHour, endHour;
-                if (category === 'lunch') {
-                    startHour = 12;
-                    endHour = 13.75; // Last slot at 13:45
-                } else { // dinner
-                    startHour = 18;
-                    endHour = 21.75; // Last slot at 21:45
-                }
-                
-                // Add time slots in 15-minute increments
-                for (let h = startHour; h <= endHour; h += 0.25) {
-                    const hour = Math.floor(h);
-                    const minute = (h - hour) * 60;
-                    const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                    
-                    const option = document.createElement('option');
-                    option.value = timeString;
-                    option.textContent = timeString;
-                    startTimeSelect.appendChild(option);
-                }
-                
-                // Update end time display
-                updateEndTimeDisplay(startTimeSelect.value);
-                
-                // Check availability after time slots are updated (if form fields are valid)
-                checkAvailabilityIfFormValid();
-            }
-            
-            // Initial population of time slots
-            updateTimeSlots();
-            
-            // Update time slots when category changes
-            categorySelect.addEventListener('change', function() {
-                updateTimeSlots();
-            });
-            
-            // Update end time when start time changes
-            startTimeSelect.addEventListener('change', function() {
-                updateEndTimeDisplay(this.value);
-                checkAvailabilityIfFormValid();
-            });
-            
-            // Validate date to prevent Mondays
-            dateInput.addEventListener('change', function(e) {
-                const selectedDate = new Date(e.target.value);
-                if (selectedDate.getDay() === 1) { // Monday
-                    // Show custom styled alert instead of default browser alert
-                    errorAlert.textContent = 'We are closed on Mondays. Please select another day.';
-                    errorAlert.style.display = 'block';
-                    e.target.value = today.toISOString().split('T')[0]; // Reset to today
-                } else {
-                    checkAvailabilityIfFormValid();
-                }
-            });
-            
-            // Function to check availability when form fields change
-            [numberOfPersonsInput, dateInput, categorySelect, startTimeSelect].forEach(element => {
-                element.addEventListener('change', function() {
-                    checkAvailabilityIfFormValid();
-                });
-            });
-            
-            // Check availability if all required fields are filled
-            function checkAvailabilityIfFormValid() {
-                const numberOfPersons = parseInt(numberOfPersonsInput.value);
-                const date = dateInput.value;
-                const category = categorySelect.value;
-                const startTime = startTimeSelect.value;
-                
-                if (numberOfPersons && date && category && startTime) {
-                    checkAvailability(numberOfPersons, date, category, startTime);
-                }
-            }
-            
-            // Function to check availability via Cloud Function
-            function checkAvailability(numberOfPersons, date, category, startTime) {
-                // Calculate end time
-                const [startHour, startMinute] = startTime.split(':').map(Number);
-                let endHour = startHour + 1;
-                let endMinute = startMinute + 45;
-                
-                if (endMinute >= 60) {
-                    endHour += 1;
-                    endMinute -= 60;
-                }
-                
-                const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
-                
-                // Show checking status
-                availabilityAlert.style.display = 'block';
-                availabilityAlert.innerHTML = `
-                    <div class="alert-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                    </div>
-                    Checking table availability...
-                    <span class="alert-close">&times;</span>
-                `;
-                
-                // Set up alert close buttons again for the new content
-                document.querySelectorAll('.alert-close').forEach(button => {
-                    button.addEventListener('click', function() {
-                        this.parentElement.style.display = 'none';
-                    });
-                });
-                
-                // Disable submit button during check
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<span class="spinner"></span> Checking...';
-                
-                // Call the Cloud Function
-                const checkAvailabilityFn = functions.httpsCallable('checkAvailability');
-                checkAvailabilityFn({
-                    numberOfPersons,
-                    date,
-                    category,
-                    startTime,
-                    endTime,
-                    isDebug: isDebugEnvironment() // Pass the environment flag
-                }).then((result) => {
-                    // Hide checking alert
-                    availabilityAlert.style.display = 'none';
-                    
-                    const { 
-                        available, 
-                        capacityAvailable, 
-                        message, 
-                        availableTables, 
-                        occupiedTables,
-                        tablesNeeded
-                    } = result.data;
-                    
-                    // Log check to admin panel
-                    if (isDebugEnvironment()) {
-                        logToAdmin(`Availability check: ${date}, ${category}, ${startTime} - ${available ? 'Available' : 'Not available'}`);
-                    }
-                    
-                    // Update availability status with appropriate icon and detailed information
-                    availabilityStatus.style.display = 'block';
-                    availabilityStatus.className = 'availability-status ' + (available ? 'available' : 'unavailable');
-                    
-                    if (available) {
-                        availabilityStatus.innerHTML = `
-                            <div style="display: flex; align-items: center;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
-                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                </svg>
-                                Tables available: ${availableTables}
-                            </div>
-                            <div style="margin-top: 8px; font-size: 14px; color: #666;">
-                                Your party of ${numberOfPersons} will be comfortably seated.
-                            </div>
-                        `;
-                    } else {
-                        // Create a more helpful message for unavailable tables
-                        let alternativeMessage = '';
-                        
-                        // Check earlier and later time slots
-                        const currentHour = parseInt(startTime.split(':')[0]);
-                        const currentMinute = parseInt(startTime.split(':')[1]);
-                        
-                        // Suggest checking 30 minutes before or after
-                        const earlierHour = currentMinute >= 30 ? currentHour : (currentHour - 1);
-                        const earlierMinute = currentMinute >= 30 ? (currentMinute - 30) : (currentMinute + 30);
-                        
-                        const laterHour = currentMinute < 30 ? currentHour : (currentHour + 1);
-                        const laterMinute = currentMinute < 30 ? (currentMinute + 30) : (currentMinute - 30);
-                        
-                        const earlierTime = `${String(earlierHour).padStart(2, '0')}:${String(earlierMinute).padStart(2, '0')}`;
-                        const laterTime = `${String(laterHour).padStart(2, '0')}:${String(laterMinute).padStart(2, '0')}`;
-                        
-                        alternativeMessage = `
-                            <div style="margin-top: 12px; font-size: 14px;">
-                                We recommend checking availability at:
-                                <ul style="margin-top: 4px; margin-bottom: 0; padding-left: 24px;">
-                                    <li>${earlierTime} (30 minutes earlier)</li>
-                                    <li>${laterTime} (30 minutes later)</li>
-                                </ul>
-                            </div>
-                        `;
-                        
-                        // Show occupied tables info
-                        availabilityStatus.innerHTML = `
-                            <div style="display: flex; align-items: center;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="15" y1="9" x2="9" y2="15"></line>
-                                    <line x1="9" y1="9" x2="15" y2="15"></line>
-                                </svg>
-                                Sorry, we don't have enough tables available for this time slot.
-                            </div>
-                            <div style="margin-top: 8px; font-size: 14px; color: #666;">
-                                We need ${tablesNeeded} tables for your party of ${numberOfPersons}, but the following tables are occupied: ${occupiedTables}.
-                            </div>
-                            ${alternativeMessage}
-                        `;
-                    }
-                    
-                    // Enable or disable submit button based on availability
-                    submitButton.disabled = !available;
-                    submitButton.innerHTML = available ? 
-                        'Request Reservation' : 
-                        'No Tables Available';
-                    
-                    // Apply animation if available
-                    if (available) {
-                        submitButton.style.animation = 'pulse 1s';
-                        setTimeout(() => {
-                            submitButton.style.animation = '';
-                        }, 1000);
-                    }
-                    
-                }).catch((error) => {
-                    console.error('Error checking availability:', error);
-                    availabilityAlert.style.display = 'none';
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = 'Request Reservation';
-                    
-                    // Log error to admin panel
-                    logToAdmin(`Error checking availability: ${error.message}`);
-                    
-                    // Show error alert
-                    errorAlert.innerHTML = `
-                        <div class="alert-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="12" y1="8" x2="12" y2="12"></line>
-                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                            </svg>
-                        </div>
-                        There was an error checking availability. Please try again.
-                        <span class="alert-close">&times;</span>
-                    `;
-                    errorAlert.style.display = 'block';
-                    
-                    // Set up alert close button again for the new content
-                    document.querySelectorAll('.alert-close').forEach(button => {
-                        button.addEventListener('click', function() {
-                            this.parentElement.style.display = 'none';
-                        });
-                    });
-                });
-            }
-            
-            // Handle form submission
-            document.getElementById('reservationForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Hide previous alerts
-                successAlert.style.display = 'none';
-                errorAlert.style.display = 'none';
-                
-                // Disable submit button and show loading state
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<span class="spinner"></span> Submitting...';
-                
-                // Gather form values
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const numberOfPersons = parseInt(document.getElementById('numberOfPersons').value);
-                const dateString = document.getElementById('date').value;
-                const category = document.getElementById('category').value;
-                const startTime = document.getElementById('startTime').value;
-                const userNotes = document.getElementById('notes').value;
-                
-                // Append "[web reservation]; Email: ..." if you like
-                const notes = `${userNotes}; [web reservation]; Email: ${email}`;
-                
-                // Compute endTime (1h45m after startTime)
-                const [startHour, startMinute] = startTime.split(':').map(Number);
-                let endHour = startHour + 1;
-                let endMinute = startMinute + 45;
-                
-                if (endMinute >= 60) {
-                    endHour += 1;
-                    endMinute -= 60;
-                }
-                
-                const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
-                
-                // Generate a UUID for the reservation
-                function uuidv4() {
-                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                        const r = Math.random() * 16 | 0;
-                        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                        return v.toString(16);
-                    });
-                }
-                const reservationId = uuidv4();
-                
-                // Instead of Firestore Timestamp, store numeric Unix time as Double
-                const nowSeconds = Date.now() / 1000; // e.g. 1677604800.123
-                
-                // Final availability check before submission
-                const checkAvailabilityFn = functions.httpsCallable('checkAvailability');
-                checkAvailabilityFn({
-                    numberOfPersons,
-                    date: dateString,
-                    category,
-                    startTime,
-                    endTime
-                }).then((result) => {
-                    const { available } = result.data;
-                    
-                    if (!available) {
-                        // Show error if tables are no longer available
-                        errorAlert.innerHTML = `
-                            <div class="alert-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="15" y1="9" x2="9" y2="15"></line>
-                                    <line x1="9" y1="9" x2="15" y2="15"></line>
-                                </svg>
-                            </div>
-                            Sorry, tables are no longer available for this time slot. Please select a different time.
-                            <span class="alert-close">&times;</span>
-                        `;
-                        errorAlert.style.display = 'block';
-                        
-                        // Reset button state
-                        submitButton.disabled = false;
-                        submitButton.innerHTML = 'Request Reservation';
-                        
-                        // Set up alert close button again for the new content
-                        document.querySelectorAll('.alert-close').forEach(button => {
-                            button.addEventListener('click', function() {
-                                this.parentElement.style.display = 'none';
-                            });
-                        });
-                        return;
-                    }
-                    
-                    // Create reservation doc that matches the fields
-                    const reservation = {
-                        id: reservationId,
-                        name: name,
-                        phone: phone,
-                        email: email,
-                        numberOfPersons: numberOfPersons,
-                        dateString: dateString,
-                        category: category,
-                        startTime: startTime,
-                        endTime: endTime,
-                        
-                        acceptance: "toConfirm",
-                        status: "pending",
-                        reservationType: "inAdvance",
-                        group: false,
-                        notes: notes,
-                        tables: [],
-                        creationDate: nowSeconds,
-                        lastEditedOn: nowSeconds,
-                        isMock: false,
-                        assignedEmoji: "",
-                        source: "web"
-                    };
-                    
-                    // Write doc to Firestore
-                    const collectionName = "reservations_release"; // Use this in production
-                    db.collection(collectionName).doc(reservationId)
-                        .set(reservation)
-                        .then(() => {
-                            console.log("Reservation saved with ID:", reservationId);
-                            
-                            // Show success alert with animation
-                            successAlert.innerHTML = `
-                                <div class="alert-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                    </svg>
-                                </div>
-                                Your reservation request has been submitted successfully! We will contact you soon to confirm.
-                                <span class="alert-close">&times;</span>
-                            `;
-                            successAlert.style.display = 'block';
-                            
-                            // Set up alert close button again for the new content
-                            document.querySelectorAll('.alert-close').forEach(button => {
-                                button.addEventListener('click', function() {
-                                    this.parentElement.style.display = 'none';
-                                });
-                            });
-                            
-                            // Smoothly scroll to success message
-                            successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            
-                            // Reset the form
-                            document.getElementById('reservationForm').reset();
-                            dateInput.value = today.toISOString().split('T')[0]; // Reset date to today
-                            updateTimeSlots(); // Clear & reset time slots
-                            
-                            // Reset button state
-                            submitButton.disabled = false;
-                            submitButton.innerHTML = 'Request Reservation';
-                            
-                            // Clear availability status
-                            availabilityStatus.style.display = 'none';
-                        })
-                        .catch((error) => {
-                            console.error("Error adding reservation:", error);
-                            
-                            // Show error alert with animation
-                            errorAlert.innerHTML = `
-                                <div class="alert-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="15" y1="9" x2="9" y2="15"></line>
-                                        <line x1="9" y1="9" x2="15" y2="15"></line>
-                                    </svg>
-                                </div>
-                                There was an error submitting your reservation. Please try again.
-                                <span class="alert-close">&times;</span>
-                            `;
-                            errorAlert.style.display = 'block';
-                            
-                            // Set up alert close button again for the new content
-                            document.querySelectorAll('.alert-close').forEach(button => {
-                                button.addEventListener('click', function() {
-                                    this.parentElement.style.display = 'none';
-                                });
-                            });
-                            
-                            // Reset button state
-                            submitButton.disabled = false;
-                            submitButton.innerHTML = 'Request Reservation';
-                        });
-                    
-                }).catch((error) => {
-                    console.error('Error during final availability check:', error);
-                    
-                    // Show error alert with animation
-                    errorAlert.innerHTML = `
-                        <div class="alert-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                            </svg>
-                        </div>
-                        There was an error processing your reservation. Please try again.
-                        <span class="alert-close">&times;</span>
-                    `;
-                    errorAlert.style.display = 'block';
-                    
-                    // Set up alert close button again for the new content
-                    document.querySelectorAll('.alert-close').forEach(button => {
-                        button.addEventListener('click', function() {
-                            this.parentElement.style.display = 'none';
-                        });
-                    });
-                    
-                    // Reset button state
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = 'Request Reservation';
-                });
-            });
-        });
-    </script>
+    
+    <!-- Application Scripts -->
+    <script src="js/services/firebase-config.js"></script>
+    <script src="js/utils/locale.js"></script>
+    <script src="js/utils/validation.js"></script>
+    <script src="js/services/theme.js"></script>
+    <script src="js/services/auth.js"></script>
+    <script src="js/services/reservations.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/admin-panel.js"></script>
+    <script src="js/components/form.js"></script>
+    <script src="js/components/availability.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

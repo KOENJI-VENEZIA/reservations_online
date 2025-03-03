@@ -1,0 +1,96 @@
+{
+  "title": "Table Reservation",
+  "status": {
+    "pending": "Online Reservation Request"
+  },
+  "alerts": {
+    "success": "Your reservation request has been submitted successfully! We will contact you soon to confirm.",
+    "error": "There was an error submitting your reservation. Please try again.",
+    "checking": "Checking availability...",
+    "processingError": "There was an error processing your reservation. Please try again.",
+    "availabilityError": "There was an error checking availability. Please try again.",
+    "noLongerAvailable": "Sorry, tables are no longer available for this time slot. Please select a different time.",
+    "closedMonday": "We are closed on Mondays. Please select another day."
+  },
+  "form": {
+    "guestInfo": "Guest Information",
+    "name": "Name *",
+    "email": "Email *",
+    "phone": "Phone Number *",
+    "people": "Number of People *",
+    "reservationDetails": "Reservation Details",
+    "date": "Date *",
+    "meal": "Meal *",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "time": "Time *",
+    "endTime": "Approximate End Time",
+    "specialRequests": "Special Requests",
+    "notes": "Notes or Special Requests",
+    "submit": "Request Reservation",
+    "submitting": "Submitting...",
+    "checking": "Checking...",
+    "noTablesAvailable": "No Tables Available"
+  },
+  "policy": {
+    "holdTime": "Your reservation will be held for",
+    "minutes": "minutes",
+    "afterTime": "after the reserved time.",
+    "minimumPeople": "Minimum",
+    "people": "people",
+    "perReservation": "per reservation required.",
+    "weClosed": "We are",
+    "closedOn": "closed on Mondays",
+    "confirmation": "Reservation is subject to confirmation. You will receive an email once your reservation is confirmed."
+  },
+  "availability": {
+    "tablesAvailable": "Tables available: {{count}}",
+    "comfortablySeated": "Your party of {{count}} will be comfortably seated.",
+    "notEnoughTables": "Sorry, we don't have enough tables available for this time slot.",
+    "tablesNeeded": "We need {{tablesNeeded}} tables for your party of {{numberOfPersons}}, but the following tables are occupied: {{occupiedTables}}.",
+    "recommendTimes": "We recommend checking availability at:",
+    "earlier": "30 minutes earlier",
+    "later": "30 minutes later"
+  },
+  "modal": {
+    "confirmation": "Confirmation",
+    "confirmAction": "Are you sure you want to perform this action?",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "admin": {
+    "panelTitle": "Admin Panel",
+    "signInPrompt": "Please sign in with your Google account to access admin features.",
+    "signInWithGoogle": "Sign in with Google",
+    "environmentSettings": "Environment Settings",
+    "environment": "Environment",
+    "debug": "Debug",
+    "release": "Release",
+    "environmentChanged": "Environment changed to",
+    "authorizedAdmins": "Authorized Admins",
+    "adminDescription": "These email addresses have admin access.",
+    "addNewAdmin": "Add new admin email",
+    "add": "Add",
+    "debugInfo": "Debug Information",
+    "clearLogs": "Clear Logs",
+    "signOut": "Sign Out",
+    "enterEmail": "Please enter an email address.",
+    "invalidEmail": "Please enter a valid email address.",
+    "alreadyAdmin": "This email is already an admin.",
+    "noAccess": "You do not have admin access. Please contact an administrator.",
+    "cannotRemoveDefault": "Cannot remove the default admin.",
+    "confirmAdd": "Are you sure you want to add {{email}} as an admin?",
+    "confirmRemove": "Are you sure you want to remove admin access for {{email}}?",
+    "confirmClearLogs": "Are you sure you want to clear all logs?",
+    "logsCleared": "Logs cleared"
+  },
+  "validation": {
+    "requiredField": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhone": "Please enter a valid phone number",
+    "invalidNumberOfPersons": "Minimum 2 people are required",
+    "invalidDate": "Please enter a valid date",
+    "pastDate": "Date cannot be in the past",
+    "monday": "We are closed on Mondays"
+  }
+}

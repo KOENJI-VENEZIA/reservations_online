@@ -1,0 +1,33 @@
+:root {
+    /* Primary colors */
+    --primary-color: #4a90e2;
+    --primary-light: rgba(74, 144, 226, 0.12);
+    --primary-dark: #3a80d2;
+    
+    /* Status colors */
+    --success-color: #4bb543;
+    --success-light: rgba(75, 181, 67, 0.12);
+    --error-color: #dc3545;
+    --error-light: rgba(220, 53, 69, 0.12);
+    --warning-color: #ffc107;
+    --warning-light: rgba(255, 193, 7, 0.12);
+    
+    /* Neutral colors */
+    --neutral-color: #6c757d;
+    --neutral-light: #e9ecef;
+    
+    /* Background colors */
+    --bg-color: #f8f9fa;
+    --bg-card: #ffffff;
+    --bg-card-secondary: #f5f7fa;
+    
+    /* Text colors */
+    --text-primary: #333333;
+    --text-secondary: #6c757d;
+    
+    /* Border colors */
+    --border-color: #dee2e6;
+    
+    /* Shadow */
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

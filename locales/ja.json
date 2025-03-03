@@ -1,0 +1,96 @@
+{
+  "title": "テーブル予約",
+  "status": {
+    "pending": "オンライン予約リクエスト"
+  },
+  "alerts": {
+    "success": "予約リクエストが正常に送信されました！確認のためにすぐにご連絡いたします。",
+    "error": "予約の送信中にエラーが発生しました。もう一度お試しください。",
+    "checking": "空き状況を確認中...",
+    "processingError": "予約の処理中にエラーが発生しました。もう一度お試しください。",
+    "availabilityError": "空き状況の確認中にエラーが発生しました。もう一度お試しください。",
+    "noLongerAvailable": "申し訳ありませんが、この時間帯のテーブルはもう利用できません。別の時間を選択してください。",
+    "closedMonday": "月曜日は休業日です。別の日を選択してください。"
+  },
+  "form": {
+    "guestInfo": "お客様情報",
+    "name": "お名前 *",
+    "email": "メールアドレス *",
+    "phone": "電話番号 *",
+    "people": "人数 *",
+    "reservationDetails": "予約詳細",
+    "date": "日付 *",
+    "meal": "食事 *",
+    "lunch": "ランチ",
+    "dinner": "ディナー",
+    "time": "時間 *",
+    "endTime": "おおよその終了時間",
+    "specialRequests": "特別リクエスト",
+    "notes": "メモや特別リクエスト",
+    "submit": "予約をリクエスト",
+    "submitting": "送信中...",
+    "checking": "確認中...",
+    "noTablesAvailable": "テーブルの空きなし"
+  },
+  "policy": {
+    "holdTime": "予約時間から",
+    "minutes": "分間",
+    "afterTime": "予約は保持されます。",
+    "minimumPeople": "最低",
+    "people": "名様",
+    "perReservation": "からのご予約をお受けしております。",
+    "weClosed": "当店は",
+    "closedOn": "月曜日は休業",
+    "confirmation": "予約は確認が必要です。予約が確認されると、メールでお知らせします。"
+  },
+  "availability": {
+    "tablesAvailable": "利用可能なテーブル: {{count}}",
+    "comfortablySeated": "{{count}}名様のグループを快適にご案内できます。",
+    "notEnoughTables": "申し訳ありませんが、この時間帯に十分なテーブルがありません。",
+    "tablesNeeded": "{{numberOfPersons}}名様のグループには{{tablesNeeded}}台のテーブルが必要ですが、次のテーブルは既に使用中です: {{occupiedTables}}。",
+    "recommendTimes": "以下の時間帯をお試しください:",
+    "earlier": "30分早い時間帯",
+    "later": "30分遅い時間帯"
+  },
+  "modal": {
+    "confirmation": "確認",
+    "confirmAction": "この操作を実行してもよろしいですか？",
+    "cancel": "キャンセル",
+    "confirm": "確認"
+  },
+  "admin": {
+    "panelTitle": "管理パネル",
+    "signInPrompt": "管理機能にアクセスするには、Googleアカウントでサインインしてください。",
+    "signInWithGoogle": "Googleでサインイン",
+    "environmentSettings": "環境設定",
+    "environment": "環境",
+    "debug": "デバッグ",
+    "release": "リリース",
+    "environmentChanged": "環境が変更されました:",
+    "authorizedAdmins": "承認された管理者",
+    "adminDescription": "これらのメールアドレスは管理者アクセス権を持っています。",
+    "addNewAdmin": "新しい管理者メールを追加",
+    "add": "追加",
+    "debugInfo": "デバッグ情報",
+    "clearLogs": "ログをクリア",
+    "signOut": "サインアウト",
+    "enterEmail": "メールアドレスを入力してください。",
+    "invalidEmail": "有効なメールアドレスを入力してください。",
+    "alreadyAdmin": "このメールは既に管理者です。",
+    "noAccess": "管理者アクセス権がありません。管理者にお問い合わせください。",
+    "cannotRemoveDefault": "デフォルト管理者は削除できません。",
+    "confirmAdd": "{{email}}を管理者として追加してもよろしいですか？",
+    "confirmRemove": "{{email}}の管理者アクセスを削除してもよろしいですか？",
+    "confirmClearLogs": "すべてのログをクリアしてもよろしいですか？",
+    "logsCleared": "ログがクリアされました"
+  },
+  "validation": {
+    "requiredField": "このフィールドは必須です",
+    "invalidEmail": "有効なメールアドレスを入力してください",
+    "invalidPhone": "有効な電話番号を入力してください",
+    "invalidNumberOfPersons": "最低2名様からのご予約が必要です",
+    "invalidDate": "有効な日付を入力してください",
+    "pastDate": "過去の日付は選択できません",
+    "monday": "月曜日は休業日です"
+  }
+}

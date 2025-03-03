@@ -1,0 +1,22 @@
+.alert {
+    padding: 16px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius-sm);
+    display: none;
+    animation: fadeIn 0.3s ease;
+    position: relative;
+}
+
+.alert-success {
+    background-color: var(--success-light);
+    color: var(--success-color);
+    border-left: 4px solid var(--success-color);
+}
+
+.alert-error {
+    background-color: var(--error-light);
+    color: var(--error-color);
+    border-left: 4px solid var(--error-color);
+}
+
+.alert-
