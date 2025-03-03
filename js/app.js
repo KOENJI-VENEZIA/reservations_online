@@ -1,31 +1,47 @@
 // Main application initialization
 document.addEventListener('DOMContentLoaded', function() {
-    // Verify Firebase configuration
-    verifyFirebaseConfiguration();
-    
-    // Initialize localization
-    initializeLocalization();
-    
-    // Initialize theme
-    initializeTheme();
-    
-    // Initialize admin panel
-    initializeAdminPanel();
-    
-    // Initialize form handlers
-    initializeFormHandlers();
-    
-    // Initialize date and time constraints
-    initializeDateTimeConstraints();
-    
-    // Set up alerts
-    setupAlerts();
-    
-    // Initialize modal
-    initializeModal();
-    
-    // Log application start
-    console.log('Restaurant reservation application initialized');
+    try {
+        // Verify Firebase configuration
+        verifyFirebaseConfiguration();
+        
+        // Initialize localization
+        initializeLocalization();
+        
+        // Initialize theme
+        initializeTheme();
+        
+        // Initialize admin panel
+        initializeAdminPanel();
+        
+        // Initialize form handlers
+        initializeFormHandlers();
+        
+        // Initialize date and time constraints
+        initializeDateTimeConstraints();
+        
+        // Set up alerts
+        setupAlerts();
+        
+        // Initialize modal
+        initializeModal();
+        
+        // Log application start
+        console.log('Restaurant reservation application initialized');
+    } catch (error) {
+        console.error('Error during application initialization:', error);
+        // Show error in UI
+        const errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            errorAlert.innerHTML = `
+                <div class="alert-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                Initialization error: ${error.message}
+                <span class="alert-close">&times;</span>
+            `;
+            errorAlert.style.display = 'block';
+        }
+    }
 });
 
 // Verify Firebase configuration
@@ -46,14 +62,16 @@ function verifyFirebaseConfiguration() {
         console.error('Firebase initialization error:', error);
         // Show an error message to the user
         const errorAlert = document.getElementById('errorAlert');
-        errorAlert.innerHTML = `
-            <div class="alert-icon">
-                <i class="fas fa-exclamation-circle"></i>
-            </div>
-            Firebase configuration error. Please check console for details.
-            <span class="alert-close">&times;</span>
-        `;
-        errorAlert.style.display = 'block';
+        if (errorAlert) {
+            errorAlert.innerHTML = `
+                <div class="alert-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                Firebase configuration error. Please check console for details.
+                <span class="alert-close">&times;</span>
+            `;
+            errorAlert.style.display = 'block';
+        }
     }
 }
 
@@ -71,7 +89,9 @@ function initializeDateTimeConstraints() {
     const today = new Date();
     const dateInput = document.getElementById('date');
     
-    // Set min date to today
-    dateInput.min = today.toISOString().split('T')[0];
-    dateInput.value = today.toISOString().split('T')[0];
+    if (dateInput) {
+        // Set min date to today
+        dateInput.min = today.toISOString().split('T')[0];
+        dateInput.value = today.toISOString().split('T')[0];
+    }
 }
