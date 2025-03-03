@@ -415,7 +415,9 @@
                 const category = document.getElementById('category').value;
                 const startTime = document.getElementById('startTime').value;
                 const notes = document.getElementById('notes').value;
-                
+
+                const appendedNotes = `${notes}; [web reservation]; Email: ${email}`;
+
                 // Calculate end time (1h45m after start time)
                 const [startHour, startMinute] = startTime.split(':').map(Number);
                 let endHour = startHour;
@@ -457,7 +459,7 @@
                     status: "pending",
                     reservationType: "inAdvance",
                     group: false,
-                    notes: notes,
+                    notes: appendedNotes,
                     tables: [],
                     creationDate: firebase.firestore.Timestamp.now(),
                     lastEditedOn: firebase.firestore.Timestamp.now(),
