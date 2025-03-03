@@ -467,8 +467,8 @@
                 };
                 
                 // Determine the collection based on environment
-                const isDev = window.location.hostname === 'localhost';
-                const collectionName = isDev ? 'reservations' : 'reservations_release';
+               
+                const collectionName = 'reservations';
                 
                 // Save to Firestore
                 db.collection(collectionName).doc(reservationId)
