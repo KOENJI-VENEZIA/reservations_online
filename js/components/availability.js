@@ -30,11 +30,11 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
     // Call the Cloud Function
     const checkAvailabilityFn = functions.httpsCallable('checkAvailability');
     checkAvailabilityFn({
-        numberOfPersons,
-        date,
-        category,
-        startTime,
-        endTime,
+        numberOfPersons: numberOfPersons,
+        date: date,
+        category: category,
+        startTime: startTime,
+        endTime: endTime,
         isDebug: isDebugEnvironment() // Pass the environment flag
     }).then((result) => {
         // Hide checking alert
@@ -50,12 +50,12 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         } = result.data;
         
         // Log check to admin panel
-        if (isDebugEnvironment()) {
+        if (window.logToAdmin && isDebugEnvironment()) {
             logToAdmin(`Availability check: ${date}, ${category}, ${startTime} - ${available ? 'Available' : 'Not available'}`);
         }
         
         // Update availability status with appropriate information
-        displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime);
+        displayAvailabilityStatus(available, numberOfPersons, availableTables || 0, occupiedTables || [], tablesNeeded || 0, startTime);
         
         // Enable or disable submit button based on availability
         submitButton.disabled = !available;
@@ -78,7 +78,9 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         submitButton.innerHTML = translate('form.submit');
         
         // Log error to admin panel
-        logToAdmin(`Error checking availability: ${error.message}`);
+        if (window.logToAdmin) {
+            logToAdmin(`Error checking availability: ${error.message}`);
+        }
         
         // Show error alert
         showError(translate('alerts.availabilityError'));
@@ -88,6 +90,11 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
 // Display availability status
 function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
     const availabilityStatus = document.getElementById('availabilityStatus');
+    
+    // Default values if undefined
+    availableTables = availableTables || 0;
+    occupiedTables = occupiedTables || [];
+    tablesNeeded = tablesNeeded || 0;
     
     // Update availability status
     availabilityStatus.style.display = 'block';
@@ -138,7 +145,7 @@ function displayAvailabilityStatus(available, numberOfPersons, availableTables, 
                 ${translate('availability.tablesNeeded', { 
                     tablesNeeded: tablesNeeded,
                     numberOfPersons: numberOfPersons,
-                    occupiedTables: occupiedTables
+                    occupiedTables: occupiedTables.join(', ')
                 })}
             </div>
             ${alternativeMessage}
