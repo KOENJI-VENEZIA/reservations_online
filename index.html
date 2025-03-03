@@ -5,62 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Reservation</title>
     <style>
+        :root {
+            --primary-color: #4a90e2;
+            --primary-light: rgba(74, 144, 226, 0.12);
+            --primary-dark: #3a80d2;
+            --success-color: #4bb543;
+            --success-light: rgba(75, 181, 67, 0.12);
+            --error-color: #dc3545;
+            --error-light: rgba(220, 53, 69, 0.12);
+            --warning-color: #ffc107;
+            --warning-light: rgba(255, 193, 7, 0.12);
+            --neutral-color: #6c757d;
+            --neutral-light: #e9ecef;
+            --text-primary: #333;
+            --text-secondary: #6c757d;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-primary);
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        .container {
             background-color: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--box-shadow);
         }
+
         h1 {
-            color: #1a1a1a;
+            color: var(--text-primary);
             margin-bottom: 24px;
             font-weight: 700;
+            font-size: 28px;
         }
+
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
+
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #4a4a4a;
+            color: var(--text-primary);
+            font-size: 15px;
         }
+
         input, select, textarea {
             width: 100%;
-            padding: 12px;
+            padding: 12px 16px;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: var(--border-radius-sm);
             font-size: 16px;
             background-color: #f9f9f9;
+            transition: all 0.2s ease;
         }
+
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #4a90e2;
+            border-color: var(--primary-color);
             background-color: white;
+            box-shadow: 0 0 0 3px var(--primary-light);
         }
+
         button {
-            background-color: #4a90e2;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             padding: 14px 24px;
             font-size: 16px;
-            border-radius: 8px;
+            border-radius: var(--border-radius-sm);
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.2s;
+            width: 100%;
+            margin-top: 10px;
         }
+
         button:hover {
-            background-color: #3a80d2;
+            background-color: var(--primary-dark);
         }
+
+        button:disabled {
+            background-color: var(--neutral-color);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
         .badge {
             display: inline-block;
             padding: 5px 10px;
@@ -69,87 +116,347 @@
             border-radius: 20px;
             margin-right: 5px;
         }
-        .badge-info {
-            background-color: rgba(74, 144, 226, 0.12);
-            color: #4a90e2;
+
+        .alert {
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius-sm);
+            display: none;
+            animation: fadeIn 0.3s ease;
+            position: relative;
         }
+
+        .alert-success {
+            background-color: var(--success-light);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-error {
+            background-color: var(--error-light);
+            color: var(--error-color);
+            border-left: 4px solid var(--error-color);
+        }
+
+        .alert-warning {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .alert-close {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .alert-close:hover {
+            opacity: 1;
+        }
+
+        .alert-icon {
+            margin-right: 12px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .reservation-details {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 15px;
+            background-color: var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
             margin-top: 25px;
+            margin-bottom: 25px;
         }
+
         .detail-row {
             display: flex;
-            margin-bottom: 10px;
+            align-items: center;
+            margin-bottom: 16px;
         }
+
         .detail-icon {
             width: 24px;
-            color: #6e6e6e;
-            margin-right: 8px;
+            color: var(--text-secondary);
+            margin-right: 16px;
+            flex-shrink: 0;
         }
+
         .detail-text {
             flex: 1;
-            color: #4a4a4a;
+            color: var(--text-primary);
+        }
+
+        .note {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 16px;
+        }
+
+        .availability-status {
+            padding: 16px;
+            border-radius: var(--border-radius-sm);
+            margin-top: 16px;
+            margin-bottom: 16px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .available {
+            background-color: var(--success-light);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .unavailable {
+            background-color: var(--error-light);
+            color: var(--error-color);
+            border-left: 4px solid var(--error-color);
+        }
+
+        /* Status tags like in ReservationInfoCard */
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .status-tag-icon {
+            margin-right: 6px;
+        }
+
+        .status-pending {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .card-section {
+            padding: 24px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 24px;
+            border-top: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .card-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-field-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-tag {
+            padding: 12px;
+            background-color: #f5f7fa;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 12px;
+        }
+
+        .detail-tag-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+
+        .detail-tag-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            display: block;
+            margin-left: 28px;
+        }
+
+        .detail-tag-value {
+            font-size: 15px;
+            color: var(--text-primary);
+            margin-left: 28px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #e9ecef;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            .form-field-group {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="status-tag status-pending">
+            <span class="status-tag-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </span>
+            <span>Online Reservation Request</span>
+        </div>
+
         <h1>Table Reservation</h1>
         
         <div id="successAlert" class="alert alert-success">
+            <div class="alert-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
             Your reservation request has been submitted successfully! We will contact you soon to confirm.
+            <span class="alert-close">&times;</span>
         </div>
         
         <div id="errorAlert" class="alert alert-error">
+            <div class="alert-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
             There was an error submitting your reservation. Please try again.
+            <span class="alert-close">&times;</span>
+        </div>
+        
+        <div id="availabilityAlert" class="alert alert-warning">
+            <div class="alert-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            Checking availability...
+            <span class="alert-close">&times;</span>
         </div>
         
         <form id="reservationForm">
-            <div class="form-group">
-                <label for="name">Name *</label>
-                <input type="text" id="name" name="name" required>
+            <div class="card-section">
+                <h2 style="margin-bottom: 16px;">Guest Information</h2>
+                <div class="form-field-group">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-field-group">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="numberOfPersons">Number of People *</label>
+                        <input type="number" id="numberOfPersons" name="numberOfPersons" min="2" value="2" required>
+                    </div>
+                </div>
             </div>
             
-            <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="email" required>
+            <div class="card-section">
+                <h2 style="margin-bottom: 16px;">Reservation Details</h2>
+                <div class="form-field-group">
+                    <div class="form-group">
+                        <label for="date">Date *</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Meal *</label>
+                        <select id="category" name="category" required>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-field-group">
+                    <div class="form-group">
+                        <label for="startTime">Time *</label>
+                        <select id="startTime" name="startTime" required>
+                            <!-- Time slots will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div id="endTimeDisplay" class="detail-tag">
+                            <div class="detail-tag-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <span class="detail-tag-label">Approximate End Time</span>
+                            <span class="detail-tag-value" id="endTimeValue">--:--</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div class="form-group">
-                <label for="phone">Phone Number *</label>
-                <input type="tel" id="phone" name="phone" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="numberOfPersons">Number of People *</label>
-                <input type="number" id="numberOfPersons" name="numberOfPersons" min="2" value="2" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="date">Date *</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="category">Meal *</label>
-                <select id="category" name="category" required>
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">Dinner</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="startTime">Time *</label>
-                <select id="startTime" name="startTime" required>
-                    <!-- Time slots will be populated by JavaScript -->
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="notes">Special Requests / Notes</label>
-                <textarea id="notes" name="notes" rows="3"></textarea>
+            <div class="card-section">
+                <h2 style="margin-bottom: 16px;">Special Requests</h2>
+                <div class="form-group">
+                    <label for="notes">Notes or Special Requests</label>
+                    <textarea id="notes" name="notes" rows="3"></textarea>
+                </div>
+                
+                <div id="availabilityStatus" class="availability-status">
+                    <!-- Availability status will be displayed here -->
+                </div>
             </div>
             
             <div class="reservation-details">
@@ -194,8 +501,8 @@
                 <p class="note">* Reservation is subject to confirmation. You will receive an email once your reservation is confirmed.</p>
             </div>
             
-            <div class="form-group" style="margin-top: 25px;">
-                <button type="submit">Request Reservation</button>
+            <div class="form-group">
+                <button type="submit" id="submitButton">Request Reservation</button>
             </div>
         </form>
     </div>
@@ -204,6 +511,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
     <!-- Add Firebase products that you want to use -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-functions-compat.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -221,21 +529,57 @@
             // Initialize Firebase
             firebase.initializeApp(firebaseConfig);
             const db = firebase.firestore();
+            const functions = firebase.functions();
             
-             // 2) Basic setup for date/time pickers, etc.
+            // Set up alert close buttons
+            document.querySelectorAll('.alert-close').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.style.display = 'none';
+                });
+            });
+            
+            // Basic setup for date/time pickers, etc.
             const today = new Date();
             const dateInput = document.getElementById('date');
             dateInput.min = today.toISOString().split('T')[0];
             dateInput.value = today.toISOString().split('T')[0];
             
-            // Populate time slots based on meal category
-           // Fix time slots generation
+            // Set up UI elements
+            const submitButton = document.getElementById('submitButton');
+            const successAlert = document.getElementById('successAlert');
+            const errorAlert = document.getElementById('errorAlert');
+            const availabilityAlert = document.getElementById('availabilityAlert');
+            const availabilityStatus = document.getElementById('availabilityStatus');
+            const endTimeValue = document.getElementById('endTimeValue');
+            
+            // Form elements
+            const numberOfPersonsInput = document.getElementById('numberOfPersons');
+            const categorySelect = document.getElementById('category');
+            const startTimeSelect = document.getElementById('startTime');
+            
+            // Update end time display
+            function updateEndTimeDisplay(startTime) {
+                if (!startTime) {
+                    endTimeValue.textContent = "--:--";
+                    return;
+                }
+                
+                const [startHour, startMinute] = startTime.split(':').map(Number);
+                let endHour = startHour + 1;
+                let endMinute = startMinute + 45;
+                
+                if (endMinute >= 60) {
+                    endHour += 1;
+                    endMinute -= 60;
+                }
+                
+                const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
+                endTimeValue.textContent = endTime;
+            }
+            
             // Populate time slots based on meal category
             function updateTimeSlots() {
-                const category = document.getElementById('category').value;
-                const startTimeSelect = document.getElementById('startTime');
-                
-                // Clear existing options
+                const category = categorySelect.value;
                 startTimeSelect.innerHTML = '';
                 
                 // Define time ranges based on category
@@ -259,114 +603,398 @@
                     option.textContent = timeString;
                     startTimeSelect.appendChild(option);
                 }
+                
+                // Update end time display
+                updateEndTimeDisplay(startTimeSelect.value);
+                
+                // Check availability after time slots are updated (if form fields are valid)
+                checkAvailabilityIfFormValid();
             }
+            
             // Initial population of time slots
             updateTimeSlots();
             
             // Update time slots when category changes
-            document.getElementById('category').addEventListener('change', updateTimeSlots);
+            categorySelect.addEventListener('change', function() {
+                updateTimeSlots();
+            });
+            
+            // Update end time when start time changes
+            startTimeSelect.addEventListener('change', function() {
+                updateEndTimeDisplay(this.value);
+                checkAvailabilityIfFormValid();
+            });
             
             // Validate date to prevent Mondays
-            document.getElementById('date').addEventListener('change', function(e) {
+            dateInput.addEventListener('change', function(e) {
                 const selectedDate = new Date(e.target.value);
                 if (selectedDate.getDay() === 1) { // Monday
-                    alert('We are closed on Mondays. Please select another day.');
-                    e.target.value = '';
+                    // Show custom styled alert instead of default browser alert
+                    errorAlert.textContent = 'We are closed on Mondays. Please select another day.';
+                    errorAlert.style.display = 'block';
+                    e.target.value = today.toISOString().split('T')[0]; // Reset to today
+                } else {
+                    checkAvailabilityIfFormValid();
                 }
             });
             
-            // Handle form submission
-             document.getElementById('reservationForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const successAlert = document.getElementById('successAlert');
-        const errorAlert = document.getElementById('errorAlert');
-        successAlert.style.display = 'none';
-        errorAlert.style.display = 'none';
-        
-        // 3a) Gather form values
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const numberOfPersons = parseInt(document.getElementById('numberOfPersons').value);
-        const dateString = document.getElementById('date').value;
-        const category = document.getElementById('category').value;
-        const startTime = document.getElementById('startTime').value;
-        const userNotes = document.getElementById('notes').value;
-        
-        // 3b) Append "[web reservation]; Email: ..." if you like
-        const notes = `${userNotes}; [web reservation]; Email: ${email}`;
-        
-        // 3c) Compute endTime (1h45m after startTime)
-        // Calculate end time (1h45m after start time)
-        const [startHour, startMinute] = startTime.split(':').map(Number);
-        let endHour = startHour;
-        let endMinute = startMinute + 45;
-        
-        if (endMinute >= 60) {
-            endHour += 1;
-            endMinute -= 60;
-        }
-        
-        // Add 1 hour based on category
-        endHour += 1;
-        
-        const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
-        
-        // 3d) Generate a UUID for the reservation
-        function uuidv4() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
+            // Function to check availability when form fields change
+            [numberOfPersonsInput, dateInput, categorySelect, startTimeSelect].forEach(element => {
+                element.addEventListener('change', function() {
+                    checkAvailabilityIfFormValid();
+                });
             });
-        }
-        const reservationId = uuidv4();
-        
-        // 3e) Instead of Firestore Timestamp, store numeric Unix time as Double
-        const nowSeconds = Date.now() / 1000; // e.g. 1677604800.123
-        
-        // 3f) Create reservation doc that matches the fields
-        const reservation = {
-            id: reservationId,            // required (String → UUID)
-            name: name,                   // (String)
-            phone: phone,                 // (String)
-            email: email,                 // optional but for “web”
-            numberOfPersons: numberOfPersons, // (Int)
-            dateString: dateString,       // (String, e.g. "2025-03-03")
-            category: category,           // (String that matches an enum rawValue)
-            startTime: startTime,         // (String, e.g. "12:00")
-            endTime: endTime,             // (String, e.g. "13:45")
             
-            acceptance: "toConfirm",      // e.g. your Swift code’s .toConfirm
-            status: "pending",            // must match Swift’s ReservationStatus enum
-            reservationType: "inAdvance", // must match Swift’s ReservationType enum
-            group: false,                 // (Bool)
-            notes: notes,                 // (String)
-            tables: [],                   // (Array) - can be empty
-            creationDate: nowSeconds,     // your code expects a Double
-            lastEditedOn: nowSeconds,     // ditto
-            isMock: false,                // (Bool)
-            assignedEmoji: "",            // optional
-            source: "web"                 // (String)
-        };
-        
-        // 4) Write doc to Firestore
-        const collectionName = "reservations"; // or "reservations_release" in production
-        db.collection(collectionName).doc(reservationId)
-            .set(reservation)
-            .then(() => {
-                console.log("Reservation saved with ID:", reservationId);
-                successAlert.style.display = 'block';
-                document.getElementById('reservationForm').reset();
-                updateTimeSlots(); // Clear & reset time slots
-            })
-            .catch((error) => {
-                console.error("Error adding reservation:", error);
-                errorAlert.style.display = 'block';
+            // Check availability if all required fields are filled
+            function checkAvailabilityIfFormValid() {
+                const numberOfPersons = parseInt(numberOfPersonsInput.value);
+                const date = dateInput.value;
+                const category = categorySelect.value;
+                const startTime = startTimeSelect.value;
+                
+                if (numberOfPersons && date && category && startTime) {
+                    checkAvailability(numberOfPersons, date, category, startTime);
+                }
+            }
+            
+            // Function to check availability via Cloud Function
+            function checkAvailability(numberOfPersons, date, category, startTime) {
+                // Calculate end time
+                const [startHour, startMinute] = startTime.split(':').map(Number);
+                let endHour = startHour + 1;
+                let endMinute = startMinute + 45;
+                
+                if (endMinute >= 60) {
+                    endHour += 1;
+                    endMinute -= 60;
+                }
+                
+                const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
+                
+                // Show checking status
+                availabilityAlert.style.display = 'block';
+                availabilityAlert.innerHTML = `
+                    <div class="alert-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    Checking table availability...
+                    <span class="alert-close">&times;</span>
+                `;
+                
+                // Set up alert close buttons again for the new content
+                document.querySelectorAll('.alert-close').forEach(button => {
+                    button.addEventListener('click', function() {
+                        this.parentElement.style.display = 'none';
+                    });
+                });
+                
+                // Disable submit button during check
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="spinner"></span> Checking...';
+                
+                // Call the Cloud Function
+                const checkAvailabilityFn = functions.httpsCallable('checkAvailability');
+                checkAvailabilityFn({
+                    numberOfPersons,
+                    date,
+                    category,
+                    startTime,
+                    endTime
+                }).then((result) => {
+                    // Hide checking alert
+                    availabilityAlert.style.display = 'none';
+                    
+                    const { available, capacityAvailable, message } = result.data;
+                    
+                    // Update availability status with appropriate icon
+                    availabilityStatus.style.display = 'block';
+                    availabilityStatus.className = 'availability-status ' + (available ? 'available' : 'unavailable');
+                    
+                    if (available) {
+                        availabilityStatus.innerHTML = `
+                            <div style="display: flex; align-items: center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                                ${message}
+                            </div>
+                        `;
+                    } else {
+                        availabilityStatus.innerHTML = `
+                            <div style="display: flex; align-items: center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                                ${message}
+                            </div>
+                        `;
+                    }
+                    
+                    // Enable or disable submit button based on availability
+                    submitButton.disabled = !available;
+                    submitButton.innerHTML = available ? 
+                        'Request Reservation' : 
+                        'No Tables Available';
+                    
+                    // Apply animation if available
+                    if (available) {
+                        submitButton.style.animation = 'pulse 1s';
+                        setTimeout(() => {
+                            submitButton.style.animation = '';
+                        }, 1000);
+                    }
+                    
+                }).catch((error) => {
+                    console.error('Error checking availability:', error);
+                    availabilityAlert.style.display = 'none';
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Request Reservation';
+                    
+                    // Show error alert
+                    errorAlert.innerHTML = `
+                        <div class="alert-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                        </div>
+                        There was an error checking availability. Please try again.
+                        <span class="alert-close">&times;</span>
+                    `;
+                    errorAlert.style.display = 'block';
+                    
+                    // Set up alert close button again for the new content
+                    document.querySelectorAll('.alert-close').forEach(button => {
+                        button.addEventListener('click', function() {
+                            this.parentElement.style.display = 'none';
+                        });
+                    });
+                });
+            }
+            
+            // Handle form submission
+            document.getElementById('reservationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Hide previous alerts
+                successAlert.style.display = 'none';
+                errorAlert.style.display = 'none';
+                
+                // Disable submit button and show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="spinner"></span> Submitting...';
+                
+                // Gather form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const numberOfPersons = parseInt(document.getElementById('numberOfPersons').value);
+                const dateString = document.getElementById('date').value;
+                const category = document.getElementById('category').value;
+                const startTime = document.getElementById('startTime').value;
+                const userNotes = document.getElementById('notes').value;
+                
+                // Append "[web reservation]; Email: ..." if you like
+                const notes = `${userNotes}; [web reservation]; Email: ${email}`;
+                
+                // Compute endTime (1h45m after startTime)
+                const [startHour, startMinute] = startTime.split(':').map(Number);
+                let endHour = startHour + 1;
+                let endMinute = startMinute + 45;
+                
+                if (endMinute >= 60) {
+                    endHour += 1;
+                    endMinute -= 60;
+                }
+                
+                const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
+                
+                // Generate a UUID for the reservation
+                function uuidv4() {
+                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                        const r = Math.random() * 16 | 0;
+                        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                        return v.toString(16);
+                    });
+                }
+                const reservationId = uuidv4();
+                
+                // Instead of Firestore Timestamp, store numeric Unix time as Double
+                const nowSeconds = Date.now() / 1000; // e.g. 1677604800.123
+                
+                // Final availability check before submission
+                const checkAvailabilityFn = functions.httpsCallable('checkAvailability');
+                checkAvailabilityFn({
+                    numberOfPersons,
+                    date: dateString,
+                    category,
+                    startTime,
+                    endTime
+                }).then((result) => {
+                    const { available } = result.data;
+                    
+                    if (!available) {
+                        // Show error if tables are no longer available
+                        errorAlert.innerHTML = `
+                            <div class="alert-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                            </div>
+                            Sorry, tables are no longer available for this time slot. Please select a different time.
+                            <span class="alert-close">&times;</span>
+                        `;
+                        errorAlert.style.display = 'block';
+                        
+                        // Reset button state
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = 'Request Reservation';
+                        
+                        // Set up alert close button again for the new content
+                        document.querySelectorAll('.alert-close').forEach(button => {
+                            button.addEventListener('click', function() {
+                                this.parentElement.style.display = 'none';
+                            });
+                        });
+                        return;
+                    }
+                    
+                    // Create reservation doc that matches the fields
+                    const reservation = {
+                        id: reservationId,
+                        name: name,
+                        phone: phone,
+                        email: email,
+                        numberOfPersons: numberOfPersons,
+                        dateString: dateString,
+                        category: category,
+                        startTime: startTime,
+                        endTime: endTime,
+                        
+                        acceptance: "toConfirm",
+                        status: "pending",
+                        reservationType: "inAdvance",
+                        group: false,
+                        notes: notes,
+                        tables: [],
+                        creationDate: nowSeconds,
+                        lastEditedOn: nowSeconds,
+                        isMock: false,
+                        assignedEmoji: "",
+                        source: "web"
+                    };
+                    
+                    // Write doc to Firestore
+                    const collectionName = "reservations_release"; // Use this in production
+                    db.collection(collectionName).doc(reservationId)
+                        .set(reservation)
+                        .then(() => {
+                            console.log("Reservation saved with ID:", reservationId);
+                            
+                            // Show success alert with animation
+                            successAlert.innerHTML = `
+                                <div class="alert-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </div>
+                                Your reservation request has been submitted successfully! We will contact you soon to confirm.
+                                <span class="alert-close">&times;</span>
+                            `;
+                            successAlert.style.display = 'block';
+                            
+                            // Set up alert close button again for the new content
+                            document.querySelectorAll('.alert-close').forEach(button => {
+                                button.addEventListener('click', function() {
+                                    this.parentElement.style.display = 'none';
+                                });
+                            });
+                            
+                            // Smoothly scroll to success message
+                            successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            
+                            // Reset the form
+                            document.getElementById('reservationForm').reset();
+                            dateInput.value = today.toISOString().split('T')[0]; // Reset date to today
+                            updateTimeSlots(); // Clear & reset time slots
+                            
+                            // Reset button state
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = 'Request Reservation';
+                            
+                            // Clear availability status
+                            availabilityStatus.style.display = 'none';
+                        })
+                        .catch((error) => {
+                            console.error("Error adding reservation:", error);
+                            
+                            // Show error alert with animation
+                            errorAlert.innerHTML = `
+                                <div class="alert-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    </svg>
+                                </div>
+                                There was an error submitting your reservation. Please try again.
+                                <span class="alert-close">&times;</span>
+                            `;
+                            errorAlert.style.display = 'block';
+                            
+                            // Set up alert close button again for the new content
+                            document.querySelectorAll('.alert-close').forEach(button => {
+                                button.addEventListener('click', function() {
+                                    this.parentElement.style.display = 'none';
+                                });
+                            });
+                            
+                            // Reset button state
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = 'Request Reservation';
+                        });
+                    
+                }).catch((error) => {
+                    console.error('Error during final availability check:', error);
+                    
+                    // Show error alert with animation
+                    errorAlert.innerHTML = `
+                        <div class="alert-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                        </div>
+                        There was an error processing your reservation. Please try again.
+                        <span class="alert-close">&times;</span>
+                    `;
+                    errorAlert.style.display = 'block';
+                    
+                    // Set up alert close button again for the new content
+                    document.querySelectorAll('.alert-close').forEach(button => {
+                        button.addEventListener('click', function() {
+                            this.parentElement.style.display = 'none';
+                        });
+                    });
+                    
+                    // Reset button state
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Request Reservation';
+                });
             });
         });
-    });
     </script>
 </body>
 </html>
