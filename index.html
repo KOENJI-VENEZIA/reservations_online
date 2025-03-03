@@ -229,6 +229,7 @@
             dateInput.value = today.toISOString().split('T')[0];
             
             // Populate time slots based on meal category
+           // Fix time slots generation
             function updateTimeSlots() {
                 const category = document.getElementById('category').value;
                 const startTimeSelect = document.getElementById('startTime');
@@ -249,7 +250,7 @@
                 // Add time slots in 15-minute increments
                 for (let h = startHour; h <= endHour; h += 0.25) {
                     const hour = Math.floor(h);
-                    const minute = (h - hour) * 60;
+                    const minute = Math.floor((h - hour) * 60); // Ensure minute is an integer
                     const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
                     
                     const option = document.createElement('option');
@@ -258,7 +259,6 @@
                     startTimeSelect.appendChild(option);
                 }
             }
-            
             // Initial population of time slots
             updateTimeSlots();
             
@@ -297,19 +297,20 @@
         const notes = `${userNotes}; [web reservation]; Email: ${email}`;
         
         // 3c) Compute endTime (1h45m after startTime)
+        // Calculate end time (1h45m after start time)
         const [startHour, startMinute] = startTime.split(':').map(Number);
         let endHour = startHour;
         let endMinute = startMinute + 45;
+        
         if (endMinute >= 60) {
             endHour += 1;
             endMinute -= 60;
         }
-        if (category === 'lunch') {
-            endHour += 1; // extra hour for lunch
-        } else {
-            endHour += 1; // extra hour for dinner
-        }
-        const endTime = String(endHour).padStart(2, '0') + ":" + String(endMinute).padStart(2, '0');
+        
+        // Add 1 hour based on category
+        endHour += 1;
+        
+        const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
         
         // 3d) Generate a UUID for the reservation
         function uuidv4() {
