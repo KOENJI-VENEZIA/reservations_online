@@ -65,4 +65,4 @@ describe('Theme Services', () => {
             expect(consoleSpy).toHaveBeenCalledWith('Applied light theme based on system preference');
         });
     });
-}); 
+});

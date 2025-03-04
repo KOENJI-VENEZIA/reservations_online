@@ -311,3 +311,15 @@ function showError(message) {
         errorAlert.style.display = 'none';
     });
 }
+
+module.exports = {
+    initializeFormHandlers,
+    updateTimeSlots,
+    updateEndTimeDisplay,
+    checkAvailabilityIfFormValid,
+    calculateEndTime,
+    handleFormSubmit,
+    resetSubmitButton,
+    showSuccess,
+    showError
+};

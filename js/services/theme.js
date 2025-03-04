@@ -41,3 +41,9 @@ function applyLightTheme() {
     
     console.log('Applied light theme based on system preference');
 }
+
+module.exports = {
+    initializeTheme,
+    applyDarkTheme,
+    applyLightTheme
+};
