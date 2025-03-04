@@ -55,9 +55,13 @@ function updateTimeSlots() {
     const categoryElement = document.getElementById('category');
     const startTimeSelect = document.getElementById('startTime');
     
-    if (!categoryElement || !startTimeSelect) return;
+    if (!categoryElement || !startTimeSelect) {
+        console.error('Category or start time elements not found');
+        return;
+    }
     
     const category = categoryElement.value;
+    console.log('Updating time slots for category:', category);
     
     // Clear existing options
     startTimeSelect.innerHTML = '';
@@ -84,11 +88,21 @@ function updateTimeSlots() {
         startTimeSelect.appendChild(option);
     }
     
-    // Update end time display
-    updateEndTimeDisplay(startTimeSelect.value);
+    console.log(`Added ${startTimeSelect.options.length} time slots`);
     
-    // Check availability after time slots are updated (if form fields are valid)
-    checkAvailabilityIfFormValid();
+    // If no options were added, there might be an issue
+    if (startTimeSelect.options.length === 0) {
+        console.error('No time slots were added');
+    } else {
+        // Select the first option
+        startTimeSelect.selectedIndex = 0;
+        
+        // Update end time display
+        updateEndTimeDisplay(startTimeSelect.value);
+        
+        // Check availability after time slots are updated (if form fields are valid)
+        checkAvailabilityIfFormValid();
+    }
 }
 
 // Update end time display

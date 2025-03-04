@@ -27,17 +27,17 @@
             <span class="status-tag-icon">
                 <i class="fas fa-clock"></i>
             </span>
-            <span data-i18n="status.pending">Online Reservation Request</span>
+            <span data-translate="status.pending">Online Reservation Request</span>
         </div>
 
-        <h1 data-i18n="title">Table Reservation</h1>
+        <h1 data-translate="title">Table Reservation</h1>
         
         <!-- Alert containers -->
         <div id="successAlert" class="alert alert-success">
             <div class="alert-icon">
                 <i class="fas fa-check-circle"></i>
             </div>
-            <span data-i18n="alerts.success">Your reservation request has been submitted successfully! We will contact you soon to confirm.</span>
+            <span data-translate="alerts.success">Your reservation request has been submitted successfully! We will contact you soon to confirm.</span>
             <span class="alert-close">&times;</span>
         </div>
         
@@ -45,7 +45,7 @@
             <div class="alert-icon">
                 <i class="fas fa-exclamation-circle"></i>
             </div>
-            <span data-i18n="alerts.error">There was an error submitting your reservation. Please try again.</span>
+            <span data-translate="alerts.error">There was an error submitting your reservation. Please try again.</span>
             <span class="alert-close">&times;</span>
         </div>
         
@@ -53,68 +53,68 @@
             <div class="alert-icon">
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
-            <span data-i18n="alerts.checking">Checking availability...</span>
+            <span data-translate="alerts.checking">Checking availability...</span>
             <span class="alert-close">&times;</span>
         </div>
         
         <!-- Reservation Form -->
         <form id="reservationForm">
             <div class="card-section">
-                <h2 data-i18n="form.guestInfo">Guest Information</h2>
+                <h2 data-translate="form.guestInfo">Guest Information</h2>
                 <div class="form-field-group">
                     <div class="form-group">
-                        <label for="name" data-i18n="form.name">Name *</label>
+                        <label for="name" data-translate="form.name">Name *</label>
                         <input type="text" id="name" name="name" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="preferredLanguage" data-i18n="form.preferredLanguage">Preferred Language for Communications *</label>
+                        <label for="preferredLanguage" data-translate="form.preferredLanguage">Preferred Language for Communications *</label>
                         <select id="preferredLanguage" name="preferredLanguage" required>
-                          <option value="en" data-i18n="language.english">English</option>
-                          <option value="it" data-i18n="language.italian">Italiano</option>
-                          <option value="ja" data-i18n="language.japanese">日本語</option>
+                          <option value="en" data-translate="language.english">English</option>
+                          <option value="it" data-translate="language.italian">Italiano</option>
+                          <option value="ja" data-translate="language.japanese">日本語</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="email" data-i18n="form.email">Email *</label>
+                        <label for="email" data-translate="form.email">Email *</label>
                         <input type="email" id="email" name="email" required>
                     </div>
                 </div>
                 
                 <div class="form-field-group">
                     <div class="form-group">
-                        <label for="phone" data-i18n="form.phone">Phone Number *</label>
+                        <label for="phone" data-translate="form.phone">Phone Number *</label>
                         <input type="tel" id="phone" name="phone" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="numberOfPersons" data-i18n="form.people">Number of People *</label>
+                        <label for="numberOfPersons" data-translate="form.people">Number of People *</label>
                         <input type="number" id="numberOfPersons" name="numberOfPersons" min="2" value="2" required>
                     </div>
                 </div>
             </div>
             
             <div class="card-section">
-                <h2 data-i18n="form.reservationDetails">Reservation Details</h2>
+                <h2 data-translate="form.reservationDetails">Reservation Details</h2>
                 <div class="form-field-group">
                     <div class="form-group">
-                        <label for="date" data-i18n="form.date">Date *</label>
+                        <label for="date" data-translate="form.date">Date *</label>
                         <input type="date" id="date" name="date" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="category" data-i18n="form.meal">Meal *</label>
+                        <label for="category" data-translate="form.meal">Meal *</label>
                         <select id="category" name="category" required>
-                            <option value="lunch" data-i18n="form.lunch">Lunch</option>
-                            <option value="dinner" data-i18n="form.dinner">Dinner</option>
+                            <option value="lunch" data-translate="form.lunch">Lunch</option>
+                            <option value="dinner" data-translate="form.dinner">Dinner</option>
                         </select>
                     </div>
                 </div>
                 
                 <div class="form-field-group">
                     <div class="form-group">
-                        <label for="startTime" data-i18n="form.time">Time *</label>
+                        <label for="startTime" data-translate="form.time">Time *</label>
                         <select id="startTime" name="startTime" required>
                             <!-- Time slots will be populated by JavaScript -->
                         </select>
@@ -125,7 +125,7 @@
                             <div class="detail-tag-icon">
                                 <i class="fas fa-hourglass-end"></i>
                             </div>
-                            <span class="detail-tag-label" data-i18n="form.endTime">Approximate End Time</span>
+                            <span class="detail-tag-label" data-translate="form.endTime">Approximate End Time</span>
                             <span class="detail-tag-value" id="endTimeValue">--:--</span>
                         </div>
                     </div>
@@ -133,9 +133,9 @@
             </div>
             
             <div class="card-section">
-                <h2 data-i18n="form.specialRequests">Special Requests</h2>
+                <h2 data-translate="form.specialRequests">Special Requests</h2>
                 <div class="form-group">
-                    <label for="notes" data-i18n="form.notes">Notes or Special Requests</label>
+                    <label for="notes" data-translate="form.notes">Notes or Special Requests</label>
                     <textarea id="notes" name="notes" rows="3"></textarea>
                 </div>
                 
@@ -150,7 +150,7 @@
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="detail-text">
-                        <span data-i18n="policy.holdTime">Your reservation will be held for</span> <strong>15 <span data-i18n="policy.minutes">minutes</span></strong> <span data-i18n="policy.afterTime">after the reserved time.</span>
+                        <span data-translate="policy.holdTime">Your reservation will be held for</span> <strong>15 <span data-translate="policy.minutes">minutes</span></strong> <span data-translate="policy.afterTime">after the reserved time.</span>
                     </div>
                 </div>
                 
@@ -159,7 +159,7 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="detail-text">
-                        <span data-i18n="policy.minimumPeople">Minimum</span> <strong>2 <span data-i18n="policy.people">people</span></strong> <span data-i18n="policy.perReservation">per reservation required.</span>
+                        <span data-translate="policy.minimumPeople">Minimum</span> <strong>2 <span data-translate="policy.people">people</span></strong> <span data-translate="policy.perReservation">per reservation required.</span>
                     </div>
                 </div>
                 
@@ -168,14 +168,14 @@
                         <i class="fas fa-calendar-times"></i>
                     </div>
                     <div class="detail-text">
-                        <span data-i18n="policy.weClosed">We are</span> <strong><span data-i18n="policy.closedOn">closed on Mondays</span></strong>.
+                        <span data-translate="policy.weClosed">We are</span> <strong><span data-translate="policy.closedOn">closed on Mondays</span></strong>.
                     </div>
                 </div>
                 
-                <p class="note">* <span data-i18n="policy.confirmation">Reservation is subject to confirmation. You will receive an email once your reservation is confirmed.</span></p>
+                <p class="note">* <span data-translate="policy.confirmation">Reservation is subject to confirmation. You will receive an email once your reservation is confirmed.</span></p>
             </div>
             
-            <button type="submit" id="submitButton" class="large with-icon" data-i18n="form.submit">
+            <button type="submit" id="submitButton" class="large with-icon" data-translate="form.submit">
                 <i class="fas fa-calendar-check"></i>
                 Request Reservation
             </button>
@@ -194,15 +194,15 @@
     <div class="modal-overlay" id="confirmModal">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title" data-i18n="modal.confirmation">Confirmation</div>
+                <div class="modal-title" data-translate="modal.confirmation">Confirmation</div>
                 <button class="modal-close" id="modalClose">&times;</button>
             </div>
             <div class="modal-body" id="modalMessage">
-                <span data-i18n="modal.confirmAction">Are you sure you want to perform this action?</span>
+                <span data-translate="modal.confirmAction">Are you sure you want to perform this action?</span>
             </div>
             <div class="modal-footer">
-                <button class="modal-button secondary small" id="modalCancel" data-i18n="modal.cancel">Cancel</button>
-                <button class="modal-button small" id="modalConfirm" data-i18n="modal.confirm">Confirm</button>
+                <button class="modal-button secondary small" id="modalCancel" data-translate="modal.cancel">Cancel</button>
+                <button class="modal-button small" id="modalConfirm" data-translate="modal.confirm">Confirm</button>
             </div>
         </div>
     </div>

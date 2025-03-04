@@ -6,8 +6,26 @@ let translations = {};
 
 // Initialize localization
 function initializeLocalization() {
-    // Load translations for current language
-    setLanguage(currentLanguage);
+    // Get browser language or use default
+    const browserLang = navigator.language.split('-')[0];
+    const supportedLanguages = ['en', 'ja', 'it'];
+    
+    // Use browser language if supported, otherwise default to English
+    const initialLang = supportedLanguages.includes(browserLang) ? browserLang : 'en';
+    
+    // Load translations for initial language
+    setLanguage(initialLang);
+    
+    // Set the language selector to match the current language
+    const languageSelect = document.getElementById('language-select');
+    if (languageSelect) {
+        languageSelect.value = currentLanguage;
+        
+        // Add event listener for language changes
+        languageSelect.addEventListener('change', function() {
+            setLanguage(this.value);
+        });
+    }
 }
 
 // Set language and update elements

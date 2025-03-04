@@ -34,6 +34,11 @@ function addThemeChangeListener() {
                 prefersDarkScheme.addEventListener('change', handleThemeChange);
                 
                 return true;
+            } else if (prefersDarkScheme && typeof prefersDarkScheme.addListener === 'function') {
+                // Fallback for older browsers
+                prefersDarkScheme.addListener(handleThemeChange);
+                
+                return true;
             }
         }
         
@@ -44,20 +49,20 @@ function addThemeChangeListener() {
     }
 }
 
-
-
 function initializeTheme() {
     // Check if system prefers dark mode
-    if (module.exports.prefersDarkMode()) {
-        module.exports.applyDarkTheme();
-      } else {
-        module.exports.applyLightTheme();
-      }
+    const isDarkMode = prefersDarkMode();
+    console.log('System prefers dark mode:', isDarkMode);
+    
+    if (isDarkMode) {
+        applyDarkTheme();
+    } else {
+        applyLightTheme();
+    }
     
     // Add system theme change listener
-    addThemeChangeListener();
-    
-    console.log('Theme initialized based on system preferences');
+    const listenerAdded = addThemeChangeListener();
+    console.log('Theme change listener added:', listenerAdded);
 }
 
 // Apply dark theme

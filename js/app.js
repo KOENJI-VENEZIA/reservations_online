@@ -54,16 +54,41 @@ export function initializeDateTimeConstraints() {
 // Then your DOMContentLoaded logic can be exported or can remain inline:
 function onDOMContentLoaded() {
   try {
+    console.log('Initializing application...');
+    
+    // Initialize Firebase
     verifyFirebaseConfiguration();
+    console.log('Firebase configuration verified');
+    
+    // Initialize localization (language support)
     initializeLocalization();
+    console.log('Localization initialized');
+    
+    // Initialize theme based on system preference
     initializeTheme();
+    console.log('Theme initialized');
+    
+    // Initialize admin panel
     initializeAdminPanel();
+    console.log('Admin panel initialized');
+    
+    // Initialize form handlers (including time slots)
     initializeFormHandlers();
+    console.log('Form handlers initialized');
+    
+    // Initialize date/time constraints
     initializeDateTimeConstraints();
+    console.log('Date/time constraints initialized');
+    
+    // Setup alert close buttons
     setupAlerts();
+    console.log('Alerts set up');
+    
+    // Initialize modal functionality
     initializeModal();
+    console.log('Modal initialized');
 
-    console.log('Restaurant reservation application initialized');
+    console.log('Restaurant reservation application initialized successfully');
   } catch (error) {
     console.error('Error during application initialization:', error);
     const errorAlert = document.getElementById('errorAlert');
@@ -81,8 +106,8 @@ function onDOMContentLoaded() {
 }
 
 try {
-document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
-} catch (error)
-{
-    console.log(error.message)
+  console.log('Setting up DOMContentLoaded event listener');
+  document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
+} catch (error) {
+  console.error('Error setting up DOMContentLoaded listener:', error);
 }
