@@ -36,10 +36,4 @@ window.firebase = {
     firestore: jest.fn(),
     functions: jest.fn(),
     auth: jest.fn()
-};
-
-// Reset all mocks before each test
-beforeEach(() => {
-    jest.clearAllMocks();
-    localStorageMock.clear();
-}); 
+}; 

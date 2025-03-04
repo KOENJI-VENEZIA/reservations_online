@@ -26,6 +26,9 @@
     "setupFiles": [
       "<rootDir>/tests/setup.js"
     ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/global-setup.js"
+    ],
     "collectCoverageFrom": [
       "js/**/*.js",
       "!js/vendor/**/*.js"
