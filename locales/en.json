@@ -30,7 +30,8 @@
     "submit": "Request Reservation",
     "submitting": "Submitting...",
     "checking": "Checking...",
-    "noTablesAvailable": "No Tables Available"
+    "noTablesAvailable": "No Tables Available",
+    "preferredLanguage": "Preferred Language for Communications *"
   },
   "policy": {
     "holdTime": "Your reservation will be held for",
@@ -92,5 +93,10 @@
     "invalidDate": "Please enter a valid date",
     "pastDate": "Date cannot be in the past",
     "monday": "We are closed on Mondays"
+  },
+  "language": {
+    "english": "English",
+    "italian": "Italiano",
+    "japanese": "日本語"
   }
 }

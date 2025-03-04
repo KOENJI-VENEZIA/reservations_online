@@ -30,7 +30,8 @@
     "submit": "予約をリクエスト",
     "submitting": "送信中...",
     "checking": "確認中...",
-    "noTablesAvailable": "テーブルの空きなし"
+    "noTablesAvailable": "テーブルの空きなし",
+    "preferredLanguage": "通信に使用する言語 *"
   },
   "policy": {
     "holdTime": "予約時間から",
@@ -92,5 +93,10 @@
     "invalidDate": "有効な日付を入力してください",
     "pastDate": "過去の日付は選択できません",
     "monday": "月曜日は休業日です"
+  },
+  "language": {
+    "english": "English",
+    "italian": "Italiano",
+    "japanese": "日本語"
   }
 }

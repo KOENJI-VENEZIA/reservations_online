@@ -142,7 +142,8 @@ function handleFormSubmit(e) {
         date: document.getElementById('date').value,
         category: document.getElementById('category').value,
         startTime: document.getElementById('startTime').value,
-        notes: document.getElementById('notes').value || ""
+        notes: document.getElementById('notes').value || "",
+        preferredLanguage: document.getElementById('preferredLanguage').value,
     };
     
     // Validate form data
@@ -215,7 +216,8 @@ function handleFormSubmit(e) {
             lastEditedOn: nowSeconds,
             isMock: false,
             assignedEmoji: "",
-            source: "web"
+            source: "web",
+            preferredLanguage: formData.preferredLanguage,
         };
         
         // Log collection and reservation data

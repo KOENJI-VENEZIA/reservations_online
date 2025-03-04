@@ -30,7 +30,8 @@
     "submit": "Richiedi Prenotazione",
     "submitting": "Invio in corso...",
     "checking": "Verifica in corso...",
-    "noTablesAvailable": "Nessun Tavolo Disponibile"
+    "noTablesAvailable": "Nessun Tavolo Disponibile",
+    "preferredLanguage": "Lingua Preferita per le Comunicazioni *"
   },
   "policy": {
     "holdTime": "La tua prenotazione sarà mantenuta per",
@@ -92,5 +93,10 @@
     "invalidDate": "Inserisci una data valida",
     "pastDate": "La data non può essere nel passato",
     "monday": "Siamo chiusi il lunedì"
+  },
+  "language": {
+    "english": "English",
+    "italian": "Italiano",
+    "japanese": "日本語"
   }
 }
