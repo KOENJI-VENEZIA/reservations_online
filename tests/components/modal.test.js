@@ -5,6 +5,7 @@ describe('Modal Component', () => {
     let mockCloseButton;
     let mockCancelButton;
     let mockConfirmButton;
+    let mockModalMessage;
 
     beforeEach(() => {
         // Mock DOM elements
@@ -25,6 +26,10 @@ describe('Modal Component', () => {
             addEventListener: jest.fn(),
             id: 'modalConfirm'
         };
+        mockModalMessage = {
+            textContent: '',
+            id: 'modalMessage'
+        };
 
         // Mock document.getElementById
         document.getElementById = jest.fn((id) => {
@@ -33,6 +38,7 @@ describe('Modal Component', () => {
                 case 'modalClose': return mockCloseButton;
                 case 'modalCancel': return mockCancelButton;
                 case 'modalConfirm': return mockConfirmButton;
+                case 'modalMessage': return mockModalMessage;
                 default: return null;
             }
         });
@@ -62,7 +68,9 @@ describe('Modal Component', () => {
         });
 
         test('should display modal', () => {
-            showConfirmationModal('Test message', mockCallback);
+            const message = 'Test message';
+            showConfirmationModal(message, mockCallback);
+            expect(mockModalMessage.textContent).toBe(message);
             expect(mockModal.style.display).toBe('block');
         });
 
