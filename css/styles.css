@@ -64,37 +64,6 @@ h2 {
     font-size: 14px;
 }
 
-/* Theme Toggle */
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 100;
-    box-shadow: var(--box-shadow);
-}
-
-.theme-toggle .fa-sun {
-    display: none;
-}
-
-body.dark-theme .theme-toggle .fa-moon {
-    display: none;
-}
-
-body.dark-theme .theme-toggle .fa-sun {
-    display: inline-block;
-}
-
 /* Card Section */
 .card-section {
     padding: 24px;

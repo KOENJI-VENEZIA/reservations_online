@@ -1,15 +1,15 @@
 {
-  "title": "テーブル予約",
+  "title": "KOENJI. VENEZIA予約",
   "status": {
     "pending": "オンライン予約リクエスト"
   },
   "alerts": {
-    "success": "予約リクエストが正常に送信されました！確認のためにすぐにご連絡いたします。",
-    "error": "予約の送信中にエラーが発生しました。もう一度お試しください。",
+    "success": "予約リクエストが確かに送信されました！確認のメールが届くまで、しばらくお待ちください。",
+    "error": "送信中にエラーが発生しました。もう一度お試しください。",
     "checking": "空き状況を確認中...",
-    "processingError": "予約の処理中にエラーが発生しました。もう一度お試しください。",
-    "availabilityError": "空き状況の確認中にエラーが発生しました。もう一度お試しください。",
-    "noLongerAvailable": "申し訳ありませんが、この時間帯のテーブルはもう利用できません。別の時間を選択してください。",
+    "processingError": "処理中にエラーが発生しました。もう一度お試しください。",
+    "availabilityError": "確認中にエラーが発生しました。もう一度お試しください。",
+    "noLongerAvailable": "申し訳ありませんが、この時間帯は満席です。別の時間を選択してください。",
     "closedMonday": "月曜日は休業日です。別の日を選択してください。"
   },
   "form": {
@@ -34,22 +34,22 @@
     "preferredLanguage": "通信に使用する言語 *"
   },
   "policy": {
-    "holdTime": "予約時間から",
+    "holdTime": "遅刻の場合は、予約時間から",
     "minutes": "分間",
-    "afterTime": "予約は保持されます。",
+    "afterTime": "予約が保持されます。",
     "minimumPeople": "最低",
     "people": "名様",
-    "perReservation": "からのご予約をお受けしております。",
+    "perReservation": "からのご予約を承っております。",
     "weClosed": "当店は",
     "closedOn": "月曜日は休業",
-    "confirmation": "予約は確認が必要です。予約が確認されると、メールでお知らせします。"
+    "confirmation": "予約は要確認です。当店のスタッフが確認次第、メールでお知らせします。"
   },
   "availability": {
     "tablesAvailable": "利用可能なテーブル: {{count}}",
     "comfortablySeated": "{{count}}名様のグループを快適にご案内できます。",
     "notEnoughTables": "申し訳ありませんが、この時間帯に十分なテーブルがありません。",
-    "tablesNeeded": "{{numberOfPersons}}名様のグループには{{tablesNeeded}}台のテーブルが必要ですが、次のテーブルは既に使用中です: {{occupiedTables}}。",
-    "recommendTimes": "以下の時間帯をお試しください:",
+    "tablesNeeded": "{{numberOfPersons}}名様のグループには{{tablesNeeded}}台のテーブルが必要ですが、十分な空席がございません。",
+    "recommendTimes": "以下の時間帯もお試しください:",
     "earlier": "30分早い時間帯",
     "later": "30分遅い時間帯"
   },

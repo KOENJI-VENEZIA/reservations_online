@@ -21,11 +21,6 @@
         </select>
     </div>
 
-    <!-- Theme toggle button -->
-    <button id="theme-toggle" class="theme-toggle">
-        <i class="fas fa-moon"></i>
-        <i class="fas fa-sun"></i>
-    </button>
 
     <div class="container">
         <div class="status-tag status-pending">
@@ -180,9 +175,10 @@
                 <p class="note">* <span data-i18n="policy.confirmation">Reservation is subject to confirmation. You will receive an email once your reservation is confirmed.</span></p>
             </div>
             
-            <div class="form-group">
-                <button type="submit" id="submitButton" data-i18n="form.submit">Request Reservation</button>
-            </div>
+            <button type="submit" id="submitButton" class="large with-icon" data-i18n="form.submit">
+                <i class="fas fa-calendar-check"></i>
+                Request Reservation
+            </button>
         </form>
     </div>
 
@@ -205,8 +201,8 @@
                 <span data-i18n="modal.confirmAction">Are you sure you want to perform this action?</span>
             </div>
             <div class="modal-footer">
-                <button class="modal-button secondary" id="modalCancel" data-i18n="modal.cancel">Cancel</button>
-                <button class="modal-button" id="modalConfirm" data-i18n="modal.confirm">Confirm</button>
+                <button class="modal-button secondary small" id="modalCancel" data-i18n="modal.cancel">Cancel</button>
+                <button class="modal-button small" id="modalConfirm" data-i18n="modal.confirm">Confirm</button>
             </div>
         </div>
     </div>

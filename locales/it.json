@@ -1,5 +1,5 @@
 {
-  "title": "Prenotazione Tavolo",
+  "title": "Prenota da KOENJI. VENEZIA",
   "status": {
     "pending": "Richiesta di Prenotazione Online"
   },
@@ -9,7 +9,7 @@
     "checking": "Verifica disponibilità in corso...",
     "processingError": "Si è verificato un errore durante l'elaborazione della tua prenotazione. Riprova per favore.",
     "availabilityError": "Si è verificato un errore durante la verifica della disponibilità. Riprova per favore.",
-    "noLongerAvailable": "Ci dispiace, i tavoli non sono più disponibili per questa fascia oraria. Seleziona un orario diverso.",
+    "noLongerAvailable": "Ci dispiace, non ci sono più tavoli disponibili per questa fascia oraria. Seleziona un orario diverso.",
     "closedMonday": "Siamo chiusi il lunedì. Seleziona un altro giorno."
   },
   "form": {
@@ -20,42 +20,42 @@
     "people": "Numero di Persone *",
     "reservationDetails": "Dettagli Prenotazione",
     "date": "Data *",
-    "meal": "Pasto *",
+    "meal": "Categoria *",
     "lunch": "Pranzo",
     "dinner": "Cena",
     "time": "Orario *",
-    "endTime": "Orario di Fine Approssimativo",
+    "endTime": "Tavolo libero fino alle (circa):",
     "specialRequests": "Richieste Speciali",
-    "notes": "Note o Richieste Speciali",
-    "submit": "Richiedi Prenotazione",
+    "notes": "Note / Richieste Speciali",
+    "submit": "Invia Richiesta",
     "submitting": "Invio in corso...",
     "checking": "Verifica in corso...",
     "noTablesAvailable": "Nessun Tavolo Disponibile",
-    "preferredLanguage": "Lingua Preferita per le Comunicazioni *"
+    "preferredLanguage": "Vorrei essere contattato in (lingua): *"
   },
   "policy": {
-    "holdTime": "La tua prenotazione sarà mantenuta per",
+    "holdTime": "La tua prenotazione sarà tenuta per",
     "minutes": "minuti",
-    "afterTime": "dopo l'orario prenotato.",
+    "afterTime": "dopo l'orario di prenotazione in caso di ritardo.",
     "minimumPeople": "Minimo",
     "people": "persone",
     "perReservation": "per prenotazione richieste.",
     "weClosed": "Siamo",
     "closedOn": "chiusi il lunedì",
-    "confirmation": "La prenotazione è soggetta a conferma. Riceverai un'email una volta che la tua prenotazione sarà confermata."
+    "confirmation": "La prenotazione è soggetta a conferma. Riceverai un'email una volta che la tua prenotazione sarà processata."
   },
   "availability": {
     "tablesAvailable": "Tavoli disponibili: {{count}}",
-    "comfortablySeated": "Il tuo gruppo di {{count}} persone sarà comodamente sistemato.",
+    "comfortablySeated": "Nessun problema per il tuo gruppo di {{count}} persone!",
     "notEnoughTables": "Ci dispiace, non abbiamo abbastanza tavoli disponibili per questa fascia oraria.",
-    "tablesNeeded": "Abbiamo bisogno di {{tablesNeeded}} tavoli per il tuo gruppo di {{numberOfPersons}} persone, ma i seguenti tavoli sono occupati: {{occupiedTables}}.",
-    "recommendTimes": "Ti consigliamo di verificare la disponibilità a:",
+    "tablesNeeded": "Abbiamo bisogno di {{tablesNeeded}} tavoli per il tuo gruppo di {{numberOfPersons}} persone, ma non abbiamo abbastanza tavoli disponibili.",
+    "recommendTimes": "Ti consigliamo di controllare le nostre disponibilità anche:",
     "earlier": "30 minuti prima",
     "later": "30 minuti dopo"
   },
   "modal": {
     "confirmation": "Conferma",
-    "confirmAction": "Sei sicuro di voler eseguire questa azione?",
+    "confirmAction": "Sei sicuro di voler proseguire?",
     "cancel": "Annulla",
     "confirm": "Conferma"
   },

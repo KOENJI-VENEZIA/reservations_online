@@ -79,7 +79,7 @@ function loadAdminPanelHTML() {
             </div>
             
             <!-- Sign Out Button -->
-            <button id="signOutButton" class="admin-action-button">${translate('admin.signOut')}</button>
+            <button id="signOutButton" class="admin-action-button secondary small">${translate('admin.signOut')}</button>
         </div>
     `;
     

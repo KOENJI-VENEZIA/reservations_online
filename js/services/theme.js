@@ -1,32 +1,13 @@
-// Initialize theme functionality
 function initializeTheme() {
-    // Get theme toggle button
-    const themeToggle = document.getElementById('theme-toggle');
-    
     // Get theme stylesheet link
     const themeStylesheet = document.getElementById('theme-stylesheet');
     
-    // Check if dark theme is saved in localStorage
-    const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
-    
-    // Apply saved theme or default to light
-    if (isDarkTheme) {
+    // Check if system prefers dark mode
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         applyDarkTheme();
     } else {
         applyLightTheme();
     }
-    
-    // Add click event listener to theme toggle
-    themeToggle.addEventListener('click', function() {
-        // Toggle theme
-        const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        
-        if (currentTheme === 'light') {
-            applyDarkTheme();
-        } else {
-            applyLightTheme();
-        }
-    });
     
     // Add system theme change listener
     if (window.matchMedia) {
@@ -41,24 +22,22 @@ function initializeTheme() {
             }
         });
     }
+    
+    console.log('Theme initialized based on system preferences');
 }
 
 // Apply dark theme
 function applyDarkTheme() {
     document.body.classList.add('dark-theme');
     document.getElementById('theme-stylesheet').href = 'css/themes/dark.css';
-    localStorage.setItem('darkTheme', 'true');
     
-    // Log theme change
-    console.log('Applied dark theme');
+    console.log('Applied dark theme based on system preference');
 }
 
 // Apply light theme
 function applyLightTheme() {
     document.body.classList.remove('dark-theme');
     document.getElementById('theme-stylesheet').href = 'css/themes/light.css';
-    localStorage.setItem('darkTheme', 'false');
     
-    // Log theme change
-    console.log('Applied light theme');
+    console.log('Applied light theme based on system preference');
 }

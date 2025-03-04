@@ -112,10 +112,10 @@ function checkAvailabilityIfFormValid() {
 }
 
 // Calculate end time from start time
-function calculateEndTime(startTime) {
+function calculateEndTime(startTime, category) {
     const [startHour, startMinute] = startTime.split(':').map(Number);
     let endHour = startHour + 1;
-    let endMinute = startMinute + 45;
+    let endMinute = category === 'lunch' ? startMinute + 20 : startMinute + 45;
     
     if (endMinute >= 60) {
         endHour += 1;
@@ -165,8 +165,8 @@ function handleFormSubmit(e) {
     // Append "[web reservation]; Email: ..." if you like
     const notes = `${formData.notes}; [web reservation]; Email: ${formData.email}`;
     
-    // Compute endTime (1h45m after startTime)
-    const endTime = calculateEndTime(formData.startTime);
+    // Compute endTime (dynamically 1h45m or 1h20m after startTime)
+    const endTime = calculateEndTime(formData.startTime, formData.category);
     
     // Generate a UUID for the reservation
     const reservationId = generateUUID();

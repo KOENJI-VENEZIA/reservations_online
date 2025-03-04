@@ -1,6 +1,7 @@
 :root {
     /* Base colors - will be overridden by theme files */
     --primary-color: #4a90e2;
+    --primary-rgb: 74, 144, 226; /* Add RGB version for opacity */
     --primary-light: rgba(74, 144, 226, 0.12);
     --primary-dark: #3a80d2;
     --success-color: #4bb543;

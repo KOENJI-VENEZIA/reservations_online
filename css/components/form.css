@@ -34,24 +34,73 @@ button {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 14px 24px;
-    font-size: 16px;
-    border-radius: var(--border-radius-sm);
+    padding: 14px 28px;
+    font-size: 15px;
+    border-radius: 30px; /* More rounded for elegance */
     cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s;
+    font-weight: 500; /* Less heavy */
+    transition: all 0.3s ease;
     width: 100%;
     margin-top: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-transform: uppercase; /* Elegant uppercase text */
+    letter-spacing: 1px; /* Letter spacing for refinement */
 }
 
 button:hover {
     background-color: var(--primary-dark);
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+button:active {
+    transform: translateY(0); /* Return to position when clicked */
 }
 
 button:disabled {
     background-color: var(--neutral-color);
     cursor: not-allowed;
     opacity: 0.7;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Secondary Button */
+button.secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+button.secondary:hover {
+    background-color: rgba(var(--primary-rgb), 0.05);
+    border-color: var(--primary-dark);
+    color: var(--primary-dark);
+}
+
+/* Small Button */
+button.small {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Large Button */
+button.large {
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+/* Button with Icon */
+button.with-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+button.with-icon i {
+    font-size: 16px;
 }
 
 .form-field-group {
