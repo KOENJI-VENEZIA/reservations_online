@@ -2,17 +2,35 @@ const { applyDarkTheme, applyLightTheme } = require('@/services/theme');
 
 describe('Theme Services', () => {
     let mockThemeStylesheet;
-    let originalBody;
 
     beforeEach(() => {
-        // Save original document.body
-        originalBody = document.body;
+        // Create Jest mock functions for classList methods
+        const mockAdd = jest.fn();
+        const mockRemove = jest.fn();
         
-        // Mock classList on document.body
-        document.body.classList = {
-            add: jest.fn(),
-            remove: jest.fn()
-        };
+        // Ensure document.body exists
+        if (!document.body) {
+            // This should not happen with jsdom, but just in case
+            Object.defineProperty(document, 'body', {
+                value: document.createElement('body'),
+                writable: true
+            });
+        }
+        
+        // Save original classList if it exists
+        const originalClassList = document.body.classList;
+        
+        // Replace classList methods with mocks
+        Object.defineProperty(document.body, 'classList', {
+            value: {
+                add: mockAdd,
+                remove: mockRemove,
+                // Keep any other existing methods
+                ...(originalClassList || {})
+            },
+            writable: true,
+            configurable: true
+        });
 
         // Mock theme stylesheet
         mockThemeStylesheet = {
@@ -20,14 +38,12 @@ describe('Theme Services', () => {
         };
 
         // Mock document.getElementById
-        document.getElementById = jest.fn().mockReturnValue(mockThemeStylesheet);
-    });
-    
-    afterEach(() => {
-        // Restore document.body if needed
-        if (originalBody) {
-            // Just a cleanup hook in case we need it
-        }
+        document.getElementById = jest.fn().mockImplementation(id => {
+            if (id === 'theme-stylesheet') {
+                return mockThemeStylesheet;
+            }
+            return null;
+        });
     });
 
     describe('applyDarkTheme', () => {

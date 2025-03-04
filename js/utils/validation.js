@@ -19,7 +19,7 @@ function validatePhone(phone) {
 
 // Validate required fields
 function validateRequired(value) {
-    return value !== null && value !== undefined && value.toString().trim() !== '';
+    return value !== null && value !== undefined && value.toString() !== '';
 }
 
 // Validate number of persons (minimum 2)
@@ -145,13 +145,15 @@ function displayValidationErrors(validationResult) {
 }
 
 // Make validation functions available globally
-window.validateReservationForm = validateReservationForm;
-window.displayValidationErrors = displayValidationErrors;
-window.validateEmail = validateEmail;
-window.validatePhone = validatePhone;
-window.validateRequired = validateRequired;
-window.validateNumberOfPersons = validateNumberOfPersons;
-window.validateDate = validateDate;
+if (typeof window !== 'undefined') {
+    window.validateReservationForm = validateReservationForm;
+    window.displayValidationErrors = displayValidationErrors;
+    window.validateEmail = validateEmail;
+    window.validatePhone = validatePhone;
+    window.validateRequired = validateRequired;
+    window.validateNumberOfPersons = validateNumberOfPersons;
+    window.validateDate = validateDate;
+}
 
 // Export functions for testing
 module.exports = {
