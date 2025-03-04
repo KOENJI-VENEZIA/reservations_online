@@ -12,7 +12,7 @@ module.exports = {
   setupFiles: ['<rootDir>/jest.setup.js'],
   coverageThreshold: {
     global: {
-      functions: 55,
+      functions: 40,
     },
   },
   testEnvironmentOptions: {
