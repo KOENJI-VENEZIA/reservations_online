@@ -1,4 +1,4 @@
-const { validateEmail, validateRequired, validateNumberOfPersons, validateDate } = require('../../../js/utils/validation');
+const { validateEmail, validateRequired, validateNumberOfPersons, validateDate } = require('@/utils/validation');
 
 describe('Validation Utilities', () => {
     describe('validateEmail', () => {

@@ -21,8 +21,11 @@
   "jest": {
     "testEnvironment": "jsdom",
     "moduleNameMapper": {
-      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "^@/(.*)$": "<rootDir>/js/$1"
     },
+    "moduleDirectories": ["node_modules", "js"],
+    "rootDir": ".",
     "setupFiles": [
       "<rootDir>/tests/setup.js"
     ],

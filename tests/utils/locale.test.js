@@ -1,4 +1,4 @@
-const { getTranslation, translate, updateTranslations } = require('../../../js/utils/locale');
+const { getTranslation, translate, updateTranslations } = require('@/utils/locale');
 
 describe('Locale Utilities', () => {
     beforeEach(() => {

@@ -1,4 +1,4 @@
-const { initializeModal, showConfirmationModal } = require('../../../js/components/modal');
+const { initializeModal, showConfirmationModal } = require('@/components/modal');
 
 describe('Modal Component', () => {
     let mockModal;

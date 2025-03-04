@@ -1,4 +1,4 @@
-const { applyDarkTheme, applyLightTheme } = require('../../../js/services/theme');
+const { applyDarkTheme, applyLightTheme } = require('@/services/theme');
 
 describe('Theme Services', () => {
     let mockThemeStylesheet;

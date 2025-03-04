@@ -4,7 +4,7 @@ const {
     removeAdmin, 
     isValidEmail,
     initializeAuth 
-} = require('../../../js/services/auth');
+} = require('@/services/auth');
 
 describe('Authentication Services', () => {
     beforeEach(() => {

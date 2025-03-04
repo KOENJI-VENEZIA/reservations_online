@@ -2,7 +2,7 @@ const {
     calculateEndTime, 
     handleFormSubmit, 
     showError 
-} = require('../../../js/components/form');
+} = require('@/components/form');
 
 describe('Form Component', () => {
     let mockEvent;
