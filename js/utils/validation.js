@@ -149,3 +149,14 @@ window.validateReservationForm = validateReservationForm;
 window.displayValidationErrors = displayValidationErrors;
 window.validateEmail = validateEmail;
 window.validatePhone = validatePhone;
+window.validateRequired = validateRequired;
+window.validateNumberOfPersons = validateNumberOfPersons;
+window.validateDate = validateDate;
+
+// Export functions for testing
+module.exports = {
+    validateEmail,
+    validateRequired,
+    validateNumberOfPersons,
+    validateDate
+};

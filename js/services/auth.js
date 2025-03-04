@@ -22,15 +22,16 @@ function initializeAuth() {
 
 // Load authorized admins from localStorage
 function loadAuthorizedAdmins() {
-    const savedAdmins = JSON.parse(localStorage.getItem('authorizedAdmins'));
-    if (savedAdmins && Array.isArray(savedAdmins) && savedAdmins.length > 0) {
-        authorizedAdmins = savedAdmins;
-    } else {
-        // Ensure default admin is always included
-        if (!authorizedAdmins.includes('matteo.koenji@gmail.com')) {
-            authorizedAdmins.push('matteo.koenji@gmail.com');
+    const savedAdmins = localStorage.getItem('authorizedAdmins');
+    if (savedAdmins) {
+        try {
+            const parsedAdmins = JSON.parse(savedAdmins);
+            if (Array.isArray(parsedAdmins) && parsedAdmins.length > 0) {
+                authorizedAdmins = parsedAdmins;
+            }
+        } catch (e) {
+            console.error('Error parsing authorized admins:', e);
         }
-        localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
     }
 }
 

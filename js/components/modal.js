@@ -34,17 +34,24 @@ function initializeModal() {
             confirmModal.style.display = 'none';
         }
     });
-    
-    // Make the showConfirmationModal function globally available
-    window.showConfirmationModal = showConfirmationModal;
 }
 
 // Show confirmation modal
-function showConfirmationModal(message, confirmCallback) {
+function showConfirmationModal(message, callback) {
     const confirmModal = document.getElementById('confirmModal');
     const modalMessage = document.getElementById('modalMessage');
     
     modalMessage.textContent = message;
-    confirmModal.style.display = 'flex';
-    currentConfirmCallback = confirmCallback;
+    currentConfirmCallback = callback;
+    confirmModal.style.display = 'block';
 }
+
+// Make functions available globally
+window.initializeModal = initializeModal;
+window.showConfirmationModal = showConfirmationModal;
+
+// Export functions for testing
+module.exports = {
+    initializeModal,
+    showConfirmationModal
+};

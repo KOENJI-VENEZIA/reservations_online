@@ -105,18 +105,30 @@ function getTranslation(key) {
     return result;
 }
 
-// Translate function for dynamic content
-function translate(key, params = {}) {
-    let text = getTranslation(key);
-    
-    // Replace parameters in the format {{paramName}}
-    for (const param in params) {
-        text = text.replace(new RegExp(`{{${param}}}`, 'g'), params[param]);
-    }
-    
-    return text;
+// Update translations for all elements
+function translate() {
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.dataset.translate;
+        element.textContent = getTranslation(key);
+    });
 }
 
-// Export functions for use in other modules
+// Update translations and language
+function updateTranslations(language, newTranslations = null) {
+    if (newTranslations) {
+        translations = newTranslations;
+    }
+    currentLanguage = language;
+    translate();
+}
+
+// Make functions available globally
 window.translate = translate;
 window.updateTranslations = updateTranslations;
+
+// Export functions for testing
+module.exports = {
+    getTranslation,
+    translate,
+    updateTranslations
+};
