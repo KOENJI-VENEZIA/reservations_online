@@ -2,14 +2,16 @@ const { applyDarkTheme, applyLightTheme } = require('@/services/theme');
 
 describe('Theme Services', () => {
     let mockThemeStylesheet;
+    let originalBody;
 
     beforeEach(() => {
-        // Mock document.body
-        document.body = {
-            classList: {
-                add: jest.fn(),
-                remove: jest.fn()
-            }
+        // Save original document.body
+        originalBody = document.body;
+        
+        // Mock classList on document.body
+        document.body.classList = {
+            add: jest.fn(),
+            remove: jest.fn()
         };
 
         // Mock theme stylesheet
@@ -19,6 +21,13 @@ describe('Theme Services', () => {
 
         // Mock document.getElementById
         document.getElementById = jest.fn().mockReturnValue(mockThemeStylesheet);
+    });
+    
+    afterEach(() => {
+        // Restore document.body if needed
+        if (originalBody) {
+            // Just a cleanup hook in case we need it
+        }
     });
 
     describe('applyDarkTheme', () => {

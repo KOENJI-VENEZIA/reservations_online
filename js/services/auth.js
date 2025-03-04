@@ -1,18 +1,20 @@
-// Current user
+// Initialize authentication
+let auth;
 let currentUser = null;
-
-// List of authorized admins (will be loaded from localStorage)
 let authorizedAdmins = ['matteo.koenji@gmail.com']; // Default admin
 
 // Initialize authentication
 function initializeAuth() {
+    // Set up Firebase auth reference
+    auth = firebase.auth();
+    
     // Load authorized admins from localStorage
     loadAuthorizedAdmins();
     
-    // Set up authentication listeners
+    // Set up auth state listeners
     setupAuthListeners();
     
-    // Expose auth functions to window for access from other modules
+    // Make auth functions available globally
     window.isAuthorizedAdmin = isAuthorizedAdmin;
     window.addAdmin = addAdmin;
     window.removeAdmin = removeAdmin;
@@ -37,11 +39,13 @@ function loadAuthorizedAdmins() {
 
 // Setup authentication state change listener
 function setupAuthListeners() {
+    if (!auth) return; // Skip if auth is not initialized
+    
     auth.onAuthStateChanged(user => {
         if (user) {
             // User is signed in
             currentUser = user;
-            logToAdmin(`User signed in: ${user.email}`);
+            console.log('User signed in:', user.email);
             
             // Check if user is authorized
             if (isAuthorizedAdmin(user.email)) {
@@ -54,7 +58,7 @@ function setupAuthListeners() {
                 document.getElementById('userName').textContent = user.displayName || 'Admin User';
                 document.getElementById('userEmail').textContent = user.email;
                 
-                logToAdmin('Admin access granted');
+                console.log('Admin access granted');
                 
                 // Render admin list
                 renderAdminList();
@@ -65,6 +69,7 @@ function setupAuthListeners() {
             }
         } else {
             // User is signed out
+            console.log('User signed out');
             document.getElementById('adminLoginSection').style.display = 'flex';
             document.getElementById('adminContent').style.display = 'none';
         }
@@ -86,7 +91,7 @@ function signOut() {
         document.getElementById('adminLoginSection').style.display = 'flex';
         document.getElementById('adminContent').style.display = 'none';
         currentUser = null;
-        logToAdmin('User signed out');
+        console.log('User signed out');
     }).catch(error => {
         console.error('Error signing out:', error);
         logToAdmin(`Sign-out error: ${error.message}`);
@@ -122,7 +127,7 @@ function addAdmin(email) {
             localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
             renderAdminList();
             document.getElementById('newAdminEmail').value = '';
-            logToAdmin(`Added ${email} as admin`);
+            console.log(`Added ${email} as admin`);
         }
     );
 }
@@ -142,7 +147,7 @@ function removeAdmin(email) {
                 authorizedAdmins.splice(index, 1);
                 localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
                 renderAdminList();
-                logToAdmin(`Removed admin access for ${email}`);
+                console.log(`Removed admin access for ${email}`);
                 
                 // If current user is removed as admin, sign them out
                 if (currentUser && currentUser.email === email) {

@@ -19,7 +19,7 @@ function validatePhone(phone) {
 
 // Validate required fields
 function validateRequired(value) {
-    return value !== null && value !== undefined && value.trim() !== '';
+    return value !== null && value !== undefined && value.toString().trim() !== '';
 }
 
 // Validate number of persons (minimum 2)

@@ -1,88 +1,47 @@
 // Current language
 let currentLanguage = 'en';
 
-// Translations cache
+// Translations object
 let translations = {};
 
 // Initialize localization
 function initializeLocalization() {
-    // Get language from localStorage or set default
-    const savedLanguage = localStorage.getItem('language') || 'en';
-    
-    // Set language selector value
-    const languageSelect = document.getElementById('language-select');
-    languageSelect.value = savedLanguage;
-    
-    // Add event listener for language change
-    languageSelect.addEventListener('change', function() {
-        setLanguage(this.value);
-    });
-    
-    // Load initial language
-    setLanguage(savedLanguage);
+    // Load translations for current language
+    setLanguage(currentLanguage);
 }
 
-// Set active language
+// Set language and update elements
 async function setLanguage(lang) {
-    // Check if language is already loaded
-    if (!translations[lang]) {
-        try {
-            // Load language file
-            const response = await fetch(`locales/${lang}.json`);
-            
-            if (!response.ok) {
-                throw new Error(`Failed to load language: ${lang}`);
-            }
-            
-            translations[lang] = await response.json();
-        } catch (error) {
-            console.error('Error loading language file:', error);
-            
-            // Fall back to English if there's an error
-            if (lang !== 'en') {
-                return setLanguage('en');
-            }
-            
-            // If even English fails, set empty translations
-            translations[lang] = {};
-        }
+    // If language is not provided or invalid, use default
+    if (!lang || typeof lang !== 'string') {
+        lang = 'en';
     }
-    
-    // Update current language
+
+    // Set current language
     currentLanguage = lang;
-    localStorage.setItem('language', lang);
-    
-    // Update all elements with data-i18n attribute
-    updateTranslations();
-    
-    // Update document language
-    document.documentElement.lang = lang;
-    
-    // Log language change
-    console.log(`Language changed to: ${lang}`);
+
+    // Load language file
+    try {
+        const response = await fetch(`locales/${lang}.json`);
+        if (!response.ok) {
+            throw new Error(`Failed to load language file: ${response.status}`);
+        }
+        translations = await response.json();
+    } catch (error) {
+        console.error('Error loading language file:', error);
+        // Fallback to empty translations
+        translations = {};
+    }
+
+    // Update all elements with translations
+    updateAllTranslations();
 }
 
-// Update all translatable elements
-function updateTranslations() {
-    // Get all elements with data-i18n attribute
-    const elements = document.querySelectorAll('[data-i18n]');
-    
-    elements.forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        const translation = getTranslation(key);
-        
-        // Update element content if translation exists
-        if (translation) {
-            if (element.tagName === 'INPUT' && element.type === 'submit') {
-                element.value = translation;
-            } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.placeholder = translation;
-            } else if (element.tagName === 'OPTION') {
-                element.textContent = translation;
-            } else {
-                element.textContent = translation;
-            }
-        }
+// Update all elements with translations
+function updateAllTranslations() {
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.dataset.translate;
+        element.textContent = getTranslation(key);
     });
 }
 
@@ -105,30 +64,23 @@ function getTranslation(key) {
     return result;
 }
 
-// Update translations for all elements
-function translate() {
-    document.querySelectorAll('[data-translate]').forEach(element => {
-        const key = element.dataset.translate;
-        element.textContent = getTranslation(key);
-    });
-}
-
 // Update translations and language
 function updateTranslations(language, newTranslations = null) {
     if (newTranslations) {
         translations = newTranslations;
     }
     currentLanguage = language;
-    translate();
+    updateAllTranslations();
 }
 
 // Make functions available globally
-window.translate = translate;
+window.translate = getTranslation;
 window.updateTranslations = updateTranslations;
+window.updateAllTranslations = updateAllTranslations;
 
 // Export functions for testing
 module.exports = {
     getTranslation,
-    translate,
+    updateAllTranslations, // Export this instead of translate
     updateTranslations
 };

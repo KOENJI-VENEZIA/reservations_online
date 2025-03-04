@@ -1,4 +1,4 @@
-const { getTranslation, translate, updateTranslations } = require('@/utils/locale');
+const { getTranslation, updateAllTranslations, updateTranslations } = require('@/utils/locale');
 
 describe('Locale Utilities', () => {
     beforeEach(() => {
@@ -46,7 +46,7 @@ describe('Locale Utilities', () => {
         });
     });
 
-    describe('translate', () => {
+    describe('updateAllTranslations', () => {
         beforeEach(() => {
             // Mock document.querySelectorAll
             document.querySelectorAll = jest.fn().mockReturnValue([
@@ -56,7 +56,7 @@ describe('Locale Utilities', () => {
         });
 
         test('should update all elements with data-translate attribute', () => {
-            translate();
+            updateAllTranslations();
             const elements = document.querySelectorAll('[data-translate]');
             expect(elements[0].textContent).toBe('Submit');
             expect(elements[1].textContent).toBe('Name');
@@ -79,8 +79,8 @@ describe('Locale Utilities', () => {
             expect(window.translations).toEqual(newTranslations);
         });
 
-        test('should trigger translate function after update', () => {
-            const translateSpy = jest.spyOn(window, 'translate');
+        test('should trigger updateAllTranslations function after update', () => {
+            const translateSpy = jest.spyOn(window, 'updateAllTranslations');
             updateTranslations('it');
             expect(translateSpy).toHaveBeenCalled();
         });
