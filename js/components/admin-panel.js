@@ -1,3 +1,8 @@
+// Import required functions
+const { translate } = require('../utils/locale');
+const { showConfirmationModal } = require('./modal');
+const { googleSignIn, signOut, addAdmin, renderAdminList } = require('../services/auth');
+
 // Initialize admin panel
 function initializeAdminPanel() {
     // Load admin panel HTML
@@ -120,7 +125,7 @@ function setupLogFunctionality() {
             () => {
                 localStorage.setItem('adminLogs', '[]');
                 logsContainer.innerHTML = '';
-                logToAdmin(translate('admin.logsCleared'));
+                window.logToAdmin(translate('admin.logsCleared'));
             }
         );
     });
@@ -175,7 +180,7 @@ function setupEnvironmentToggle() {
         const isDebug = this.checked;
         localStorage.setItem('isDebugMode', isDebug);
         updateEnvironmentUI(isDebug);
-        logToAdmin(`${translate('admin.environmentChanged')}: ${isDebug ? translate('admin.debug') : translate('admin.release')}`);
+        window.logToAdmin(`${translate('admin.environmentChanged')}: ${isDebug ? translate('admin.debug') : translate('admin.release')}`);
     });
 }
 
@@ -210,3 +215,14 @@ function setupAdminUserManagement() {
     // Render admin list initially
     renderAdminList();
 }
+
+module.exports = {
+    initializeAdminPanel,
+    loadAdminPanelHTML,
+    setupAdminPanelToggle,
+    setupLogFunctionality,
+    loadLogs,
+    setupEnvironmentToggle,
+    updateEnvironmentUI,
+    setupAdminUserManagement
+};

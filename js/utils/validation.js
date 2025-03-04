@@ -2,6 +2,9 @@
 
 // Validate email format
 function validateEmail(email) {
+    if (email === null || email === undefined) {
+        return false;
+    }
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email.trim());
 }
@@ -158,7 +161,10 @@ if (typeof window !== 'undefined') {
 // Export functions for testing
 module.exports = {
     validateEmail,
+    validatePhone,
     validateRequired,
     validateNumberOfPersons,
-    validateDate
+    validateDate,
+    validateReservationForm,
+    displayValidationErrors
 };

@@ -152,3 +152,8 @@ function displayAvailabilityStatus(available, numberOfPersons, availableTables, 
         `;
     }
 }
+
+module.exports = {
+    checkAvailability,
+    displayAvailabilityStatus
+};

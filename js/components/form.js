@@ -150,7 +150,7 @@ function calculateEndTime(startTime, category) {
         endHour -= 24;
     }
     
-    return `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
+    return `${String(endHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
 }
 
 // Handle form submission

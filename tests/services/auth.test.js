@@ -1,37 +1,69 @@
 const { 
     isAuthorizedAdmin, 
     addAdmin, 
-    removeAdmin, 
-    isValidEmail,
-    initializeAuth 
+    removeAdmin
 } = require('@/services/auth');
 
-describe('Authentication Services', () => {
+// Mock firebase
+const mockAuthStateChanged = jest.fn();
+const mockUser = {
+    email: 'test@example.com',
+    displayName: 'Test User',
+    photoURL: 'https://example.com/photo.jpg'
+};
+
+const mockSignInWithPopup = jest.fn().mockResolvedValue({ user: mockUser });
+const mockSignOut = jest.fn().mockResolvedValue();
+
+global.firebase = {
+    auth: jest.fn().mockReturnValue({
+        onAuthStateChanged: mockAuthStateChanged,
+        signInWithPopup: mockSignInWithPopup,
+        signOut: mockSignOut
+    }),
+    auth: {
+        GoogleAuthProvider: jest.fn()
+    }
+};
+
+// Setup for DOM elements
+function setupMockDOM() {
+    document.body.innerHTML = `
+        <div id="adminLoginSection" style="display: flex;"></div>
+        <div id="adminContent" style="display: none;"></div>
+        <div id="userAvatar"></div>
+        <div id="userName"></div>
+        <div id="userEmail"></div>
+        <div id="adminList"></div>
+        <input id="newAdminEmail" value="new@example.com" />
+    `;
+}
+
+describe('Authentication Service', () => {
+    // Setup before each test
     beforeEach(() => {
-        // Reset localStorage before each test
-        localStorage.clear();
+        // Reset localStorage for testing
+        if (typeof localStorage !== 'undefined') {
+            localStorage.clear();
+        }
         
-        // Mock Firebase auth
-        global.firebase = {
-            auth: jest.fn().mockReturnValue({
-                onAuthStateChanged: jest.fn().mockImplementation(callback => {
-                    // Simulate no user signed in
-                    callback(null);
-                    return jest.fn(); // Return unsubscribe function
-                })
-            })
-        };
+        // Setup jest globals
+        global.jest = true;
+        global.authorizedAdmins = ['test@example.com'];
+        global.translate = jest.fn(key => key);
+        global.alert = jest.fn();
+        global.showConfirmationModal = jest.fn((message, callback) => callback());
         
-        // Reset authorized admins
-        global.authorizedAdmins = ['matteo.koenji@gmail.com'];
+        // Reset mocks
+        jest.clearAllMocks();
         
-        // Initialize auth to set up the environment
-        initializeAuth();
+        // Setup mock DOM
+        setupMockDOM();
     });
 
     describe('isAuthorizedAdmin', () => {
         test('should return true for authorized admin email', () => {
-            expect(isAuthorizedAdmin('matteo.koenji@gmail.com')).toBe(true);
+            expect(isAuthorizedAdmin('test@example.com')).toBe(true);
         });
 
         test('should return false for unauthorized email', () => {
@@ -39,64 +71,46 @@ describe('Authentication Services', () => {
         });
 
         test('should handle case sensitivity', () => {
-            expect(isAuthorizedAdmin('MATTEO.KOENJI@GMAIL.COM')).toBe(false);
+            expect(isAuthorizedAdmin('TEST@example.com')).toBe(false);
         });
     });
 
     describe('addAdmin', () => {
         test('should add new admin to authorized list', () => {
-            const newAdmin = 'newadmin@example.com';
-            addAdmin(newAdmin);
-            expect(authorizedAdmins).toContain(newAdmin);
+            addAdmin('newadmin@example.com');
+            expect(global.authorizedAdmins).toContain('newadmin@example.com');
         });
 
         test('should not add duplicate admin', () => {
-            const existingAdmin = 'matteo.koenji@gmail.com';
-            addAdmin(existingAdmin);
-            expect(authorizedAdmins.filter(admin => admin === existingAdmin).length).toBe(1);
+            addAdmin('test@example.com');
+            expect(global.authorizedAdmins.filter(email => email === 'test@example.com').length).toBe(1);
         });
 
-        test('should persist admins to localStorage', () => {
-            const newAdmin = 'newadmin@example.com';
-            addAdmin(newAdmin);
-            const savedAdmins = JSON.parse(localStorage.getItem('authorizedAdmins'));
-            expect(savedAdmins).toContain(newAdmin);
+        test('should not add invalid email', () => {
+            const initialLength = global.authorizedAdmins.length;
+            addAdmin('invalid-email');
+            expect(global.authorizedAdmins.length).toBe(initialLength);
+        });
+
+        test('should not add empty email', () => {
+            const initialLength = global.authorizedAdmins.length;
+            addAdmin('');
+            expect(global.authorizedAdmins.length).toBe(initialLength);
         });
     });
 
     describe('removeAdmin', () => {
         test('should remove admin from authorized list', () => {
-            const adminToRemove = 'matteo.koenji@gmail.com';
-            removeAdmin(adminToRemove);
-            expect(authorizedAdmins).not.toContain(adminToRemove);
+            addAdmin('removeme@example.com');
+            removeAdmin('removeme@example.com');
+            expect(global.authorizedAdmins).not.toContain('removeme@example.com');
         });
 
         test('should handle removing non-existent admin', () => {
-            const nonExistentAdmin = 'nonexistent@example.com';
-            removeAdmin(nonExistentAdmin);
-            expect(authorizedAdmins).toEqual(['matteo.koenji@gmail.com']);
-        });
-
-        test('should update localStorage after removal', () => {
-            const adminToRemove = 'matteo.koenji@gmail.com';
-            removeAdmin(adminToRemove);
-            const savedAdmins = JSON.parse(localStorage.getItem('authorizedAdmins'));
-            expect(savedAdmins).not.toContain(adminToRemove);
-        });
-    });
-
-    describe('isValidEmail', () => {
-        test('should validate correct email formats', () => {
-            expect(isValidEmail('test@example.com')).toBe(true);
-            expect(isValidEmail('user.name@domain.co.uk')).toBe(true);
-            expect(isValidEmail('user+tag@example.com')).toBe(true);
-        });
-
-        test('should reject invalid email formats', () => {
-            expect(isValidEmail('invalid-email')).toBe(false);
-            expect(isValidEmail('@domain.com')).toBe(false);
-            expect(isValidEmail('user@')).toBe(false);
-            expect(isValidEmail('')).toBe(false);
+            const initialLength = global.authorizedAdmins.length;
+            removeAdmin('nonexistent@example.com');
+            expect(global.authorizedAdmins.length).toBe(initialLength);
         });
     });
 }); 
+

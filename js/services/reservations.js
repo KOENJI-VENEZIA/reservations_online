@@ -143,3 +143,13 @@ function updateReservation(reservationId, updates) {
             });
     });
 }
+
+module.exports = {
+    createReservation,
+    getReservationsByDate,
+    getUpcomingReservations,
+    getReservationsByEmail,
+    updateReservationStatus,
+    cancelReservation,
+    updateReservation
+};

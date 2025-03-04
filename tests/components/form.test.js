@@ -1,176 +1,163 @@
+// Import form functions
 const { 
     calculateEndTime, 
     handleFormSubmit, 
     showError 
-} = require('@/components/form');
+} = require('../../js/components/form');
+
+// Mock validation module
+jest.mock('../../js/utils/validation');
+
+// Import mocked validation functions
+const validation = require('../../js/utils/validation');
 
 describe('Form Component', () => {
-    let mockEvent;
-    let mockSubmitButton;
-    let mockSuccessAlert;
-    let mockErrorAlert;
-    let mockFormElements;
-
+    // Mock DOM elements
+    let mockEvent, mockSubmitButton, mockSuccessAlert, mockErrorAlert;
+    
     beforeEach(() => {
-        // Set up jest flag for test environment detection
-        global.jest = true;
-        if (typeof window === 'undefined') {
-            global.window = {};
-        }
-        window.jest = true;
+        // Reset mocks
+        jest.clearAllMocks();
         
-        // Mock form elements
-        mockFormElements = {
-            name: { value: 'John Doe' },
-            email: { value: 'john@example.com' },
-            phone: { value: '+1234567890' },
-            numberOfPersons: { value: '2' },
-            date: { value: '2024-03-20' },
-            category: { value: 'lunch' },
-            startTime: { value: '12:00' },
-            notes: { value: 'Test notes' },
-            preferredLanguage: { value: 'en' }
-        };
-
-        // Mock submit button with a real Jest mock for disabled property
-        mockSubmitButton = {
-            disabled: false,
-            innerHTML: 'Submit'
-        };
-        
-        // Use Object.defineProperty to make 'disabled' writable and trackable
-        Object.defineProperty(mockSubmitButton, 'disabled', {
-            get: jest.fn(() => false),
-            set: jest.fn(value => {
-                mockSubmitButton._disabled = value;
-                return value;
-            }),
-            configurable: true
-        });
-        
-        // Explicitly override the getter to return the current value
-        jest.spyOn(mockSubmitButton, 'disabled', 'get').mockImplementation(() => 
-            mockSubmitButton._disabled || false
-        );
-
-        mockSuccessAlert = {
-            style: { display: 'none' }
-        };
-
-        mockErrorAlert = {
-            style: { display: 'none' },
-            innerHTML: '',
-            querySelector: jest.fn().mockReturnValue({
-                addEventListener: jest.fn()
-            })
-        };
-
-        // Mock document.getElementById to return our form elements
-        document.getElementById = jest.fn((id) => {
-            switch (id) {
-                case 'submitButton': return mockSubmitButton;
-                case 'successAlert': return mockSuccessAlert;
-                case 'errorAlert': return mockErrorAlert;
-                case 'name': return mockFormElements.name;
-                case 'email': return mockFormElements.email;
-                case 'phone': return mockFormElements.phone;
-                case 'numberOfPersons': return mockFormElements.numberOfPersons;
-                case 'date': return mockFormElements.date;
-                case 'category': return mockFormElements.category;
-                case 'startTime': return mockFormElements.startTime;
-                case 'notes': return mockFormElements.notes;
-                case 'preferredLanguage': return mockFormElements.preferredLanguage;
-                default: return null;
-            }
-        });
-
         // Mock event
         mockEvent = {
             preventDefault: jest.fn()
         };
         
-        // Mock validation and other required functions
-        window.validateReservationForm = jest.fn().mockReturnValue({ valid: true });
-        window.displayValidationErrors = jest.fn();
-        window.translate = jest.fn(key => key);
-        window.isDebugEnvironment = jest.fn().mockReturnValue(false);
-        window.generateUUID = jest.fn().mockReturnValue('test-uuid-123');
-        window.checkAvailability = jest.fn();
-        window.getCollectionName = jest.fn().mockReturnValue('reservations');
-
-        // Clear localStorage and mock it
-        if (window.localStorage) {
-            window.localStorage.clear();
-        }
+        // Mock DOM elements
+        mockSubmitButton = {
+            disabled: false,
+            innerHTML: 'Submit'
+        };
+        
+        mockSuccessAlert = {
+            style: { display: 'block' },
+            innerHTML: '',
+            querySelector: jest.fn().mockReturnValue({
+                addEventListener: jest.fn()
+            }),
+            scrollIntoView: jest.fn()
+        };
+        
+        mockErrorAlert = {
+            style: { display: 'block' },
+            innerHTML: '',
+            querySelector: jest.fn().mockReturnValue({
+                addEventListener: jest.fn()
+            })
+        };
+        
+        // Mock document functions before tests
+        document.getElementById = jest.fn(id => {
+            switch (id) {
+                case 'submitButton': return mockSubmitButton;
+                case 'successAlert': return mockSuccessAlert;
+                case 'errorAlert': return mockErrorAlert;
+                case 'name': return { value: 'Test User' };
+                case 'email': return { value: 'test@example.com' };
+                case 'phone': return { value: '1234567890' };
+                case 'numberOfPersons': return { value: '2' };
+                case 'date': return { value: '2023-12-01' };
+                case 'category': return { value: 'dinner' };
+                case 'startTime': return { value: '19:00' };
+                case 'notes': return { value: 'Test notes' };
+                case 'preferredLanguage': return { value: 'en' };
+                default: return null;
+            }
+        });
+        
+        // Mock document.createElement and document.querySelector
+        document.createElement = jest.fn();
+        document.querySelector = jest.fn();
+        
+        // Set up global functions that form.js might use
+        global.jest = {};
+        global.validateReservationForm = validation.validateReservationForm;
+        global.displayValidationErrors = validation.displayValidationErrors;
     });
-
+    
     describe('calculateEndTime', () => {
         test('should calculate correct end time for lunch', () => {
-            expect(calculateEndTime('12:00', 'lunch')).toBe('13:20');
+            const result = calculateEndTime('12:00', 'lunch');
+            expect(result).toBe('13:20');
         });
-
+        
         test('should calculate correct end time for dinner', () => {
-            expect(calculateEndTime('19:00', 'dinner')).toBe('20:45');
+            const result = calculateEndTime('19:00', 'dinner');
+            expect(result).toBe('20:45');
         });
-
+        
         test('should handle time rollover', () => {
-            expect(calculateEndTime('23:30', 'dinner')).toBe('01:15');
+            const result = calculateEndTime('23:30', 'dinner');
+            expect(result).toBe('01:15');
         });
     });
-
+    
     describe('handleFormSubmit', () => {
         test('should prevent default form submission', () => {
+            // Set up validation to return valid result
+            validation.validateReservationForm.mockReturnValue({ valid: true });
+            
             handleFormSubmit(mockEvent);
             expect(mockEvent.preventDefault).toHaveBeenCalled();
         });
-
+        
         test('should hide previous alerts', () => {
+            // Set up validation to return valid result
+            validation.validateReservationForm.mockReturnValue({ valid: true });
+            
             handleFormSubmit(mockEvent);
             expect(mockSuccessAlert.style.display).toBe('none');
             expect(mockErrorAlert.style.display).toBe('none');
         });
-
+        
         test('should disable submit button during submission', () => {
             // Mock validateReservationForm to return valid
-            window.validateReservationForm = jest.fn().mockReturnValue({ valid: true });
+            validation.validateReservationForm.mockReturnValue({ valid: true });
             
-            // Mock functions.httpsCallable
-            global.functions = {
-                httpsCallable: jest.fn().mockReturnValue(() => Promise.resolve({ data: { available: true } }))
-            };
-            
-            // The button should be disabled during submission process
             handleFormSubmit(mockEvent);
-            
-            // Check if setter was called with true
             expect(mockSubmitButton.disabled).toBe(true);
         });
-
+        
         test('should handle validation failure', () => {
-            // Override validateReservationForm to return invalid
-            window.validateReservationForm = jest.fn().mockReturnValue({ 
+            // Mock validateReservationForm to return invalid
+            validation.validateReservationForm.mockReturnValue({ 
                 valid: false, 
                 errors: { name: 'requiredField' } 
             });
             
             handleFormSubmit(mockEvent);
-            expect(window.displayValidationErrors).toHaveBeenCalled();
+            expect(validation.displayValidationErrors).toHaveBeenCalled();
             // Submit button should not be disabled with validation failure
             expect(mockSubmitButton.disabled).toBe(false);
         });
     });
-
+    
     describe('showError', () => {
         test('should display error message', () => {
             const errorMessage = 'Test error message';
+            
+            // Call the function
             showError(errorMessage);
-            expect(mockErrorAlert.style.display).toBe('block');
+            
+            // Verify error alert was updated
             expect(mockErrorAlert.innerHTML).toContain(errorMessage);
+            expect(mockErrorAlert.style.display).toBe('block');
         });
-
+        
         test('should set up alert close button', () => {
-            showError('Test error message');
+            const errorMessage = 'Test error message';
+            const mockCloseButton = { addEventListener: jest.fn() };
+            
+            // Mock querySelector to return a close button
+            mockErrorAlert.querySelector.mockReturnValue(mockCloseButton);
+            
+            // Call the function
+            showError(errorMessage);
+            
+            // Verify close button was set up
             expect(mockErrorAlert.querySelector).toHaveBeenCalledWith('.alert-close');
         });
     });
 });
+

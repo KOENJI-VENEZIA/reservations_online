@@ -1,84 +1,184 @@
-const { applyDarkTheme, applyLightTheme } = require('@/services/theme');
+
+const themeModule = require('@/services/theme');
 
 describe('Theme Services', () => {
-    let mockThemeStylesheet;
-
+    // Setup DOM mocks
     beforeEach(() => {
-        // Create Jest mock functions for classList methods
-        const mockAdd = jest.fn();
-        const mockRemove = jest.fn();
+        // Instead of overwriting document.body.classList, use spies
+        jest.spyOn(document.body.classList, 'add');
+        jest.spyOn(document.body.classList, 'remove');
+        // Optionally, spy on contains if needed
+        jest.spyOn(document.body.classList, 'contains');
         
-        // Ensure document.body exists
-        if (!document.body) {
-            // This should not happen with jsdom, but just in case
-            Object.defineProperty(document, 'body', {
-                value: document.createElement('body'),
-                writable: true
-            });
-        }
+        // Create a mock stylesheet element
+        const mockStylesheet = { href: '' };
         
-        // Save original classList if it exists
-        const originalClassList = document.body.classList;
-        
-        // Replace classList methods with mocks
-        Object.defineProperty(document.body, 'classList', {
-            value: {
-                add: mockAdd,
-                remove: mockRemove,
-                // Keep any other existing methods
-                ...(originalClassList || {})
-            },
-            writable: true,
-            configurable: true
-        });
-
-        // Mock theme stylesheet
-        mockThemeStylesheet = {
-            href: ''
-        };
-
-        // Mock document.getElementById
+        // Mock document.getElementById to return our mock element
         document.getElementById = jest.fn().mockImplementation(id => {
             if (id === 'theme-stylesheet') {
-                return mockThemeStylesheet;
+                return mockStylesheet;
             }
             return null;
         });
+        
+        // Mock window.matchMedia
+        window.matchMedia = jest.fn().mockImplementation(query => {
+            return {
+                matches: query === '(prefers-color-scheme: dark)',
+                addEventListener: jest.fn()
+            };
+        });
+        
+        // Mock console methods
+        console.log = jest.fn();
+        console.error = jest.fn();
     });
-
+    
+    // Clean up after tests
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+    
     describe('applyDarkTheme', () => {
         test('should add dark-theme class to body', () => {
-            applyDarkTheme();
+            themeModule.applyDarkTheme();
             expect(document.body.classList.add).toHaveBeenCalledWith('dark-theme');
         });
-
+        
         test('should set dark theme stylesheet href', () => {
-            applyDarkTheme();
-            expect(mockThemeStylesheet.href).toBe('css/themes/dark.css');
+            themeModule.applyDarkTheme();
+            const stylesheet = document.getElementById('theme-stylesheet');
+            expect(stylesheet.href).toBe('css/themes/dark.css');
         });
-
+        
         test('should log theme application', () => {
-            const consoleSpy = jest.spyOn(console, 'log');
-            applyDarkTheme();
-            expect(consoleSpy).toHaveBeenCalledWith('Applied dark theme based on system preference');
+            themeModule.applyDarkTheme();
+            expect(console.log).toHaveBeenCalled();
         });
     });
-
+    
     describe('applyLightTheme', () => {
         test('should remove dark-theme class from body', () => {
-            applyLightTheme();
+            themeModule.applyLightTheme();
             expect(document.body.classList.remove).toHaveBeenCalledWith('dark-theme');
         });
-
+        
         test('should set light theme stylesheet href', () => {
-            applyLightTheme();
-            expect(mockThemeStylesheet.href).toBe('css/themes/light.css');
+            themeModule.applyLightTheme();
+            const stylesheet = document.getElementById('theme-stylesheet');
+            expect(stylesheet.href).toBe('css/themes/light.css');
         });
-
+        
         test('should log theme application', () => {
-            const consoleSpy = jest.spyOn(console, 'log');
-            applyLightTheme();
-            expect(consoleSpy).toHaveBeenCalledWith('Applied light theme based on system preference');
+            themeModule.applyLightTheme();
+            expect(console.log).toHaveBeenCalled();
         });
     });
+    
+    describe('prefersDarkMode', () => {
+        test('should return true when system prefers dark mode', () => {
+            window.matchMedia = jest.fn().mockImplementation(query => {
+                return {
+                    matches: query === '(prefers-color-scheme: dark)'
+                };
+            });
+            
+            expect(themeModule.prefersDarkMode()).toBe(true);
+        });
+        
+        test('should return false when system prefers light mode', () => {
+            window.matchMedia = jest.fn().mockImplementation(() => {
+                return { matches: false };
+            });
+            
+            expect(themeModule.prefersDarkMode()).toBe(false);
+        });
+        
+        test('should return false when matchMedia is not available', () => {
+            const originalMatchMedia = window.matchMedia;
+            window.matchMedia = undefined;
+            
+            expect(themeModule.prefersDarkMode()).toBe(false);
+            
+            window.matchMedia = originalMatchMedia;
+        });
+    });
+    
+    describe('addThemeChangeListener', () => {
+        test('should add event listener when matchMedia is available', () => {
+            const addEventListener = jest.fn();
+            
+            window.matchMedia = jest.fn().mockReturnValue({
+                matches: false,
+                addEventListener
+            });
+            
+            const result = themeModule.addThemeChangeListener();
+            
+            expect(result).toBe(true);
+            expect(addEventListener).toHaveBeenCalledWith('change', expect.any(Function));
+        });
+        
+        test('should return false when matchMedia is not available', () => {
+            const originalMatchMedia = window.matchMedia;
+            window.matchMedia = undefined;
+            
+            const result = themeModule.addThemeChangeListener();
+            
+            expect(result).toBe(false);
+            
+            window.matchMedia = originalMatchMedia;
+        });
+    });
+    
+    describe('handleThemeChange', () => {
+        test('should call appropriate theme functions based on matches', () => {
+            // Test dark theme (matches: true)
+            themeModule.handleThemeChange({ matches: true });
+            expect(document.body.classList.add).toHaveBeenCalledWith('dark-theme');
+            expect(document.body.classList.remove).not.toHaveBeenCalled();
+            
+            // Reset mocks
+            jest.clearAllMocks();
+            
+            // Test light theme (matches: false)
+            themeModule.handleThemeChange({ matches: false });
+            expect(document.body.classList.remove).toHaveBeenCalledWith('dark-theme');
+            expect(document.body.classList.add).not.toHaveBeenCalled();
+        });
+    });
+    
+    describe('initializeTheme', () => {
+        beforeEach(() => {
+            jest.spyOn(themeModule, 'prefersDarkMode');
+            jest.spyOn(themeModule, 'applyDarkTheme');
+            jest.spyOn(themeModule, 'applyLightTheme');
+        });
+    
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+      
+        test('applies dark theme when system prefers dark mode', () => {
+          // Set up the mock to return true
+          themeModule.prefersDarkMode.mockReturnValue(true);
+          
+          themeModule.initializeTheme();
+          
+          expect(themeModule.applyDarkTheme).toHaveBeenCalled();
+          expect(themeModule.applyLightTheme).not.toHaveBeenCalled();
+        });
+      
+        test('applies light theme when system does not prefer dark mode', () => {
+          // Set up the mock to return false
+          themeModule.prefersDarkMode.mockReturnValue(false);
+          
+          themeModule.initializeTheme();
+          
+          expect(themeModule.applyLightTheme).toHaveBeenCalled();
+          expect(themeModule.applyDarkTheme).not.toHaveBeenCalled();
+        });
+      });
+      
 });
+

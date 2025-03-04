@@ -3,6 +3,7 @@
 
 // Clear all mocks and localStorage before all tests
 beforeAll(() => {
+    
     jest.clearAllMocks();
     if (window.localStorage) {
         window.localStorage.clear();
