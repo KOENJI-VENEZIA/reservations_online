@@ -1,3 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="0" failures="0" errors="0" time="0.392">
+<testsuites name="jest tests" tests="52" failures="0" errors="0" time="0.522">
+  <testsuite name="tests/components/form.test.js" errors="0" failures="0" skipped="0" timestamp="2025-03-04T20:31:41" time="0.158" tests="9">
+    <testcase classname="Form Component › calculateEndTime" name="should calculate correct end time for lunch" time="0.001">
+    </testcase>
+    <testcase classname="Form Component › calculateEndTime" name="should calculate correct end time for dinner" time="0">
+    </testcase>
+    <testcase classname="Form Component › calculateEndTime" name="should handle time rollover" time="0">
+    </testcase>
+    <testcase classname="Form Component › handleFormSubmit" name="should prevent default form submission" time="0">
+    </testcase>
+    <testcase classname="Form Component › handleFormSubmit" name="should hide previous alerts" time="0">
+    </testcase>
+    <testcase classname="Form Component › handleFormSubmit" name="should disable submit button during submission" time="0">
+    </testcase>
+    <testcase classname="Form Component › handleFormSubmit" name="should handle validation failure" time="0.001">
+    </testcase>
+    <testcase classname="Form Component › showError" name="should display error message" time="0.001">
+    </testcase>
+    <testcase classname="Form Component › showError" name="should set up alert close button" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="tests/services/auth.test.js" errors="0" failures="0" skipped="0" timestamp="2025-03-04T20:31:41" time="0.022" tests="11">
+    <testcase classname="Authentication Services › isAuthorizedAdmin" name="should return true for authorized admin email" time="0">
+    </testcase>
+    <testcase classname="Authentication Services › isAuthorizedAdmin" name="should return false for unauthorized email" time="0">
+    </testcase>
+    <testcase classname="Authentication Services › isAuthorizedAdmin" name="should handle case sensitivity" time="0">
+    </testcase>
+    <testcase classname="Authentication Services › addAdmin" name="should add new admin to authorized list" time="0.001">
+    </testcase>
+    <testcase classname="Authentication Services › addAdmin" name="should not add duplicate admin" time="0">
+    </testcase>
+    <testcase classname="Authentication Services › addAdmin" name="should persist admins to localStorage" time="0">
+    </testcase>
+    <testcase classname="Authentication Services › removeAdmin" name="should remove admin from authorized list" time="0">
+    </testcase>
+    <testcase classname="Authentication Services › removeAdmin" name="should handle removing non-existent admin" time="0">
+    </testcase>
+    <testcase classname="Authentication Services › removeAdmin" name="should update localStorage after removal" time="0">
+    </testcase>
+    <testcase classname="Authentication Services › isValidEmail" name="should validate correct email formats" time="0.002">
+    </testcase>
+    <testcase classname="Authentication Services › isValidEmail" name="should reject invalid email formats" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="tests/services/theme.test.js" errors="0" failures="0" skipped="0" timestamp="2025-03-04T20:31:41" time="0.022" tests="6">
+    <testcase classname="Theme Services › applyDarkTheme" name="should add dark-theme class to body" time="0.001">
+    </testcase>
+    <testcase classname="Theme Services › applyDarkTheme" name="should set dark theme stylesheet href" time="0">
+    </testcase>
+    <testcase classname="Theme Services › applyDarkTheme" name="should log theme application" time="0">
+    </testcase>
+    <testcase classname="Theme Services › applyLightTheme" name="should remove dark-theme class from body" time="0">
+    </testcase>
+    <testcase classname="Theme Services › applyLightTheme" name="should set light theme stylesheet href" time="0">
+    </testcase>
+    <testcase classname="Theme Services › applyLightTheme" name="should log theme application" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="tests/utils/validation.test.js" errors="0" failures="0" skipped="0" timestamp="2025-03-04T20:31:41" time="0.018" tests="10">
+    <testcase classname="Validation Utilities › validateEmail" name="should validate correct email formats" time="0.001">
+    </testcase>
+    <testcase classname="Validation Utilities › validateEmail" name="should reject invalid email formats" time="0">
+    </testcase>
+    <testcase classname="Validation Utilities › validateRequired" name="should validate non-empty strings" time="0">
+    </testcase>
+    <testcase classname="Validation Utilities › validateRequired" name="should reject empty or null values" time="0">
+    </testcase>
+    <testcase classname="Validation Utilities › validateNumberOfPersons" name="should validate correct number of persons" time="0">
+    </testcase>
+    <testcase classname="Validation Utilities › validateNumberOfPersons" name="should reject invalid number of persons" time="0">
+    </testcase>
+    <testcase classname="Validation Utilities › validateDate" name="should validate future dates" time="0.001">
+    </testcase>
+    <testcase classname="Validation Utilities › validateDate" name="should reject past dates" time="0">
+    </testcase>
+    <testcase classname="Validation Utilities › validateDate" name="should reject Mondays" time="0">
+    </testcase>
+    <testcase classname="Validation Utilities › validateDate" name="should reject invalid date formats" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="tests/utils/locale.test.js" errors="0" failures="0" skipped="0" timestamp="2025-03-04T20:31:41" time="0.016" tests="8">
+    <testcase classname="Locale Utilities › getTranslation" name="should return correct translation for simple key" time="0">
+    </testcase>
+    <testcase classname="Locale Utilities › getTranslation" name="should return correct translation for nested key" time="0">
+    </testcase>
+    <testcase classname="Locale Utilities › getTranslation" name="should return key if translation not found" time="0">
+    </testcase>
+    <testcase classname="Locale Utilities › getTranslation" name="should handle missing translations gracefully" time="0.001">
+    </testcase>
+    <testcase classname="Locale Utilities › updateAllTranslations" name="should update all elements with data-translate attribute" time="0">
+    </testcase>
+    <testcase classname="Locale Utilities › updateTranslations" name="should update current language" time="0">
+    </testcase>
+    <testcase classname="Locale Utilities › updateTranslations" name="should update translations object" time="0">
+    </testcase>
+    <testcase classname="Locale Utilities › updateTranslations" name="should trigger updateAllTranslations function after update" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="tests/components/modal.test.js" errors="0" failures="0" skipped="0" timestamp="2025-03-04T20:31:41" time="0.013" tests="8">
+    <testcase classname="Modal Component › initializeModal" name="should set up event listeners for all buttons" time="0">
+    </testcase>
+    <testcase classname="Modal Component › initializeModal" name="should make showConfirmationModal available globally" time="0.001">
+    </testcase>
+    <testcase classname="Modal Component › showConfirmationModal" name="should display modal" time="0">
+    </testcase>
+    <testcase classname="Modal Component › showConfirmationModal" name="should set callback function" time="0">
+    </testcase>
+    <testcase classname="Modal Component › showConfirmationModal" name="should close modal when clicking close button" time="0">
+    </testcase>
+    <testcase classname="Modal Component › showConfirmationModal" name="should close modal when clicking cancel button" time="0">
+    </testcase>
+    <testcase classname="Modal Component › showConfirmationModal" name="should close modal when clicking outside" time="0">
+    </testcase>
+    <testcase classname="Modal Component › showConfirmationModal" name="should not close modal when clicking inside" time="0">
+    </testcase>
+  </testsuite>
+  
+  
 </testsuites>
