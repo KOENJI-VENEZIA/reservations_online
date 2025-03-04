@@ -68,9 +68,16 @@ function getTranslation(key) {
 function updateTranslations(language, newTranslations = null) {
     if (newTranslations) {
         translations = newTranslations;
+        // Also set it on window for testing purposes
+        window.translations = newTranslations;
     }
     currentLanguage = language;
-    updateAllTranslations();
+    window.currentLanguage = language;
+    
+    // Call updateAllTranslations
+    if (typeof updateAllTranslations === 'function') {
+        updateAllTranslations();
+    }
 }
 
 // Make functions available globally

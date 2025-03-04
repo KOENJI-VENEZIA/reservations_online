@@ -3,7 +3,7 @@ const { getTranslation, updateAllTranslations, updateTranslations } = require('@
 describe('Locale Utilities', () => {
     beforeEach(() => {
         // Reset translations before each test
-        window.translations = {
+        const defaultTranslations = {
             en: {
                 common: {
                     submit: 'Submit',
@@ -25,7 +25,13 @@ describe('Locale Utilities', () => {
                 }
             }
         };
-        window.currentLanguage = 'en';
+        
+        // Set up window properties
+        global.translations = defaultTranslations;
+        global.currentLanguage = 'en';
+        
+        // Set up updateAllTranslations mock
+        global.updateAllTranslations = jest.fn();
     });
 
     describe('getTranslation', () => {
@@ -66,7 +72,7 @@ describe('Locale Utilities', () => {
     describe('updateTranslations', () => {
         test('should update current language', () => {
             updateTranslations('it');
-            expect(window.currentLanguage).toBe('it');
+            expect(global.currentLanguage).toBe('it');
         });
 
         test('should update translations object', () => {
@@ -76,13 +82,12 @@ describe('Locale Utilities', () => {
                 }
             };
             updateTranslations('en', newTranslations);
-            expect(window.translations).toEqual(newTranslations);
+            expect(global.translations).toEqual(newTranslations);
         });
 
         test('should trigger updateAllTranslations function after update', () => {
-            const translateSpy = jest.spyOn(window, 'updateAllTranslations');
             updateTranslations('it');
-            expect(translateSpy).toHaveBeenCalled();
+            expect(global.updateAllTranslations).toHaveBeenCalled();
         });
     });
 }); 

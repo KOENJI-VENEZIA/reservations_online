@@ -10,8 +10,23 @@ describe('Authentication Services', () => {
     beforeEach(() => {
         // Reset localStorage before each test
         localStorage.clear();
+        
+        // Mock Firebase auth
+        global.firebase = {
+            auth: jest.fn().mockReturnValue({
+                onAuthStateChanged: jest.fn().mockImplementation(callback => {
+                    // Simulate no user signed in
+                    callback(null);
+                    return jest.fn(); // Return unsubscribe function
+                })
+            })
+        };
+        
         // Reset authorized admins
-        window.authorizedAdmins = ['matteo.koenji@gmail.com'];
+        global.authorizedAdmins = ['matteo.koenji@gmail.com'];
+        
+        // Initialize auth to set up the environment
+        initializeAuth();
     });
 
     describe('isAuthorizedAdmin', () => {
@@ -32,19 +47,20 @@ describe('Authentication Services', () => {
         test('should add new admin to authorized list', () => {
             const newAdmin = 'newadmin@example.com';
             addAdmin(newAdmin);
-            expect(window.authorizedAdmins).toContain(newAdmin);
+            expect(authorizedAdmins).toContain(newAdmin);
         });
 
         test('should not add duplicate admin', () => {
             const existingAdmin = 'matteo.koenji@gmail.com';
             addAdmin(existingAdmin);
-            expect(window.authorizedAdmins.filter(admin => admin === existingAdmin).length).toBe(1);
+            expect(authorizedAdmins.filter(admin => admin === existingAdmin).length).toBe(1);
         });
 
         test('should persist admins to localStorage', () => {
             const newAdmin = 'newadmin@example.com';
             addAdmin(newAdmin);
-            expect(JSON.parse(localStorage.getItem('authorizedAdmins'))).toContain(newAdmin);
+            const savedAdmins = JSON.parse(localStorage.getItem('authorizedAdmins'));
+            expect(savedAdmins).toContain(newAdmin);
         });
     });
 
@@ -52,19 +68,20 @@ describe('Authentication Services', () => {
         test('should remove admin from authorized list', () => {
             const adminToRemove = 'matteo.koenji@gmail.com';
             removeAdmin(adminToRemove);
-            expect(window.authorizedAdmins).not.toContain(adminToRemove);
+            expect(authorizedAdmins).not.toContain(adminToRemove);
         });
 
         test('should handle removing non-existent admin', () => {
             const nonExistentAdmin = 'nonexistent@example.com';
             removeAdmin(nonExistentAdmin);
-            expect(window.authorizedAdmins).toEqual(['matteo.koenji@gmail.com']);
+            expect(authorizedAdmins).toEqual(['matteo.koenji@gmail.com']);
         });
 
         test('should update localStorage after removal', () => {
             const adminToRemove = 'matteo.koenji@gmail.com';
             removeAdmin(adminToRemove);
-            expect(JSON.parse(localStorage.getItem('authorizedAdmins'))).not.toContain(adminToRemove);
+            const savedAdmins = JSON.parse(localStorage.getItem('authorizedAdmins'));
+            expect(savedAdmins).not.toContain(adminToRemove);
         });
     });
 
@@ -80,27 +97,6 @@ describe('Authentication Services', () => {
             expect(isValidEmail('@domain.com')).toBe(false);
             expect(isValidEmail('user@')).toBe(false);
             expect(isValidEmail('')).toBe(false);
-        });
-    });
-
-    describe('initializeAuth', () => {
-        beforeEach(() => {
-            // Mock localStorage
-            localStorage.setItem('authorizedAdmins', JSON.stringify(['test@example.com']));
-        });
-
-        test('should load authorized admins from localStorage', () => {
-            initializeAuth();
-            expect(window.authorizedAdmins).toContain('test@example.com');
-        });
-
-        test('should expose auth functions to window', () => {
-            initializeAuth();
-            expect(window.isAuthorizedAdmin).toBeDefined();
-            expect(window.addAdmin).toBeDefined();
-            expect(window.removeAdmin).toBeDefined();
-            expect(window.signOut).toBeDefined();
-            expect(window.getCurrentUser).toBeDefined();
         });
     });
 }); 

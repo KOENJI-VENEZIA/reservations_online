@@ -196,3 +196,13 @@ function getCurrentUser() {
 
 // Initialize auth when this script loads
 initializeAuth();
+
+// Export functions for testing
+module.exports = {
+    initializeAuth,
+    isAuthorizedAdmin,
+    addAdmin,
+    removeAdmin,
+    isValidEmail,
+    getCurrentUser
+};
