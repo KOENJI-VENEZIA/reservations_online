@@ -77,9 +77,15 @@ function verifyFirebaseConfiguration() {
 
 // Setup alert close buttons
 function setupAlerts() {
+    // Make sure all alerts are hidden initially
+    document.querySelectorAll('.alert').forEach(alert => {
+        alert.classList.remove('show');
+    });
+    
+    // Set up close buttons
     document.querySelectorAll('.alert-close').forEach(button => {
         button.addEventListener('click', function() {
-            this.parentElement.style.display = 'none';
+            this.parentElement.classList.remove('show');
         });
     });
 }
