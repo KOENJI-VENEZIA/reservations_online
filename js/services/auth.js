@@ -23,13 +23,14 @@ if (isTestEnvironment) {
 }
 
 import { initializeFirebase } from './firebase-config.js';
-import { auth } from './firebase-config.js';
 import { getTranslation } from '../utils/locale.js';
 import { logToAdmin } from './firebase-config.js';
 
 // Initialize Firebase properly:
+// FIXED: Removed redundant auth variable declaration
 const app = initializeFirebase();
-const auth = getAuth(app);
+// Using firebase.auth() directly instead of getAuth(app)
+// This matches how auth is used elsewhere in your codebase
 
 // Initialize authentication
 let currentUser = null;
@@ -95,9 +96,9 @@ function loadAuthorizedAdmins() {
 
 // Setup authentication state change listener
 function setupAuthListeners() {
-    if (!auth) return; // Skip if auth is not initialized
+    if (!firebase.auth) return; // Skip if auth is not initialized
     
-    auth.onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(user => {
         if (user) {
             // User is signed in
             currentUser = user;
@@ -145,19 +146,21 @@ function setupAuthListeners() {
 }
 
 // Google Sign In
-function googleSignIn() {
+export function googleSignIn() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).catch(error => {
+    firebase.auth().signInWithPopup(provider).catch(error => {
         console.error('Error signing in with Google:', error);
-        logToAdmin(`Sign-in error: ${error.message}`);
+        if (typeof logToAdmin === 'function') {
+            logToAdmin(`Sign-in error: ${error.message}`);
+        }
     });
 }
 
 // Sign Out
 export function logout() {
-    if (!auth) return;
+    if (!firebase.auth) return;
     
-    auth.signOut().then(() => {
+    firebase.auth().signOut().then(() => {
         const adminLoginSection = document.getElementById('adminLoginSection');
         const adminContent = document.getElementById('adminContent');
         
@@ -168,7 +171,9 @@ export function logout() {
         console.log('User signed out');
     }).catch(error => {
         console.error('Error signing out:', error);
-        logToAdmin(`Sign-out error: ${error.message}`);
+        if (typeof logToAdmin === 'function') {
+            logToAdmin(`Sign-out error: ${error.message}`);
+        }
     });
 }
 
@@ -233,7 +238,7 @@ export function removeAdmin(email) {
 }
 
 // Render admin list
-function renderAdminList() {
+export function renderAdminList() {
     const adminList = document.getElementById('adminList');
     if (!adminList) return;
     
@@ -280,13 +285,3 @@ if (typeof jest !== 'undefined') {
 if (typeof window !== 'undefined' && !window.jest) {
     initializeAuth();
 }
-
-// Export functions for testing
-export {
-    initializeAuth,
-    isAuthorizedAdmin,
-    addAdmin,
-    removeAdmin,
-    isValidEmail,
-    getCurrentUser
-};
