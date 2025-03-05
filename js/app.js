@@ -1,4 +1,5 @@
 // app.js
+console.log('app.js loaded');
 
 import { db, getCollectionName, isDebugEnvironment } from './services/firebase-config.js';
 import { initializeLocalization } from './utils/locale.js';
@@ -6,6 +7,8 @@ import { initializeTheme } from './services/theme.js';
 import { initializeAdminPanel } from './components/admin-panel.js';
 import { initializeFormHandlers } from './components/form.js';
 import { initializeModal } from './components/modal.js';
+
+console.log('All modules imported successfully');
 
 // ---------- EXPORT THE FUNCTIONS -----------
 export function verifyFirebaseConfiguration() {
@@ -53,6 +56,7 @@ export function initializeDateTimeConstraints() {
 
 // Then your DOMContentLoaded logic can be exported or can remain inline:
 function onDOMContentLoaded() {
+  console.log('DOMContentLoaded event fired');
   try {
     console.log('Initializing application...');
     
@@ -108,6 +112,12 @@ function onDOMContentLoaded() {
 try {
   console.log('Setting up DOMContentLoaded event listener');
   document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
+  
+  // Also add a fallback in case the DOMContentLoaded event has already fired
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    console.log('Document already loaded, calling onDOMContentLoaded directly');
+    setTimeout(onDOMContentLoaded, 1);
+  }
 } catch (error) {
   console.error('Error setting up DOMContentLoaded listener:', error);
 }

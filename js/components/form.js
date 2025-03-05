@@ -5,6 +5,7 @@ import { calculateEndTime } from '../utils/time-utils.js';
 
 // Initialize form handlers
 export function initializeFormHandlers() {
+    console.log('initializeFormHandlers function called');
     // Get form elements
     const form = document.getElementById('reservationForm');
     const numberOfPersonsInput = document.getElementById('numberOfPersons');
@@ -12,11 +13,20 @@ export function initializeFormHandlers() {
     const startTimeSelect = document.getElementById('startTime');
     const dateInput = document.getElementById('date');
     
+    console.log('Form elements:', {
+        form: !!form,
+        numberOfPersonsInput: !!numberOfPersonsInput,
+        categorySelect: !!categorySelect,
+        startTimeSelect: !!startTimeSelect,
+        dateInput: !!dateInput
+    });
+    
     // Populate initial time slots
     updateTimeSlots();
     
     // Add event listeners
     if (categorySelect) {
+        console.log('Adding change event listener to categorySelect');
         categorySelect.addEventListener('change', updateTimeSlots);
     }
     
@@ -57,11 +67,14 @@ export function initializeFormHandlers() {
 
 // Update time slots based on meal category
 export function updateTimeSlots() {
+    console.log('updateTimeSlots function called');
     const categoryElement = document.getElementById('category');
     const startTimeSelect = document.getElementById('startTime');
     
     if (!categoryElement || !startTimeSelect) {
         console.error('Category or start time elements not found');
+        console.log('categoryElement:', categoryElement);
+        console.log('startTimeSelect:', startTimeSelect);
         return;
     }
     
@@ -81,11 +94,15 @@ export function updateTimeSlots() {
         endHour = 21.75; // Last slot at 21:45
     }
     
+    console.log(`Time range: ${startHour} to ${endHour}`);
+    
     // Add time slots in 15-minute increments
     for (let h = startHour; h <= endHour; h += 0.25) {
         const hour = Math.floor(h);
         const minute = (h - hour) * 60;
         const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        
+        console.log(`Adding time slot: ${timeString}`);
         
         const option = document.createElement('option');
         option.value = timeString;
@@ -384,3 +401,12 @@ export function showError(message) {
         });
     }
 }
+
+// Make functions available globally
+window.updateTimeSlots = updateTimeSlots;
+window.initializeFormHandlers = initializeFormHandlers;
+window.checkAvailabilityIfFormValid = checkAvailabilityIfFormValid;
+window.handleFormSubmit = handleFormSubmit;
+window.resetSubmitButton = resetSubmitButton;
+window.showSuccess = showSuccess;
+window.showError = showError;

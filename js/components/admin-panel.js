@@ -5,6 +5,7 @@ import { googleSignIn, logout, addAdmin, removeAdmin, isAuthorizedAdmin, renderA
 
 // Initialize admin panel
 export function initializeAdminPanel() {
+    console.log('initializeAdminPanel function called');
     // Load admin panel HTML
     loadAdminPanelHTML();
     
@@ -14,7 +15,15 @@ export function initializeAdminPanel() {
 
 // Load admin panel HTML content
 function loadAdminPanelHTML() {
+    console.log('loadAdminPanelHTML function called');
     const adminPanel = document.getElementById('adminPanel');
+    
+    if (!adminPanel) {
+        console.error('Admin panel element not found');
+        return;
+    }
+    
+    console.log('Setting up admin panel HTML');
     
     adminPanel.innerHTML = `
         <div class="admin-panel-header">
@@ -100,15 +109,35 @@ function loadAdminPanelHTML() {
 
 // Set up admin panel toggle buttons
 function setupAdminPanelToggle() {
+    console.log('setupAdminPanelToggle function called');
     // Admin button to open panel
-    document.getElementById('adminButton').addEventListener('click', function() {
-        document.getElementById('adminPanel').classList.add('active');
+    const adminButton = document.getElementById('adminButton');
+    
+    if (!adminButton) {
+        console.error('Admin button element not found');
+        return;
+    }
+    
+    console.log('Adding click event listener to adminButton');
+    adminButton.addEventListener('click', function() {
+        console.log('Admin button clicked');
+        const adminPanel = document.getElementById('adminPanel');
+        if (adminPanel) {
+            adminPanel.classList.add('active');
+            console.log('Admin panel activated');
+        } else {
+            console.error('Admin panel element not found when trying to activate');
+        }
     });
     
     // Close button inside panel
     document.addEventListener('click', function(event) {
         if (event.target.id === 'adminPanelClose') {
-            document.getElementById('adminPanel').classList.remove('active');
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.classList.remove('active');
+                console.log('Admin panel deactivated');
+            }
         }
     });
 }
@@ -226,3 +255,13 @@ export {
     updateEnvironmentUI,
     setupAdminUserManagement
 };
+
+// Make functions available globally
+window.initializeAdminPanel = initializeAdminPanel;
+window.loadAdminPanelHTML = loadAdminPanelHTML;
+window.setupAdminPanelToggle = setupAdminPanelToggle;
+window.setupLogFunctionality = setupLogFunctionality;
+window.loadLogs = loadLogs;
+window.setupEnvironmentToggle = setupEnvironmentToggle;
+window.updateEnvironmentUI = updateEnvironmentUI;
+window.setupAdminUserManagement = setupAdminUserManagement;

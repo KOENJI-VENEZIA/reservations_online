@@ -226,5 +226,30 @@
 <script src="js/components/form.js" type="module"></script>
 <script src="js/components/availability.js" type="module"></script>
 <script src="js/app.js" type="module"></script>
+
+<!-- Fallback initialization script -->
+<script>
+    // Wait for all modules to load
+    window.addEventListener('load', function() {
+        console.log('Window load event fired');
+        
+        // Check if the initialization functions are available
+        if (typeof window.initializeFormHandlers === 'function') {
+            console.log('Calling initializeFormHandlers directly');
+            window.initializeFormHandlers();
+        }
+        
+        if (typeof window.initializeAdminPanel === 'function') {
+            console.log('Calling initializeAdminPanel directly');
+            window.initializeAdminPanel();
+        }
+        
+        // Force update time slots
+        if (typeof window.updateTimeSlots === 'function') {
+            console.log('Calling updateTimeSlots directly');
+            window.updateTimeSlots();
+        }
+    });
+</script>
 </body>
 </html>
