@@ -1,5 +1,28 @@
 // Initialize admin panel
 function initializeAdminPanel() {
+    // Check if admin parameter is present in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const isAdminMode = urlParams.get('admin') === 'true';
+    
+    // Only show admin button if in admin mode
+    const adminButton = document.getElementById('adminButton');
+    if (adminButton) {
+        if (isAdminMode) {
+            adminButton.style.display = 'flex';
+        } else {
+            adminButton.style.display = 'none';
+        }
+    }
+    
+    // Add keyboard shortcut (Ctrl+Shift+A) to show admin button
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.shiftKey && event.key === 'A') {
+            if (adminButton) {
+                adminButton.style.display = 'flex';
+            }
+        }
+    });
+    
     // Load admin panel HTML
     loadAdminPanelHTML();
     

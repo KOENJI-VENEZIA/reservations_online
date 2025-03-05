@@ -6,19 +6,22 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: var(--primary-color);
+    background-color: var(--primary);
     color: white;
-    display: flex;
+    display: none; /* Hidden by default, will be shown via JavaScript when admin=true */
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-md);
     z-index: 1000;
     padding: 0;
+    border: none;
+    transition: all 0.3s ease;
 }
 
 .admin-button:hover {
     background-color: var(--primary-dark);
+    transform: scale(1.05);
 }
 
 /* Admin Panel */
@@ -29,11 +32,12 @@
     width: 400px;
     height: 100%;
     background-color: var(--bg-card);
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
     z-index: 1001;
-    padding: 20px;
-    transition: right 0.3s ease;
     overflow-y: auto;
+    transition: right 0.3s ease;
+    padding: 20px;
+    border: 1px solid var(--border-color);
     color: var(--text-primary);
 }
 
