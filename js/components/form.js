@@ -185,7 +185,6 @@ function handleFormSubmit(e) {
     const nowSeconds = Date.now() / 1000;
     
     // Final availability check before submission
-    const checkAvailability = functions.httpsCallable('checkAvailability');
     checkAvailability({
         numberOfPersons: formData.numberOfPersons,
         date: formData.date,
