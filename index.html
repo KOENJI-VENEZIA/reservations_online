@@ -251,5 +251,115 @@
         }
     });
 </script>
+
+<!-- Add this just before the closing </body> tag in your index.html -->
+<script>
+  // Fix for time slots and admin panel
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded - running final initialization');
+    
+    // Force initialize time slots
+    setTimeout(function() {
+      // Fix time slots
+      const categoryElement = document.getElementById('category');
+      const startTimeSelect = document.getElementById('startTime');
+      
+      if (categoryElement && startTimeSelect) {
+        console.log('Manually initializing time slots');
+        
+        // Define time ranges based on current category value
+        const category = categoryElement.value;
+        let startHour, endHour;
+        
+        if (category === 'lunch') {
+          startHour = 12;
+          endHour = 13.75; // Last slot at 13:45
+        } else { // dinner
+          startHour = 18;
+          endHour = 21.75; // Last slot at 21:45
+        }
+        
+        // Clear and populate time slots
+        startTimeSelect.innerHTML = '';
+        
+        for (let h = startHour; h <= endHour; h += 0.25) {
+          const hour = Math.floor(h);
+          const minute = (h - hour) * 60;
+          const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+          
+          const option = document.createElement('option');
+          option.value = timeString;
+          option.textContent = timeString;
+          startTimeSelect.appendChild(option);
+        }
+        
+        // Make sure category change updates time slots
+        categoryElement.addEventListener('change', function() {
+          console.log('Category changed to:', this.value);
+          
+          // Define time ranges based on category
+          const category = this.value;
+          let startHour, endHour;
+          
+          if (category === 'lunch') {
+            startHour = 12;
+            endHour = 13.75;
+          } else { // dinner
+            startHour = 18;
+            endHour = 21.75;
+          }
+          
+          // Clear and populate time slots
+          startTimeSelect.innerHTML = '';
+          
+          for (let h = startHour; h <= endHour; h += 0.25) {
+            const hour = Math.floor(h);
+            const minute = (h - hour) * 60;
+            const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+            
+            const option = document.createElement('option');
+            option.value = timeString;
+            option.textContent = timeString;
+            startTimeSelect.appendChild(option);
+          }
+          
+          // Update end time display if needed
+          if (typeof updateEndTimeDisplay === 'function') {
+            updateEndTimeDisplay(startTimeSelect.value);
+          }
+        });
+      }
+      
+      // Fix admin button
+      const adminButton = document.getElementById('adminButton');
+      const adminPanel = document.getElementById('adminPanel');
+      
+      if (adminButton && adminPanel) {
+        console.log('Manually setting up admin panel toggle');
+        
+        // Ensure admin button works
+        adminButton.addEventListener('click', function() {
+          console.log('Admin button clicked');
+          adminPanel.classList.add('active');
+        });
+        
+        // Ensure close button works
+        const adminPanelClose = document.getElementById('adminPanelClose');
+        if (adminPanelClose) {
+          adminPanelClose.addEventListener('click', function() {
+            adminPanel.classList.remove('active');
+          });
+        } else {
+          // If close button doesn't exist yet, add event listener to document
+          document.addEventListener('click', function(event) {
+            if (event.target.id === 'adminPanelClose') {
+              adminPanel.classList.remove('active');
+            }
+          });
+        }
+      }
+    }, 500); // Slight delay to ensure elements are ready
+  });
+</script>
 </body>
 </html>
