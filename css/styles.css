@@ -6,6 +6,8 @@
 @import 'components/admin-panel.css';
 @import 'components/alerts.css';
 @import 'components/modal.css';
+@import 'components/logo.css';
+@import 'components/availability.css';
 
 /* Base Styles */
 * {

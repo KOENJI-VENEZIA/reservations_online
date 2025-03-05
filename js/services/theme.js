@@ -29,6 +29,7 @@ function initializeTheme() {
 // Apply dark theme
 function applyDarkTheme() {
     document.body.classList.add('dark-theme');
+    document.body.setAttribute('data-theme', 'dark');
     document.getElementById('theme-stylesheet').href = 'css/themes/dark.css';
     
     console.log('Applied dark theme based on system preference');
@@ -37,6 +38,7 @@ function applyDarkTheme() {
 // Apply light theme
 function applyLightTheme() {
     document.body.classList.remove('dark-theme');
+    document.body.setAttribute('data-theme', 'light');
     document.getElementById('theme-stylesheet').href = 'css/themes/light.css';
     
     console.log('Applied light theme based on system preference');

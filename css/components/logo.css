@@ -1,0 +1,43 @@
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.logo {
+    max-width: 180px;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+/* Hide the logo that doesn't match the current theme */
+.logo-light {
+    display: none;
+}
+
+.logo-dark {
+    display: none;
+}
+
+/* Show the appropriate logo based on the theme */
+body[data-theme="light"] .logo-light {
+    display: block;
+}
+
+body[data-theme="dark"] .logo-dark {
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .logo {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        max-width: 120px;
+    }
+} 

@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize theme
         initializeTheme();
+
+        // Set up alerts
+        setupAlerts();
         
         // Initialize admin panel
         initializeAdminPanel();
@@ -19,8 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize date and time constraints
         initializeDateTimeConstraints();
         
-        // Set up alerts
-        setupAlerts();
+        
         
         // Initialize modal
         initializeModal();

@@ -15,18 +15,21 @@
 }
 
 .alert-success {
+    display: none;
     background-color: var(--success-light);
     color: var(--success-color);
     border-left: 4px solid var(--success-color);
 }
 
 .alert-error {
+    display: none;
     background-color: var(--error-light);
     color: var(--error-color);
     border-left: 4px solid var(--error-color);
 }
 
 .alert-warning {
+    display: none;
     background-color: var(--warning-light);
     color: var(--warning-color);
     border-left: 4px solid var(--warning-color);

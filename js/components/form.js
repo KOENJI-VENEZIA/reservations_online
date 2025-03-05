@@ -77,8 +77,9 @@ function updateTimeSlots() {
     checkAvailabilityIfFormValid();
 }
 
-// Update end time display
+// Update end time display dynamically based on category
 function updateEndTimeDisplay(startTime) {
+    const category = document.getElementById('category').value;
     const endTimeValue = document.getElementById('endTimeValue');
     
     if (!startTime) {
@@ -88,7 +89,7 @@ function updateEndTimeDisplay(startTime) {
     
     const [startHour, startMinute] = startTime.split(':').map(Number);
     let endHour = startHour + 1;
-    let endMinute = startMinute + 45;
+    let endMinute = category === 'lunch' ? startMinute + 20 : startMinute + 45;
     
     if (endMinute >= 60) {
         endHour += 1;
