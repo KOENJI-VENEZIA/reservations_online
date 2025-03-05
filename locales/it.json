@@ -46,12 +46,13 @@
   },
   "availability": {
     "tablesAvailable": "Tavoli disponibili: {{count}}",
-    "comfortablySeated": "Nessun problema per il tuo gruppo di {{count}} persone!",
-    "notEnoughTables": "Ci dispiace, non abbiamo abbastanza tavoli disponibili per questa fascia oraria.",
-    "tablesNeeded": "Abbiamo bisogno di {{tablesNeeded}} tavoli per il tuo gruppo di {{numberOfPersons}} persone, ma non abbiamo abbastanza tavoli disponibili.",
-    "recommendTimes": "Ti consigliamo di controllare le nostre disponibilità anche:",
-    "earlier": "30 minuti prima",
-    "later": "30 minuti dopo"
+    "comfortablySeated": "Il tuo gruppo di {{count}} persone sarà comodamente seduto.",
+    "notEnoughTables": "Ci dispiace, non abbiamo abbastanza tavoli disponibili per questo orario.",
+    "tablesNeeded": "Abbiamo bisogno di più tavoli per il tuo gruppo di {{numberOfPersons}} in questo momento.",
+    "recommendTimes": "Ti consigliamo di verificare la disponibilità a:",
+    "earlier": "opzione precedente",
+    "later": "opzione successiva",
+    "noAlternativeTimes": "Ci dispiace, non ci sono orari alternativi disponibili per {{category}}."
   },
   "modal": {
     "confirmation": "Conferma",

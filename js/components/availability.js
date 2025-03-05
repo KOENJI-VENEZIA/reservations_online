@@ -109,29 +109,56 @@ export function displayAvailabilityStatus(available, numberOfPersons, availableT
             </div>
         `;
     } else {
-        // Create alternative time suggestions
+        // Get the current category (lunch or dinner)
+        const category = document.getElementById('category').value;
+        
+        // Parse the current time
         const currentHour = parseInt(startTime.split(':')[0]);
         const currentMinute = parseInt(startTime.split(':')[1]);
         
-        // Suggest checking 30 minutes before or after
-        const earlierHour = currentMinute >= 30 ? currentHour : (currentHour - 1);
-        const earlierMinute = currentMinute >= 30 ? (currentMinute - 30) : (currentMinute + 30);
+        // Get available time slots based on category
+        const timeSlots = getAvailableTimeSlots(category);
         
-        const laterHour = currentMinute < 30 ? currentHour : (currentHour + 1);
-        const laterMinute = currentMinute < 30 ? (currentMinute + 30) : (currentMinute - 30);
+        // Find the current time slot index
+        const currentTimeString = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
+        const currentIndex = timeSlots.indexOf(currentTimeString);
         
-        const earlierTime = `${String(earlierHour).padStart(2, '0')}:${String(earlierMinute).padStart(2, '0')}`;
-        const laterTime = `${String(laterHour).padStart(2, '0')}:${String(laterMinute).padStart(2, '0')}`;
+        // Determine if earlier/later slots are available
+        const hasEarlierSlot = currentIndex > 0;
+        const hasLaterSlot = currentIndex < timeSlots.length - 1;
         
-        const alternativeMessage = `
+        // Get alternative time suggestions
+        let alternativeMessage = `
             <div style="margin-top: 12px; font-size: 14px;">
                 ${translate('availability.recommendTimes')}
                 <ul style="margin-top: 4px; margin-bottom: 0; padding-left: 24px;">
-                    <li>${earlierTime} (${translate('availability.earlier')})</li>
-                    <li>${laterTime} (${translate('availability.later')})</li>
+        `;
+        
+        // Add earlier slot if available
+        if (hasEarlierSlot) {
+            const earlierTime = timeSlots[currentIndex - 1];
+            alternativeMessage += `<li>${earlierTime} (${translate('availability.earlier')})</li>`;
+        }
+        
+        // Add later slot if available
+        if (hasLaterSlot) {
+            const laterTime = timeSlots[currentIndex + 1];
+            alternativeMessage += `<li>${laterTime} (${translate('availability.later')})</li>`;
+        }
+        
+        // If no alternative slots are available, provide a different message
+        if (!hasEarlierSlot && !hasLaterSlot) {
+            alternativeMessage = `
+                <div style="margin-top: 12px; font-size: 14px;">
+                    ${translate('availability.noAlternativeTimes')}
+                </div>
+            `;
+        } else {
+            alternativeMessage += `
                 </ul>
             </div>
-        `;
+            `;
+        }
         
         // Show unavailability message without specific table information
         availabilityStatus.innerHTML = `
@@ -145,4 +172,31 @@ export function displayAvailabilityStatus(available, numberOfPersons, availableT
             ${alternativeMessage}
         `;
     }
+}
+
+// Helper function to get available time slots based on category
+function getAvailableTimeSlots(category) {
+    let timeSlots = [];
+    
+    if (category === 'lunch') {
+        // Only 12:00 and 13:30 for lunch
+        timeSlots = ['12:00', '13:30'];
+    } else { // dinner
+        // From 18:00 to 19:30 and from 21:00 to 21:45 for dinner
+        // First range: 18:00 to 19:30 in 15-minute increments
+        for (let h = 18; h <= 19.5; h += 0.25) {
+            const hour = Math.floor(h);
+            const minute = (h - hour) * 60;
+            timeSlots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
+        }
+        
+        // Second range: 21:00 to 21:45 in 15-minute increments
+        for (let h = 21; h <= 21.75; h += 0.25) {
+            const hour = Math.floor(h);
+            const minute = (h - hour) * 60;
+            timeSlots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
+        }
+    }
+    
+    return timeSlots;
 }

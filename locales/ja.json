@@ -50,8 +50,9 @@
     "notEnoughTables": "申し訳ありませんが、この時間帯には十分なテーブルがございません。",
     "tablesNeeded": "この時間帯には{{numberOfPersons}}名様のグループに対応できるテーブルが足りません。",
     "recommendTimes": "以下の時間帯をお試しください：",
-    "earlier": "30分前",
-    "later": "30分後"
+    "earlier": "前の時間帯",
+    "later": "後の時間帯",
+    "noAlternativeTimes": "申し訳ありませんが、この食事時間帯には他の選択肢がございません。"
   },
   "modal": {
     "confirmation": "確認",

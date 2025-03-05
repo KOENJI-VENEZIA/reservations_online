@@ -48,10 +48,11 @@
     "tablesAvailable": "Tables available: {{count}}",
     "comfortablySeated": "Your party of {{count}} will be comfortably seated.",
     "notEnoughTables": "Sorry, we don't have enough tables available for this time slot.",
-    "tablesNeeded": "We need {{tablesNeeded}} tables for your party of {{numberOfPersons}}, but we don't have enough tables available.",
+    "tablesNeeded": "We need more tables for your party of {{numberOfPersons}} at this time.",
     "recommendTimes": "We recommend checking availability at:",
-    "earlier": "30 minutes earlier",
-    "later": "30 minutes later"
+    "earlier": "earlier option",
+    "later": "later option",
+    "noAlternativeTimes": "Sorry, there are no alternative time slots available for this meal period."
   },
   "modal": {
     "confirmation": "Confirmation",
