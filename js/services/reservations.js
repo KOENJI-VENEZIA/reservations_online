@@ -1,7 +1,7 @@
 // Reservation service functions
 
 // Create a new reservation
-function createReservation(reservationData) {
+export function createReservation(reservationData) {
     return new Promise((resolve, reject) => {
         // Generate unique ID
         const reservationId = generateUUID();
@@ -32,7 +32,7 @@ function createReservation(reservationData) {
 }
 
 // Get reservations for a specific date
-function getReservationsByDate(date) {
+export function getReservationsByDate(date) {
     return new Promise((resolve, reject) => {
         db.collection(getCollectionName())
             .where("dateString", "==", date)
@@ -52,7 +52,7 @@ function getReservationsByDate(date) {
 }
 
 // Get all upcoming reservations
-function getUpcomingReservations() {
+export function getUpcomingReservations() {
     const today = new Date().toISOString().split('T')[0];
     
     return new Promise((resolve, reject) => {
@@ -75,7 +75,7 @@ function getUpcomingReservations() {
 }
 
 // Get reservations for a specific customer by email
-function getReservationsByEmail(email) {
+export function getReservationsByEmail(email) {
     return new Promise((resolve, reject) => {
         db.collection(getCollectionName())
             .where("email", "==", email)
@@ -96,7 +96,7 @@ function getReservationsByEmail(email) {
 }
 
 // Update reservation status
-function updateReservationStatus(reservationId, status) {
+export function updateReservationStatus(reservationId, status) {
     return new Promise((resolve, reject) => {
         const nowSeconds = Date.now() / 1000;
         
@@ -116,7 +116,7 @@ function updateReservationStatus(reservationId, status) {
 }
 
 // Cancel a reservation
-function cancelReservation(reservationId, reason) {
+export function cancelReservation(reservationId, reason) {
     return updateReservationStatus(reservationId, "cancelled")
         .then(() => {
             return db.collection(getCollectionName()).doc(reservationId)
@@ -127,7 +127,7 @@ function cancelReservation(reservationId, reason) {
 }
 
 // Update reservation details
-function updateReservation(reservationId, updates) {
+export function updateReservation(reservationId, updates) {
     return new Promise((resolve, reject) => {
         const nowSeconds = Date.now() / 1000;
         updates.lastEditedOn = nowSeconds;
@@ -143,13 +143,3 @@ function updateReservation(reservationId, updates) {
             });
     });
 }
-
-module.exports = {
-    createReservation,
-    getReservationsByDate,
-    getUpcomingReservations,
-    getReservationsByEmail,
-    updateReservationStatus,
-    cancelReservation,
-    updateReservation
-};

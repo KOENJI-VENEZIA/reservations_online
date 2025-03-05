@@ -1,5 +1,5 @@
 // Initialize form handlers
-function initializeFormHandlers() {
+export function initializeFormHandlers() {
     // Get form elements
     const form = document.getElementById('reservationForm');
     const numberOfPersonsInput = document.getElementById('numberOfPersons');
@@ -51,7 +51,7 @@ function initializeFormHandlers() {
 }
 
 // Update time slots based on meal category
-function updateTimeSlots() {
+export function updateTimeSlots() {
     const categoryElement = document.getElementById('category');
     const startTimeSelect = document.getElementById('startTime');
     
@@ -106,7 +106,7 @@ function updateTimeSlots() {
 }
 
 // Update end time display
-function updateEndTimeDisplay(startTime) {
+export function updateEndTimeDisplay(startTime) {
     const endTimeValue = document.getElementById('endTimeValue');
     
     if (!endTimeValue || !startTime) {
@@ -128,7 +128,7 @@ function updateEndTimeDisplay(startTime) {
 }
 
 // Check availability if all required fields are filled
-function checkAvailabilityIfFormValid() {
+export function checkAvailabilityIfFormValid() {
     const numberOfPersonsElement = document.getElementById('numberOfPersons');
     const dateElement = document.getElementById('date');
     const categoryElement = document.getElementById('category');
@@ -149,7 +149,7 @@ function checkAvailabilityIfFormValid() {
 }
 
 // Calculate end time from start time
-function calculateEndTime(startTime, category) {
+export function calculateEndTime(startTime, category) {
     const [startHour, startMinute] = startTime.split(':').map(Number);
     let endHour = startHour + 1;
     let endMinute = category === 'lunch' ? startMinute + 20 : startMinute + 45;
@@ -168,7 +168,7 @@ function calculateEndTime(startTime, category) {
 }
 
 // Handle form submission
-function handleFormSubmit(e) {
+export function handleFormSubmit(e) {
     if (e && e.preventDefault) {
         e.preventDefault();
     }
@@ -342,7 +342,7 @@ function handleFormSubmit(e) {
 }
 
 // Reset submit button state
-function resetSubmitButton() {
+export function resetSubmitButton() {
     const submitButton = document.getElementById('submitButton');
     if (submitButton) {
         submitButton.disabled = false;
@@ -351,7 +351,7 @@ function resetSubmitButton() {
 }
 
 // Show success alert
-function showSuccess(message) {
+export function showSuccess(message) {
     const successAlert = document.getElementById('successAlert');
     if (!successAlert) return;
     
@@ -379,7 +379,7 @@ function showSuccess(message) {
 }
 
 // Show error alert
-function showError(message) {
+export function showError(message) {
     const errorAlert = document.getElementById('errorAlert');
     if (!errorAlert) return;
     
@@ -402,13 +402,13 @@ function showError(message) {
 }
 
 // Placeholder for checkAvailability function
-function checkAvailability() {
+export function checkAvailability() {
     // This is a stub that can be overridden
     console.log('Checking availability...');
 }
 
-module.exports = {
-    initializeFormHandlers,
+// Export other functions
+export {
     updateTimeSlots,
     updateEndTimeDisplay,
     checkAvailabilityIfFormValid,
@@ -416,6 +416,5 @@ module.exports = {
     handleFormSubmit,
     resetSubmitButton,
     showSuccess,
-    showError,
-    checkAvailability
+    showError
 };

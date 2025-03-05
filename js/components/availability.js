@@ -1,5 +1,9 @@
+// Import required functions
+import { getTranslation as translate } from '../utils/locale.js';
+import { calculateEndTime } from './form.js';
+
 // Function to check availability via Cloud Function
-function checkAvailability(numberOfPersons, date, category, startTime) {
+export function checkAvailability(numberOfPersons, date, category, startTime) {
     // Calculate end time
     const endTime = calculateEndTime(startTime);
     
@@ -88,7 +92,7 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
 }
 
 // Display availability status
-function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
+export function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
     const availabilityStatus = document.getElementById('availabilityStatus');
     
     // Default values if undefined
@@ -152,8 +156,3 @@ function displayAvailabilityStatus(available, numberOfPersons, availableTables, 
         `;
     }
 }
-
-module.exports = {
-    checkAvailability,
-    displayAvailabilityStatus
-};

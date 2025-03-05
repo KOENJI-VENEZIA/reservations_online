@@ -34,21 +34,8 @@ const auth = getAuth(app);
 // Initialize authentication
 let currentUser = null;
 
-// We need this to be global for the tests to access it
-// Using global.authorizedAdmins directly if in a test environment
-if (typeof global !== 'undefined' && typeof global.authorizedAdmins !== 'undefined') {
-    // Use the global one from the test
-} else {
-    // Initialize our local version
-    if (typeof global !== 'undefined') {
-        global.authorizedAdmins = ['matteo.koenji@gmail.com'];
-    }
-}
-
-// Authorized admins array
-let authorizedAdmins = typeof global !== 'undefined' && global.authorizedAdmins 
-    ? global.authorizedAdmins 
-    : ['matteo.koenji@gmail.com'];
+// Global authorizedAdmins array
+window.authorizedAdmins = window.authorizedAdmins || ['matteo.koenji@gmail.com'];
 
 // Initialize auth
 export function initializeAuth() {
@@ -95,10 +82,10 @@ function loadAuthorizedAdmins() {
     try {
         const storedAdmins = localStorage.getItem('authorizedAdmins');
         if (storedAdmins) {
-            global.authorizedAdmins = JSON.parse(storedAdmins);
+            window.authorizedAdmins = JSON.parse(storedAdmins);
         } else {
             // Initialize with default admin
-            localStorage.setItem('authorizedAdmins', JSON.stringify(global.authorizedAdmins));
+            localStorage.setItem('authorizedAdmins', JSON.stringify(window.authorizedAdmins));
         }
     } catch (error) {
         console.error('Error loading authorized admins:', error);
@@ -187,7 +174,7 @@ export function logout() {
 
 // Check if user is authorized admin
 export function isAuthorizedAdmin(email) {
-    return global.authorizedAdmins.includes(email);
+    return window.authorizedAdmins.includes(email);
 }
 
 // Add new admin
@@ -214,8 +201,8 @@ export function addAdmin(email) {
     }
     
     // Add to authorized admins
-    global.authorizedAdmins.push(email);
-    localStorage.setItem('authorizedAdmins', JSON.stringify(global.authorizedAdmins));
+    window.authorizedAdmins.push(email);
+    localStorage.setItem('authorizedAdmins', JSON.stringify(window.authorizedAdmins));
     
     // Update UI
     renderAdminList();
@@ -227,11 +214,11 @@ export function addAdmin(email) {
 export function removeAdmin(email) {
     if (!email) return;
     
-    const index = global.authorizedAdmins.indexOf(email);
+    const index = window.authorizedAdmins.indexOf(email);
     if (index !== -1) {
         // Remove from array
-        global.authorizedAdmins.splice(index, 1);
-        localStorage.setItem('authorizedAdmins', JSON.stringify(global.authorizedAdmins));
+        window.authorizedAdmins.splice(index, 1);
+        localStorage.setItem('authorizedAdmins', JSON.stringify(window.authorizedAdmins));
         
         // Update UI
         renderAdminList();
@@ -251,7 +238,7 @@ function renderAdminList() {
     if (!adminList) return;
     
     adminList.innerHTML = '';
-    global.authorizedAdmins.forEach(email => {
+    window.authorizedAdmins.forEach(email => {
         const item = document.createElement('div');
         item.className = 'admin-list-item';
         

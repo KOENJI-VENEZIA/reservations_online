@@ -1,45 +1,59 @@
-// Current confirmation callback
+// Modal functionality
 let currentConfirmCallback = null;
 
 // Initialize modal functionality
-function initializeModal() {
-    // Get modal elements
+export function initializeModal() {
     const confirmModal = document.getElementById('confirmModal');
-    const modalClose = document.getElementById('modalClose');
     const modalCancel = document.getElementById('modalCancel');
     const modalConfirm = document.getElementById('modalConfirm');
+    const modalClose = document.querySelector('#confirmModal .modal-close');
     
-    // Close modal when clicking X button
-    modalClose.addEventListener('click', function() {
-        confirmModal.style.display = 'none';
-    });
+    if (!confirmModal) {
+        console.error('Modal container not found');
+        return;
+    }
     
-    // Close modal when clicking Cancel button
-    modalCancel.addEventListener('click', function() {
-        confirmModal.style.display = 'none';
-    });
+    // Close modal when clicking the close button
+    if (modalClose) {
+        modalClose.addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+        });
+    }
     
-    // Confirm action when clicking Confirm button
-    modalConfirm.addEventListener('click', function() {
-        if (typeof currentConfirmCallback === 'function') {
-            currentConfirmCallback();
-        }
-        confirmModal.style.display = 'none';
-        currentConfirmCallback = null;
-    });
+    // Close modal when clicking the cancel button
+    if (modalCancel) {
+        modalCancel.addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+        });
+    }
     
-    // Close modal when clicking outside
-    confirmModal.addEventListener('click', function(event) {
+    // Execute callback when clicking the confirm button
+    if (modalConfirm) {
+        modalConfirm.addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+            if (typeof currentConfirmCallback === 'function') {
+                currentConfirmCallback();
+            }
+        });
+    }
+    
+    // Close modal when clicking outside the modal content
+    window.addEventListener('click', (event) => {
         if (event.target === confirmModal) {
             confirmModal.style.display = 'none';
         }
     });
 }
 
-// Show confirmation modal
-function showConfirmationModal(message, callback) {
+// Show confirmation modal with custom message and callback
+export function showConfirmationModal(message, callback) {
     const confirmModal = document.getElementById('confirmModal');
     const modalMessage = document.getElementById('modalMessage');
+    
+    if (!confirmModal || !modalMessage) {
+        console.error('Modal elements not found');
+        return;
+    }
     
     modalMessage.textContent = message;
     currentConfirmCallback = callback;
@@ -49,9 +63,3 @@ function showConfirmationModal(message, callback) {
 // Make functions available globally
 window.initializeModal = initializeModal;
 window.showConfirmationModal = showConfirmationModal;
-
-// Export functions for testing
-module.exports = {
-    initializeModal,
-    showConfirmationModal
-};
