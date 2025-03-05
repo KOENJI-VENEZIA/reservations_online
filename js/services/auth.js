@@ -1,219 +1,164 @@
-
-import { getTranslation } from '../utils/locale.js';
-import { logToAdmin } from './firebase-config.js';
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-import { initializeFirebase } from './firebase-config.js';
-
-const app = initializeFirebase();
-
-// Initialize Firebase properly:
-// FIXED: Removed redundant auth variable declaration
-// Using firebase.auth() directly instead of getAuth(app)
-// This matches how auth is used elsewhere in your codebase
-
-// Initialize authentication
+// Current user
 let currentUser = null;
 
-// Global authorizedAdmins array
-window.authorizedAdmins = window.authorizedAdmins || ['matteo.koenji@gmail.com'];
+// List of authorized admins (will be loaded from localStorage)
+let authorizedAdmins = ['matteo.koenji@gmail.com']; // Default admin
 
-// Initialize auth
-export function initializeAuth() {
-    // Set up auth state listener
-    setupAuthListeners();
-    
+// Initialize authentication
+function initializeAuth() {
     // Load authorized admins from localStorage
     loadAuthorizedAdmins();
     
-    // Set up admin panel UI
-    const loginButton = document.getElementById('adminLoginButton');
-    const logoutButton = document.getElementById('adminLogoutButton');
-    const addAdminForm = document.getElementById('addAdminForm');
+    // Set up authentication listeners
+    setupAuthListeners();
     
-    if (loginButton) {
-        loginButton.addEventListener('click', googleSignIn);
-    }
-    
-    if (logoutButton) {
-        logoutButton.addEventListener('click', logout);
-    }
-    
-    if (addAdminForm) {
-        addAdminForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const emailInput = document.getElementById('newAdminEmail');
-            if (emailInput && emailInput.value) {
-                addAdmin(emailInput.value);
-                emailInput.value = '';
-            }
-        });
-    }
-    
-    // Make auth functions available globally
+    // Expose auth functions to window for access from other modules
     window.isAuthorizedAdmin = isAuthorizedAdmin;
     window.addAdmin = addAdmin;
     window.removeAdmin = removeAdmin;
-    window.logout = logout;
+    window.signOut = signOut;
     window.getCurrentUser = getCurrentUser;
 }
 
 // Load authorized admins from localStorage
 function loadAuthorizedAdmins() {
-    try {
-        const storedAdmins = localStorage.getItem('authorizedAdmins');
-        if (storedAdmins) {
-            window.authorizedAdmins = JSON.parse(storedAdmins);
-        } else {
-            // Initialize with default admin
-            localStorage.setItem('authorizedAdmins', JSON.stringify(window.authorizedAdmins));
+    const savedAdmins = JSON.parse(localStorage.getItem('authorizedAdmins'));
+    if (savedAdmins && Array.isArray(savedAdmins) && savedAdmins.length > 0) {
+        authorizedAdmins = savedAdmins;
+    } else {
+        // Ensure default admin is always included
+        if (!authorizedAdmins.includes('matteo.koenji@gmail.com')) {
+            authorizedAdmins.push('matteo.koenji@gmail.com');
         }
-    } catch (error) {
-        console.error('Error loading authorized admins:', error);
-        // Keep default admins
+        localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
     }
 }
 
 // Setup authentication state change listener
 function setupAuthListeners() {
-    if (!firebase.auth) return; // Skip if auth is not initialized
-    
-    onAuthStateChanged(user => {
+    auth.onAuthStateChanged(user => {
         if (user) {
             // User is signed in
             currentUser = user;
-            console.log('User signed in:', user.email);
+            logToAdmin(`User signed in: ${user.email}`);
             
             // Check if user is authorized
             if (isAuthorizedAdmin(user.email)) {
                 // Update UI for authorized user
-                const adminLoginSection = document.getElementById('adminLoginSection');
-                const adminContent = document.getElementById('adminContent');
-                
-                if (adminLoginSection) adminLoginSection.style.display = 'none';
-                if (adminContent) adminContent.style.display = 'block';
+                document.getElementById('adminLoginSection').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
                 
                 // Set user info
-                const userAvatar = document.getElementById('userAvatar');
-                const userName = document.getElementById('userName');
-                const userEmail = document.getElementById('userEmail');
+                document.getElementById('userAvatar').src = user.photoURL || 'https://via.placeholder.com/40';
+                document.getElementById('userName').textContent = user.displayName || 'Admin User';
+                document.getElementById('userEmail').textContent = user.email;
                 
-                if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
-                if (userName) userName.textContent = user.displayName || 'Admin User';
-                if (userEmail) userEmail.textContent = user.email;
-                
-                console.log('Admin access granted');
+                logToAdmin('Admin access granted');
                 
                 // Render admin list
                 renderAdminList();
             } else {
                 // Not authorized
-                if (typeof alert === 'function') {
-                    alert(getTranslation ? getTranslation('admin.noAccess') : 'No access');
-                }
-                logout();
+                alert(translate('admin.noAccess'));
+                signOut();
             }
         } else {
             // User is signed out
-            console.log('User signed out');
-            const adminLoginSection = document.getElementById('adminLoginSection');
-            const adminContent = document.getElementById('adminContent');
-            
-            if (adminLoginSection) adminLoginSection.style.display = 'flex';
-            if (adminContent) adminContent.style.display = 'none';
+            document.getElementById('adminLoginSection').style.display = 'flex';
+            document.getElementById('adminContent').style.display = 'none';
         }
     });
 }
 
 // Google Sign In
-export function googleSignIn() {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider).catch(error => {
+function googleSignIn() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(error => {
         console.error('Error signing in with Google:', error);
-        if (typeof logToAdmin === 'function') {
-            logToAdmin(`Sign-in error: ${error.message}`);
-        }
+        logToAdmin(`Sign-in error: ${error.message}`);
     });
 }
 
-export function logout() {
-    signOut(auth).then(() => {
-        // your sign out UI update logic here
+// Sign Out
+function signOut() {
+    auth.signOut().then(() => {
+        document.getElementById('adminLoginSection').style.display = 'flex';
+        document.getElementById('adminContent').style.display = 'none';
+        currentUser = null;
+        logToAdmin('User signed out');
     }).catch(error => {
         console.error('Error signing out:', error);
-        if (typeof logToAdmin === 'function') {
-            logToAdmin(`Sign-out error: ${error.message}`);
-        }
+        logToAdmin(`Sign-out error: ${error.message}`);
     });
 }
 
-
 // Check if user is authorized admin
-export function isAuthorizedAdmin(email) {
-    return window.authorizedAdmins.includes(email);
+function isAuthorizedAdmin(email) {
+    return authorizedAdmins.includes(email);
 }
 
 // Add new admin
-export function addAdmin(email) {
+function addAdmin(email) {
     if (!email) {
-        if (typeof alert === 'function') {
-            alert(getTranslation ? getTranslation('admin.enterEmail') : 'Please enter an email');
-        }
+        alert(translate('admin.enterEmail'));
         return;
     }
     
     if (!isValidEmail(email)) {
-        if (typeof alert === 'function') {
-            alert(getTranslation ? getTranslation('admin.invalidEmail') : 'Invalid email format');
-        }
+        alert(translate('admin.invalidEmail'));
         return;
     }
     
-    if (isAuthorizedAdmin(email)) {
-        if (typeof alert === 'function') {
-            alert(getTranslation ? getTranslation('admin.alreadyAdmin') : 'This email is already an admin');
-        }
+    if (authorizedAdmins.includes(email)) {
+        alert(translate('admin.alreadyAdmin'));
         return;
     }
     
-    // Add to authorized admins
-    window.authorizedAdmins.push(email);
-    localStorage.setItem('authorizedAdmins', JSON.stringify(window.authorizedAdmins));
-    
-    // Update UI
-    renderAdminList();
-    
-    console.log(`Added admin access for ${email}`);
+    showConfirmationModal(
+        translate('admin.confirmAdd', { email }),
+        () => {
+            authorizedAdmins.push(email);
+            localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
+            renderAdminList();
+            document.getElementById('newAdminEmail').value = '';
+            logToAdmin(`Added ${email} as admin`);
+        }
+    );
 }
 
 // Remove admin
-export function removeAdmin(email) {
-    if (!email) return;
-    
-    const index = window.authorizedAdmins.indexOf(email);
-    if (index !== -1) {
-        // Remove from array
-        window.authorizedAdmins.splice(index, 1);
-        localStorage.setItem('authorizedAdmins', JSON.stringify(window.authorizedAdmins));
-        
-        // Update UI
-        renderAdminList();
-        
-        // If current user is removed as admin, sign them out
-        if (currentUser && currentUser.email === email) {
-            logout();
-        }
-        
-        console.log(`Removed admin access for ${email}`);
+function removeAdmin(email) {
+    if (email === 'matteo.koenji@gmail.com') {
+        alert(translate('admin.cannotRemoveDefault'));
+        return;
     }
+    
+    showConfirmationModal(
+        translate('admin.confirmRemove', { email }),
+        () => {
+            const index = authorizedAdmins.indexOf(email);
+            if (index !== -1) {
+                authorizedAdmins.splice(index, 1);
+                localStorage.setItem('authorizedAdmins', JSON.stringify(authorizedAdmins));
+                renderAdminList();
+                logToAdmin(`Removed admin access for ${email}`);
+                
+                // If current user is removed as admin, sign them out
+                if (currentUser && currentUser.email === email) {
+                    signOut();
+                }
+            }
+        }
+    );
 }
 
 // Render admin list
-export function renderAdminList() {
+function renderAdminList() {
     const adminList = document.getElementById('adminList');
     if (!adminList) return;
     
     adminList.innerHTML = '';
-    window.authorizedAdmins.forEach(email => {
+    authorizedAdmins.forEach(email => {
         const item = document.createElement('div');
         item.className = 'admin-list-item';
         
@@ -233,25 +178,15 @@ export function renderAdminList() {
 }
 
 // Email validation helper
-export function isValidEmail(email) {
+function isValidEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
 }
 
 // Get current user
-export function getCurrentUser() {
+function getCurrentUser() {
     return currentUser;
 }
 
-// Set up window.jest flag if in test environment
-if (typeof jest !== 'undefined') {
-    if (typeof window === 'undefined') {
-        global.window = {};
-    }
-    window.jest = true;
-}
-
-// Initialize auth when this script loads (but not in test environment)
-if (typeof window !== 'undefined' && !window.jest) {
-    initializeAuth();
-}
+// Initialize auth when this script loads
+initializeAuth();

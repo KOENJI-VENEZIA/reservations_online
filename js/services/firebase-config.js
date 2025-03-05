@@ -1,7 +1,5 @@
-// Firebase configuration and initialization
-// Using Firebase compat version loaded from CDN in index.html
-
-export const firebaseConfig = {
+// Firebase configuration
+const firebaseConfig = {
     apiKey: "AIzaSyBflMPHQnuye_Vj7h1Wwks65cVDkSo2JKQ",
     authDomain: "koenji-app.firebaseapp.com",
     projectId: "koenji-app",
@@ -11,33 +9,29 @@ export const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const initializeFirebase = () => {
-  // Initialize Firebase with the compat version
-  firebase.initializeApp(firebaseConfig);
-  return firebase;
-};
+firebase.initializeApp(firebaseConfig);
 
-// Initialize Firebase and export components
-const app = initializeFirebase();
-export const db = app.firestore();
-export const functions = app.functions();
-export const auth = app.auth();
+// Export Firebase services
+const db = firebase.firestore();
+const functions = firebase.functions();
+const auth = firebase.auth();
 
 // Helper function to get current environment (debug/release)
-export function isDebugEnvironment() {
+function isDebugEnvironment() {
     return localStorage.getItem('isDebugMode') === 'true';
 }
 
 // Helper function to get the correct collection name based on environment
-export function getCollectionName() {
+function getCollectionName() {
     return isDebugEnvironment() ? "reservations" : "reservations_release";
 }
 
 // Log collection name for debugging
 console.log(`Using collection: ${getCollectionName()}`);
 
+
 // Generate a UUID for the reservation
-export function generateUUID() {
+function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         const r = Math.random() * 16 | 0;
         const v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -46,7 +40,7 @@ export function generateUUID() {
 }
 
 // Log error to admin panel (if available)
-export function logToAdmin(message) {
+function logToAdmin(message) {
     if (typeof window.logToAdmin === 'function') {
         window.logToAdmin(message);
     } else {

@@ -1,11 +1,5 @@
-// Import required functions
-import { getTranslation } from '../utils/locale.js';
-import { showConfirmationModal } from './modal.js';
-import { googleSignIn, logout, addAdmin, removeAdmin, isAuthorizedAdmin, renderAdminList } from '../services/auth.js';
-
 // Initialize admin panel
-export function initializeAdminPanel() {
-    console.log('initializeAdminPanel function called');
+function initializeAdminPanel() {
     // Load admin panel HTML
     loadAdminPanelHTML();
     
@@ -15,28 +9,20 @@ export function initializeAdminPanel() {
 
 // Load admin panel HTML content
 function loadAdminPanelHTML() {
-    console.log('loadAdminPanelHTML function called');
     const adminPanel = document.getElementById('adminPanel');
-    
-    if (!adminPanel) {
-        console.error('Admin panel element not found');
-        return;
-    }
-    
-    console.log('Setting up admin panel HTML');
     
     adminPanel.innerHTML = `
         <div class="admin-panel-header">
-            <h2>${getTranslation('admin.panelTitle')}</h2>
+            <h2>${translate('admin.panelTitle')}</h2>
             <button class="admin-panel-close" id="adminPanelClose">&times;</button>
         </div>
         
         <!-- Login Section (shown when not logged in) -->
         <div id="adminLoginSection" class="login-section">
-            <p style="margin-bottom: 20px; text-align: center;">${getTranslation('admin.signInPrompt')}</p>
+            <p style="margin-bottom: 20px; text-align: center;">${translate('admin.signInPrompt')}</p>
             <button id="googleSignInButton" class="google-signin-button">
                 <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
-                ${getTranslation('admin.signInWithGoogle')}
+                ${translate('admin.signInWithGoogle')}
             </button>
         </div>
         
@@ -53,9 +39,9 @@ function loadAdminPanelHTML() {
             
             <!-- Environment Section -->
             <div class="admin-section">
-                <h3>${getTranslation('admin.environmentSettings')} <span id="environmentIndicator" class="env-tag release">Release</span></h3>
+                <h3>${translate('admin.environmentSettings')} <span id="environmentIndicator" class="env-tag release">Release</span></h3>
                 <div class="admin-row" style="margin-top: 15px;">
-                    <label for="envToggle">${getTranslation('admin.environment')}:</label>
+                    <label for="envToggle">${translate('admin.environment')}:</label>
                     <label class="toggle-switch">
                         <input type="checkbox" id="envToggle">
                         <span class="toggle-slider"></span>
@@ -66,15 +52,15 @@ function loadAdminPanelHTML() {
             
             <!-- Admin Users Section -->
             <div class="admin-section">
-                <h3>${getTranslation('admin.authorizedAdmins')}</h3>
+                <h3>${translate('admin.authorizedAdmins')}</h3>
                 <p style="margin-bottom: 10px; font-size: 14px;">
-                    ${getTranslation('admin.adminDescription')}
+                    ${translate('admin.adminDescription')}
                 </p>
                 
                 <div class="form-group">
                     <div class="admin-row">
-                        <input type="email" id="newAdminEmail" placeholder="${getTranslation('admin.addNewAdmin')}">
-                        <button id="addAdminButton" class="admin-action-button">${getTranslation('admin.add')}</button>
+                        <input type="email" id="newAdminEmail" placeholder="${translate('admin.addNewAdmin')}">
+                        <button id="addAdminButton" class="admin-action-button">${translate('admin.add')}</button>
                     </div>
                 </div>
                 
@@ -85,15 +71,15 @@ function loadAdminPanelHTML() {
             
             <!-- Debug Info Section -->
             <div class="admin-section">
-                <h3>${getTranslation('admin.debugInfo')}</h3>
+                <h3>${translate('admin.debugInfo')}</h3>
                 <div id="logsContainer" class="logs-container">
                     <!-- Debug logs will appear here -->
                 </div>
-                <button id="clearLogsButton" class="admin-action-button" style="margin-top: 10px;">${getTranslation('admin.clearLogs')}</button>
+                <button id="clearLogsButton" class="admin-action-button" style="margin-top: 10px;">${translate('admin.clearLogs')}</button>
             </div>
             
             <!-- Sign Out Button -->
-            <button id="signOutButton" class="admin-action-button secondary small">${getTranslation('admin.signOut')}</button>
+            <button id="signOutButton" class="admin-action-button">${translate('admin.signOut')}</button>
         </div>
     `;
     
@@ -109,35 +95,15 @@ function loadAdminPanelHTML() {
 
 // Set up admin panel toggle buttons
 function setupAdminPanelToggle() {
-    console.log('setupAdminPanelToggle function called');
     // Admin button to open panel
-    const adminButton = document.getElementById('adminButton');
-    
-    if (!adminButton) {
-        console.error('Admin button element not found');
-        return;
-    }
-    
-    console.log('Adding click event listener to adminButton');
-    adminButton.addEventListener('click', function() {
-        console.log('Admin button clicked');
-        const adminPanel = document.getElementById('adminPanel');
-        if (adminPanel) {
-            adminPanel.classList.add('active');
-            console.log('Admin panel activated');
-        } else {
-            console.error('Admin panel element not found when trying to activate');
-        }
+    document.getElementById('adminButton').addEventListener('click', function() {
+        document.getElementById('adminPanel').classList.add('active');
     });
     
     // Close button inside panel
     document.addEventListener('click', function(event) {
         if (event.target.id === 'adminPanelClose') {
-            const adminPanel = document.getElementById('adminPanel');
-            if (adminPanel) {
-                adminPanel.classList.remove('active');
-                console.log('Admin panel deactivated');
-            }
+            document.getElementById('adminPanel').classList.remove('active');
         }
     });
 }
@@ -150,11 +116,11 @@ function setupLogFunctionality() {
     // Clear logs button functionality
     clearLogsButton.addEventListener('click', function() {
         showConfirmationModal(
-            getTranslation('admin.confirmClearLogs'),
+            translate('admin.confirmClearLogs'),
             () => {
                 localStorage.setItem('adminLogs', '[]');
                 logsContainer.innerHTML = '';
-                window.logToAdmin(getTranslation('admin.logsCleared'));
+                logToAdmin(translate('admin.logsCleared'));
             }
         );
     });
@@ -209,7 +175,7 @@ function setupEnvironmentToggle() {
         const isDebug = this.checked;
         localStorage.setItem('isDebugMode', isDebug);
         updateEnvironmentUI(isDebug);
-        window.logToAdmin(`${getTranslation('admin.environmentChanged')}: ${isDebug ? getTranslation('admin.debug') : getTranslation('admin.release')}`);
+        logToAdmin(`${translate('admin.environmentChanged')}: ${isDebug ? translate('admin.debug') : translate('admin.release')}`);
     });
 }
 
@@ -218,8 +184,8 @@ function updateEnvironmentUI(isDebug) {
     const toggleLabel = document.getElementById('toggleLabel');
     const environmentIndicator = document.getElementById('environmentIndicator');
     
-    toggleLabel.textContent = isDebug ? getTranslation('admin.debug') : getTranslation('admin.release');
-    environmentIndicator.textContent = isDebug ? getTranslation('admin.debug') : getTranslation('admin.release');
+    toggleLabel.textContent = isDebug ? translate('admin.debug') : translate('admin.release');
+    environmentIndicator.textContent = isDebug ? translate('admin.debug') : translate('admin.release');
     environmentIndicator.className = `env-tag ${isDebug ? 'debug' : 'release'}`;
 }
 
@@ -232,7 +198,7 @@ function setupAdminUserManagement() {
     
     // Sign out button
     document.getElementById('signOutButton').addEventListener('click', function() {
-        logout();
+        signOut();
     });
     
     // Add admin button
@@ -244,24 +210,3 @@ function setupAdminUserManagement() {
     // Render admin list initially
     renderAdminList();
 }
-
-// Export additional functions that might be needed elsewhere
-export {
-    loadAdminPanelHTML,
-    setupAdminPanelToggle,
-    setupLogFunctionality,
-    loadLogs,
-    setupEnvironmentToggle,
-    updateEnvironmentUI,
-    setupAdminUserManagement
-};
-
-// Make functions available globally
-window.initializeAdminPanel = initializeAdminPanel;
-window.loadAdminPanelHTML = loadAdminPanelHTML;
-window.setupAdminPanelToggle = setupAdminPanelToggle;
-window.setupLogFunctionality = setupLogFunctionality;
-window.loadLogs = loadLogs;
-window.setupEnvironmentToggle = setupEnvironmentToggle;
-window.updateEnvironmentUI = updateEnvironmentUI;
-window.setupAdminUserManagement = setupAdminUserManagement;
