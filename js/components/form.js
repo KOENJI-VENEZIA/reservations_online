@@ -1,3 +1,6 @@
+// Import the checkAvailability function from availability.js
+import { checkAvailability } from './availability.js';
+
 // Initialize form handlers
 function initializeFormHandlers() {
     // Get form elements
@@ -185,7 +188,8 @@ function handleFormSubmit(e) {
     const nowSeconds = Date.now() / 1000;
     
     // Final availability check before submission
-    checkAvailability({
+    const checkAvailabilityFn = functions.httpsCallable('checkAvailability');
+    checkAvailabilityFn({
         numberOfPersons: formData.numberOfPersons,
         date: formData.date,
         category: formData.category,
