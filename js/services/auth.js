@@ -1,26 +1,3 @@
-// Use regular import for Jest compatibility
-// For testing, we'll use mock implementations
-let getAuth, signInWithEmailAndPassword, signOut;
-
-// Check if we're in a test environment
-const isTestEnvironment = typeof jest !== 'undefined';
-
-if (isTestEnvironment) {
-    // Mock implementations for testing
-    getAuth = jest.fn().mockReturnValue({
-        onAuthStateChanged: jest.fn(),
-        signInWithEmailAndPassword: jest.fn(),
-        signOut: jest.fn().mockResolvedValue(true)
-    });
-    signInWithEmailAndPassword = jest.fn().mockResolvedValue({ user: { email: 'test@example.com' } });
-    signOut = jest.fn().mockResolvedValue(true);
-} else {
-    // Real implementations for production
-    const firebaseAuth = require('firebase/auth');
-    getAuth = firebaseAuth.getAuth;
-    signInWithEmailAndPassword = firebaseAuth.signInWithEmailAndPassword;
-    signOut = firebaseAuth.signOut;
-}
 
 import { getTranslation } from '../utils/locale.js';
 import { logToAdmin } from './firebase-config.js';
