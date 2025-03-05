@@ -1,6 +1,3 @@
-// Import the checkAvailability function from availability.js
-import { checkAvailability } from './availability.js';
-
 // Initialize form handlers
 function initializeFormHandlers() {
     // Get form elements
