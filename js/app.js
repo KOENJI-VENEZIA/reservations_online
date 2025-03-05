@@ -2,7 +2,7 @@
 
 import { db, getCollectionName, isDebugEnvironment } from '../js/services/firebase-config';
 import { initializeLocalization } from '../js/utils/locale';
-import { initializeTheme } from '../js/services/theme';
+import { initializeTheme } from './services/theme.js';
 import { initializeAdminPanel } from '../js/components/admin-panel';
 import { initializeFormHandlers } from '../js/components/form';
 import { initializeModal } from '../js/components/modal';

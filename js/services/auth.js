@@ -1,5 +1,12 @@
+// Replace imports:
+import { getAuth, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+import { initializeFirebase } from './firebase-config.js';
+
+// Initialize Firebase properly:
+const app = initializeFirebase();
+const auth = getAuth(app);
+
 // Initialize authentication
-let auth;
 let currentUser = null;
 
 // We need this to be global for the tests to access it
@@ -15,9 +22,6 @@ if (typeof global !== 'undefined' && typeof global.authorizedAdmins !== 'undefin
 
 // Initialize authentication
 function initializeAuth() {
-    // Set up Firebase auth reference
-    auth = firebase.auth();
-    
     // Load authorized admins from localStorage
     loadAuthorizedAdmins();
     
@@ -290,7 +294,7 @@ if (typeof window !== 'undefined' && !window.jest) {
 }
 
 // Export functions for testing
-module.exports = {
+export {
     initializeAuth,
     isAuthorizedAdmin,
     addAdmin,

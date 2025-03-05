@@ -1,7 +1,15 @@
 // Firebase configuration and initialization
-import firebaseInstance from './firebase-init';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
 
-export const { db, functions, auth } = firebaseInstance;
+export const firebaseConfig = {
+  // your config here
+};
+
+export const initializeFirebase = () => {
+  return initializeApp(firebaseConfig);
+};
+
+export const { db, functions, auth } = initializeFirebase();
 
 // Helper function to get current environment (debug/release)
 export function isDebugEnvironment() {

@@ -150,8 +150,11 @@ if (typeof window !== 'undefined') {
 }
 
 // Export functions for testing
-module.exports = {
+export {
     getTranslation,
     updateAllTranslations,
-    updateTranslations
+    updateTranslations,
+    translateUI,
+    getCurrentLocale,
+    setLocale
 };
