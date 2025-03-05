@@ -1,5 +1,5 @@
 // Helper function to check if dark mode is preferred
-function prefersDarkMode() {
+export function prefersDarkMode() {
     try {
         // First check if window.matchMedia exists
         if (!window.matchMedia) {
@@ -15,7 +15,7 @@ function prefersDarkMode() {
 }
 
 // Helper function to handle theme change event
-function handleThemeChange(e) {
+export function handleThemeChange(e) {
     if (e.matches) {
         applyDarkTheme();
     } else {
@@ -24,7 +24,7 @@ function handleThemeChange(e) {
 }
 
 // Helper function to add theme change listener
-function addThemeChangeListener() {
+export function addThemeChangeListener() {
     try {
         if (window.matchMedia) {
             const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -49,15 +49,15 @@ function addThemeChangeListener() {
     }
 }
 
-function initializeTheme() {
+export function initializeTheme() {
     // Check if system prefers dark mode
-    const isDarkMode = module.exports.prefersDarkMode();
+    const isDarkMode = prefersDarkMode();
     console.log('System prefers dark mode:', isDarkMode);
     
     if (isDarkMode) {
-        module.exports.applyDarkTheme();
+        applyDarkTheme();
     } else {
-        module.exports.applyLightTheme();
+        applyLightTheme();
     }
     
     // Add system theme change listener
@@ -66,7 +66,7 @@ function initializeTheme() {
 }
 
 // Apply dark theme
-function applyDarkTheme() {
+export function applyDarkTheme() {
     document.body.classList.add('dark-theme');
     const themeStylesheet = document.getElementById('theme-stylesheet');
     if (themeStylesheet) {
@@ -77,7 +77,7 @@ function applyDarkTheme() {
 }
 
 // Apply light theme
-function applyLightTheme() {
+export function applyLightTheme() {
     document.body.classList.remove('dark-theme');
     const themeStylesheet = document.getElementById('theme-stylesheet');
     if (themeStylesheet) {
@@ -86,12 +86,3 @@ function applyLightTheme() {
     
     console.log('Applied light theme based on system preference');
 }
-
-module.exports = {
-    initializeTheme,
-    applyDarkTheme,
-    applyLightTheme,
-    prefersDarkMode,  // Expose for testing
-    addThemeChangeListener,  // Expose for testing
-    handleThemeChange  // Expose for testing
-};

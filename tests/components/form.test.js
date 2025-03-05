@@ -1,15 +1,15 @@
 // Import form functions
-const { 
+import { 
     calculateEndTime, 
     handleFormSubmit, 
     showError 
-} = require('../../js/components/form');
+} from '../../js/components/form.js';
 
 // Mock validation module
-jest.mock('../../js/utils/validation');
+jest.mock('../../js/utils/validation.js');
 
 // Import mocked validation functions
-const validation = require('../../js/utils/validation');
+import * as validation from '../../js/utils/validation.js';
 
 describe('Form Component', () => {
     // Mock DOM elements
@@ -18,6 +18,9 @@ describe('Form Component', () => {
     beforeEach(() => {
         // Reset mocks
         jest.clearAllMocks();
+        
+        // Setup fake timers
+        jest.useFakeTimers();
         
         // Mock event
         mockEvent = {

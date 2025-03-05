@@ -3,7 +3,7 @@
  */
 
 // Mock all the imports
-jest.mock('../js/services/firebase-config', () => ({
+jest.mock('../js/services/firebase-config.js', () => ({
   db: {
     collection: jest.fn().mockReturnValue({})
   },
@@ -11,11 +11,11 @@ jest.mock('../js/services/firebase-config', () => ({
   isDebugEnvironment: jest.fn()
 }), { virtual: true });
 
-jest.mock('../js/utils/locale', () => ({
+jest.mock('../js/utils/locale.js', () => ({
   initializeLocalization: jest.fn()
 }), { virtual: true });
 
-jest.mock('../js/services/theme', () => ({
+jest.mock('../js/services/theme.js', () => ({
   initializeTheme: jest.fn()
 }), { virtual: true });
 

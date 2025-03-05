@@ -142,6 +142,21 @@ function updateTranslations(language, newTranslations = null) {
     }
 }
 
+// Alias for setLanguage for better API naming
+function setLocale(lang) {
+    return setLanguage(lang);
+}
+
+// Get current locale
+function getCurrentLocale() {
+    return currentLanguage;
+}
+
+// Alias for updateAllTranslations for better API naming
+function translateUI() {
+    return updateAllTranslations();
+}
+
 // Make functions available globally
 if (typeof window !== 'undefined') {
     window.translate = getTranslation;
@@ -156,5 +171,6 @@ export {
     updateTranslations,
     translateUI,
     getCurrentLocale,
-    setLocale
+    setLocale,
+    initializeLocalization
 };

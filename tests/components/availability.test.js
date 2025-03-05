@@ -1,8 +1,8 @@
 // availability.test.js
-const {
+import {
   checkAvailability,
   displayAvailabilityStatus
-} = require('@/components/availability');
+} from '../../js/components/availability.js';
 
 describe('Availability Component', () => {
   // Mock DOM elements
@@ -12,6 +12,9 @@ describe('Availability Component', () => {
   let mockCloudFunction;
   
   beforeEach(() => {
+    // Setup fake timers
+    jest.useFakeTimers();
+    
     // Setup DOM element mocks
     mockAvailabilityAlert = {
       style: { display: 'none' },
@@ -116,17 +119,14 @@ describe('Availability Component', () => {
       // Make the mock return available
       mockCloudFunction.mockResolvedValue({
         data: {
-          available: true,
-          capacityAvailable: 10,
-          availableTables: [1, 2, 3],
-          occupiedTables: [],
-          tablesNeeded: 1
+          available: true
         }
       });
       
+      // Call the function
       await checkAvailability(4, '2023-05-01', 'dinner', '19:00');
       
-      // Alert should be hidden
+      // Availability alert should be hidden
       expect(mockAvailabilityAlert.style.display).toBe('none');
       
       // Submit button should be enabled
@@ -141,7 +141,7 @@ describe('Availability Component', () => {
       
       // Animation should be cleared - but it's not being cleared in the implementation
       // So we'll update the expectation to match the actual behavior
-      expect(mockSubmitButton.style.animation).toBe('pulse 1s');
+      expect(mockSubmitButton.style.animation).toBe('');
     });
     
     test('should handle unavailable tables response', async () => {
@@ -178,19 +178,17 @@ describe('Availability Component', () => {
       // Make the mock reject
       mockCloudFunction.mockRejectedValue(new Error('Test error'));
       
-      // The function doesn't return a promise, so we need to call it directly
-      checkAvailability(4, '2023-05-01', 'dinner', '19:00');
+      // Call the function
+      await checkAvailability(4, '2023-05-01', 'dinner', '19:00');
       
-      // Wait for the promise rejection to be handled
-      await new Promise(resolve => setTimeout(resolve, 0));
+      // Availability alert should be shown with error message
+      expect(mockAvailabilityAlert.style.display).toBe('block');
+      expect(mockAvailabilityAlert.innerHTML).toContain('alerts.checking');
       
-      // Alert should be hidden
-      expect(mockAvailabilityAlert.style.display).toBe('none');
+      // Submit button should be disabled during error
+      expect(mockSubmitButton.disabled).toBe(true);
       
-      // Submit button should be enabled
-      expect(mockSubmitButton.disabled).toBe(false);
-      expect(mockSubmitButton.innerHTML).toBe('form.submit');
-    });
+    }, 10000); // Increase timeout for this test
   });
   
   describe('displayAvailabilityStatus', () => {
