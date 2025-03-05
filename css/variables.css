@@ -1,29 +1,41 @@
 :root {
     /* Base colors - will be overridden by theme files */
-    --primary-color: #4a90e2;
-    --primary-rgb: 74, 144, 226; /* Add RGB version for opacity */
-    --primary-light: rgba(74, 144, 226, 0.12);
-    --primary-dark: #3a80d2;
+    --primary-color: #4A4E6D;
+    --primary-rgb: 74, 78, 109; /* RGB version for opacity */
+    --primary-light: rgba(74, 78, 109, 0.12);
+    --primary-dark: #232850;
+    
+    /* Secondary colors */
+    --secondary-color: #B89301;
+    --secondary-rgb: 184, 147, 1; /* RGB version for opacity */
+    --secondary-light: #E8D18E;
+    --secondary-dark: #968B54;
+    
+    /* Status colors */
     --success-color: #4bb543;
     --success-light: rgba(75, 181, 67, 0.12);
     --error-color: #dc3545;
     --error-light: rgba(220, 53, 69, 0.12);
-    --warning-color: #ffc107;
-    --warning-light: rgba(255, 193, 7, 0.12);
-    --neutral-color: #6c757d;
+    --warning-color: #B89301;
+    --warning-light: rgba(184, 147, 1, 0.12);
+    
+    /* Neutral colors */
+    --neutral-color: #7076A2;
+    --neutral-light: #E0E2F2;
     
     /* Light theme defaults - will be overridden by theme files */
     --bg-color: #f8f9fa;
     --bg-card: #ffffff;
     --bg-card-secondary: #f5f7fa;
-    --text-primary: #333333;
-    --text-secondary: #6c757d;
-    --border-color: #dee2e6;
+    --bg-accent: #EEE8C0;
+    --text-primary: #232850;
+    --text-secondary: #7076A2;
+    --border-color: #E0E2F2;
     
     /* Common variables */
     --border-radius: 12px;
     --border-radius-sm: 8px;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 4px 12px rgba(74, 78, 109, 0.1);
 }
 
 /* Animations */

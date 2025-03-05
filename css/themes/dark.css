@@ -1,32 +1,38 @@
 :root {
-    /* Primary colors */
-    --primary-color: #5a9be6;
-    --primary-light: rgba(90, 155, 230, 0.2);
-    --primary-dark: #4a8cd6;
+    /* Primary colors - Main brand color: #4A4E6D */
+    --primary-color: #7076A2; /* Lighter version of main brand color for better contrast */
+    --primary-light: rgba(112, 118, 162, 0.2);
+    --primary-dark: #4A4E6D;
+    
+    /* Secondary colors - Secondary brand color: #B89301 */
+    --secondary-color: #E8D18E; /* Using lighter version for better visibility */
+    --secondary-light: rgba(232, 209, 142, 0.2);
+    --secondary-dark: #B89301;
     
     /* Status colors */
     --success-color: #5bc761;
     --success-light: rgba(91, 199, 97, 0.2);
     --error-color: #e74c5e;
     --error-light: rgba(231, 76, 94, 0.2);
-    --warning-color: #ffcc33;
-    --warning-light: rgba(255, 204, 51, 0.2);
+    --warning-color: #E8D18E; /* Using secondary light for warnings */
+    --warning-light: rgba(232, 209, 142, 0.2);
     
     /* Neutral colors */
-    --neutral-color: #8c97a1;
-    --neutral-light: #3e4346;
+    --neutral-color: #E0E2F2;
+    --neutral-light: #7076A2;
     
     /* Background colors */
-    --bg-color: #1a1e21;
-    --bg-card: #282e33;
-    --bg-card-secondary: #343a40;
+    --bg-color: #232850; /* Using dark brand color for background */
+    --bg-card: #2D3361; /* Slightly lighter than bg-color */
+    --bg-card-secondary: #4A4E6D; /* Using main brand color for secondary cards */
+    --bg-accent: #968B54; /* Dark version of secondary accent */
     
     /* Text colors */
-    --text-primary: #f8f9fa;
-    --text-secondary: #adb5bd;
+    --text-primary: #E0E2F2; /* Using neutral light for primary text */
+    --text-secondary: #EEE8C0; /* Using secondary light for secondary text */
     
     /* Border colors */
-    --border-color: #495057;
+    --border-color: #4A4E6D; /* Using main brand color for borders */
     
     /* Shadow */
     --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);

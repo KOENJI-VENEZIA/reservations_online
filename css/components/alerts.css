@@ -5,6 +5,9 @@
     display: none;
     animation: fadeIn 0.3s ease;
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .alert-success {
@@ -19,4 +22,28 @@
     border-left: 4px solid var(--error-color);
 }
 
-.alert-
+.alert-warning {
+    background-color: var(--secondary-light);
+    color: var(--secondary-dark);
+    border-left: 4px solid var(--secondary-color);
+}
+
+.alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.alert-close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.alert-close:hover {
+    opacity: 1;
+}

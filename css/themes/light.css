@@ -1,33 +1,39 @@
 :root {
-    /* Primary colors */
-    --primary-color: #4a90e2;
-    --primary-light: rgba(74, 144, 226, 0.12);
-    --primary-dark: #3a80d2;
+    /* Primary colors - Main brand color: #4A4E6D */
+    --primary-color: #4A4E6D;
+    --primary-light: rgba(74, 78, 109, 0.12);
+    --primary-dark: #232850;
+    
+    /* Secondary colors - Secondary brand color: #B89301 */
+    --secondary-color: #B89301;
+    --secondary-light: #E8D18E;
+    --secondary-dark: #968B54;
     
     /* Status colors */
     --success-color: #4bb543;
     --success-light: rgba(75, 181, 67, 0.12);
     --error-color: #dc3545;
     --error-light: rgba(220, 53, 69, 0.12);
-    --warning-color: #ffc107;
-    --warning-light: rgba(255, 193, 7, 0.12);
+    --warning-color: #B89301; /* Using secondary brand color for warnings */
+    --warning-light: rgba(184, 147, 1, 0.12);
     
     /* Neutral colors */
-    --neutral-color: #6c757d;
-    --neutral-light: #e9ecef;
+    --neutral-color: #7076A2;
+    --neutral-light: #E0E2F2;
     
     /* Background colors */
     --bg-color: #f8f9fa;
     --bg-card: #ffffff;
     --bg-card-secondary: #f5f7fa;
+    --bg-accent: #EEE8C0; /* Light version of secondary accent */
     
     /* Text colors */
-    --text-primary: #333333;
-    --text-secondary: #6c757d;
+    --text-primary: #232850; /* Using dark brand color for primary text */
+    --text-secondary: #7076A2; /* Using neutral dark for secondary text */
     
     /* Border colors */
-    --border-color: #dee2e6;
+    --border-color: #E0E2F2; /* Using neutral light for borders */
     
     /* Shadow */
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 4px 12px rgba(74, 78, 109, 0.1); /* Using main brand color for shadow */
 }
