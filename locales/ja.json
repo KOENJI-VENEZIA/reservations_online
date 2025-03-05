@@ -45,13 +45,13 @@
     "confirmation": "予約は要確認です。当店のスタッフが確認次第、メールでお知らせします。"
   },
   "availability": {
-    "tablesAvailable": "利用可能なテーブル: {{count}}",
-    "comfortablySeated": "{{count}}名様のグループを快適にご案内できます。",
-    "notEnoughTables": "申し訳ありませんが、この時間帯に十分なテーブルがありません。",
-    "tablesNeeded": "{{numberOfPersons}}名様のグループには{{tablesNeeded}}台のテーブルが必要ですが、十分な空席がございません。",
-    "recommendTimes": "以下の時間帯もお試しください:",
-    "earlier": "30分早い時間帯",
-    "later": "30分遅い時間帯"
+    "tablesAvailable": "利用可能なテーブル数: {{count}}",
+    "comfortablySeated": "{{count}}名様のグループは快適にお座りいただけます。",
+    "notEnoughTables": "申し訳ありませんが、この時間帯には十分なテーブルがございません。",
+    "tablesNeeded": "この時間帯には{{numberOfPersons}}名様のグループに対応できるテーブルが足りません。",
+    "recommendTimes": "以下の時間帯をお試しください：",
+    "earlier": "30分前",
+    "later": "30分後"
   },
   "modal": {
     "confirmation": "確認",

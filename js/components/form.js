@@ -48,27 +48,36 @@ function updateTimeSlots() {
     // Clear existing options
     startTimeSelect.innerHTML = '';
     
-    // Define time ranges based on category
-    let startHour, endHour;
+    // Define specific time slots based on category
+    let timeSlots = [];
+    
     if (category === 'lunch') {
-        startHour = 12;
-        endHour = 13.75; // Last slot at 13:45
+        // Only 12:00 and 13:30 for lunch
+        timeSlots = ['12:00', '13:30'];
     } else { // dinner
-        startHour = 18;
-        endHour = 21.75; // Last slot at 21:45
+        // From 18:00 to 19:30 and from 21:00 to 21:45 for dinner
+        // First range: 18:00 to 19:30 in 15-minute increments
+        for (let h = 18; h <= 19.5; h += 0.25) {
+            const hour = Math.floor(h);
+            const minute = (h - hour) * 60;
+            timeSlots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
+        }
+        
+        // Second range: 21:00 to 21:45 in 15-minute increments
+        for (let h = 21; h <= 21.75; h += 0.25) {
+            const hour = Math.floor(h);
+            const minute = (h - hour) * 60;
+            timeSlots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
+        }
     }
     
-    // Add time slots in 15-minute increments
-    for (let h = startHour; h <= endHour; h += 0.25) {
-        const hour = Math.floor(h);
-        const minute = (h - hour) * 60;
-        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-        
+    // Add time slots to select element
+    timeSlots.forEach(timeString => {
         const option = document.createElement('option');
         option.value = timeString;
         option.textContent = timeString;
         startTimeSelect.appendChild(option);
-    }
+    });
     
     // Update end time display
     updateEndTimeDisplay(startTimeSelect.value);

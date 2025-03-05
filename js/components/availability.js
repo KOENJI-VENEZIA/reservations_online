@@ -1,5 +1,5 @@
 // Function to check availability via Cloud Function
-function checkAvailability(numberOfPersons, date, category, startTime) {
+export function checkAvailability(numberOfPersons, date, category, startTime) {
     // Calculate end time
     const endTime = calculateEndTime(startTime);
     
@@ -9,7 +9,6 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
     const submitButton = document.getElementById('submitButton');
     
     // Show checking status
-    availabilityAlert.style.display = 'block';
     availabilityAlert.innerHTML = `
         <div class="alert-icon">
             <i class="fas fa-exclamation-triangle"></i>
@@ -17,10 +16,11 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         ${translate('alerts.checking')}
         <span class="alert-close">&times;</span>
     `;
+    availabilityAlert.classList.add('show');
     
     // Set up alert close buttons
     availabilityAlert.querySelector('.alert-close').addEventListener('click', function() {
-        availabilityAlert.style.display = 'none';
+        availabilityAlert.classList.remove('show');
     });
     
     // Disable submit button during check
@@ -38,14 +38,13 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         isDebug: isDebugEnvironment() // Pass the environment flag
     }).then((result) => {
         // Hide checking alert
-        availabilityAlert.style.display = 'none';
+        availabilityAlert.classList.remove('show');
         
         const { 
             available, 
             capacityAvailable, 
             message, 
             availableTables, 
-            occupiedTables,
             tablesNeeded
         } = result.data;
         
@@ -55,7 +54,7 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         }
         
         // Update availability status with appropriate information
-        displayAvailabilityStatus(available, numberOfPersons, availableTables || 0, occupiedTables || [], tablesNeeded || 0, startTime);
+        displayAvailabilityStatus(available, numberOfPersons, availableTables || 0, [], tablesNeeded || 0, startTime);
         
         // Enable or disable submit button based on availability
         submitButton.disabled = !available;
@@ -73,7 +72,7 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         
     }).catch((error) => {
         console.error('Error checking availability:', error);
-        availabilityAlert.style.display = 'none';
+        availabilityAlert.classList.remove('show');
         submitButton.disabled = false;
         submitButton.innerHTML = translate('form.submit');
         
@@ -88,17 +87,16 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
 }
 
 // Display availability status
-function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
+export function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
     const availabilityStatus = document.getElementById('availabilityStatus');
     
     // Default values if undefined
     availableTables = availableTables || 0;
-    occupiedTables = occupiedTables || [];
     tablesNeeded = tablesNeeded || 0;
     
     // Update availability status
-    availabilityStatus.style.display = 'block';
-    availabilityStatus.className = 'availability-status ' + (available ? 'available' : 'unavailable');
+    availabilityStatus.classList.add('show');
+    availabilityStatus.className = 'availability-status ' + (available ? 'available' : 'unavailable') + ' show';
     
     if (available) {
         availabilityStatus.innerHTML = `
@@ -135,18 +133,14 @@ function displayAvailabilityStatus(available, numberOfPersons, availableTables, 
             </div>
         `;
         
-        // Show occupied tables info
+        // Show unavailability message without specific table information
         availabilityStatus.innerHTML = `
             <div style="display: flex; align-items: center;">
                 <i class="fas fa-times-circle" style="margin-right: 8px;"></i>
                 ${translate('availability.notEnoughTables')}
             </div>
             <div style="margin-top: 8px; font-size: 14px; color: var(--text-secondary);">
-                ${translate('availability.tablesNeeded', { 
-                    tablesNeeded: tablesNeeded,
-                    numberOfPersons: numberOfPersons,
-                    occupiedTables: occupiedTables.join(', ')
-                })}
+                We need more tables for your party of ${numberOfPersons} at this time.
             </div>
             ${alternativeMessage}
         `;
