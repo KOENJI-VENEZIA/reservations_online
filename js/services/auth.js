@@ -22,13 +22,15 @@ if (isTestEnvironment) {
     signOut = firebaseAuth.signOut;
 }
 
-import { initializeFirebase } from './firebase-config.js';
-import { getTranslation } from '../utils/locale.js';
+]import { getTranslation } from '../utils/locale.js';
 import { logToAdmin } from './firebase-config.js';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { initializeFirebase } from './firebase-config.js';
+
+const app = initializeFirebase();
 
 // Initialize Firebase properly:
 // FIXED: Removed redundant auth variable declaration
-const app = initializeFirebase();
 // Using firebase.auth() directly instead of getAuth(app)
 // This matches how auth is used elsewhere in your codebase
 
@@ -98,7 +100,7 @@ function loadAuthorizedAdmins() {
 function setupAuthListeners() {
     if (!firebase.auth) return; // Skip if auth is not initialized
     
-    firebase.auth().onAuthStateChanged(user => {
+    onAuthStateChanged(user => {
         if (user) {
             // User is signed in
             currentUser = user;
@@ -147,8 +149,8 @@ function setupAuthListeners() {
 
 // Google Sign In
 export function googleSignIn() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).catch(error => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider).catch(error => {
         console.error('Error signing in with Google:', error);
         if (typeof logToAdmin === 'function') {
             logToAdmin(`Sign-in error: ${error.message}`);
@@ -156,19 +158,9 @@ export function googleSignIn() {
     });
 }
 
-// Sign Out
 export function logout() {
-    if (!firebase.auth) return;
-    
-    firebase.auth().signOut().then(() => {
-        const adminLoginSection = document.getElementById('adminLoginSection');
-        const adminContent = document.getElementById('adminContent');
-        
-        if (adminLoginSection) adminLoginSection.style.display = 'flex';
-        if (adminContent) adminContent.style.display = 'none';
-        
-        currentUser = null;
-        console.log('User signed out');
+    signOut(auth).then(() => {
+        // your sign out UI update logic here
     }).catch(error => {
         console.error('Error signing out:', error);
         if (typeof logToAdmin === 'function') {
@@ -176,6 +168,7 @@ export function logout() {
         }
     });
 }
+
 
 // Check if user is authorized admin
 export function isAuthorizedAdmin(email) {
