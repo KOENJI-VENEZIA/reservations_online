@@ -104,7 +104,7 @@ function displayAvailabilityStatus(available, numberOfPersons, capacityAvailable
         availabilityStatus.innerHTML = `
             <div style="display: flex; align-items: center;">
                 <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
-                ${translate('availability.tablesAvailable', { count: capacityAvailable })}
+                ${translate('availability.tablesAvailable', { count: capacityAvailable / 2})}
             </div>
             <div style="margin-top: 8px; font-size: 14px; color: var(--text-secondary);">
                 ${translate('availability.comfortablySeated', { count: numberOfPersons })}
