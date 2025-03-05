@@ -51,13 +51,13 @@ function addThemeChangeListener() {
 
 function initializeTheme() {
     // Check if system prefers dark mode
-    const isDarkMode = prefersDarkMode();
+    const isDarkMode = module.exports.prefersDarkMode();
     console.log('System prefers dark mode:', isDarkMode);
     
     if (isDarkMode) {
-        applyDarkTheme();
+        module.exports.applyDarkTheme();
     } else {
-        applyLightTheme();
+        module.exports.applyLightTheme();
     }
     
     // Add system theme change listener

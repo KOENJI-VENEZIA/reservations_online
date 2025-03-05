@@ -264,7 +264,7 @@ describe('App Component', () => {
       }).not.toThrow();
       
       // Verify the console.log was called (a simple check)
-      expect(console.log).toHaveBeenCalledWith('Restaurant reservation application initialized');
+      expect(console.log).toHaveBeenCalledWith('Restaurant reservation application initialized successfully');
     });
     
    

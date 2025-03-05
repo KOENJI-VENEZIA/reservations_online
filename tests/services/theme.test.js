@@ -1,4 +1,3 @@
-
 const themeModule = require('@/services/theme');
 
 describe('Theme Services', () => {
@@ -150,9 +149,11 @@ describe('Theme Services', () => {
     
     describe('initializeTheme', () => {
         beforeEach(() => {
+            // Properly spy on the functions before each test
             jest.spyOn(themeModule, 'prefersDarkMode');
-            jest.spyOn(themeModule, 'applyDarkTheme');
-            jest.spyOn(themeModule, 'applyLightTheme');
+            jest.spyOn(themeModule, 'applyDarkTheme').mockImplementation(() => {});
+            jest.spyOn(themeModule, 'applyLightTheme').mockImplementation(() => {});
+            jest.spyOn(themeModule, 'addThemeChangeListener').mockReturnValue(true);
         });
     
         afterEach(() => {
