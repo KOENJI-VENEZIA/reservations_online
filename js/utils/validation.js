@@ -1,7 +1,7 @@
 // Form validation utilities
 
 // Validate email format
-function validateEmail(email) {
+export function validateEmail(email) {
     if (email === null || email === undefined) {
         return false;
     }
@@ -10,7 +10,7 @@ function validateEmail(email) {
 }
 
 // Validate phone number (basic format check)
-function validatePhone(phone) {
+export function validatePhone(phone) {
     // Remove common formatting characters
     const stripped = phone.replace(/[\s\-\(\)\.]/g, '');
     
@@ -21,18 +21,18 @@ function validatePhone(phone) {
 }
 
 // Validate required fields
-function validateRequired(value) {
+export function validateRequired(value) {
     return value !== null && value !== undefined && value.toString() !== '';
 }
 
 // Validate number of persons (minimum 2)
-function validateNumberOfPersons(number) {
+export function validateNumberOfPersons(number) {
     const num = parseInt(number);
     return !isNaN(num) && num >= 2;
 }
 
 // Validate date (not in the past and not on Monday)
-function validateDate(dateString) {
+export function validateDate(dateString) {
     const selectedDate = new Date(dateString);
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time to beginning of day
@@ -56,7 +56,7 @@ function validateDate(dateString) {
 }
 
 // Validate entire reservation form
-function validateReservationForm(formData) {
+export function validateReservationForm(formData) {
     const errors = {};
     
     // Validate name
@@ -107,7 +107,7 @@ function validateReservationForm(formData) {
 }
 
 // Display validation errors on the form
-function displayValidationErrors(validationResult) {
+export function displayValidationErrors(validationResult) {
     // Clear previous error messages
     document.querySelectorAll('.validation-error').forEach(el => el.remove());
     
@@ -148,23 +148,10 @@ function displayValidationErrors(validationResult) {
 }
 
 // Make validation functions available globally
-if (typeof window !== 'undefined') {
-    window.validateReservationForm = validateReservationForm;
-    window.displayValidationErrors = displayValidationErrors;
-    window.validateEmail = validateEmail;
-    window.validatePhone = validatePhone;
-    window.validateRequired = validateRequired;
-    window.validateNumberOfPersons = validateNumberOfPersons;
-    window.validateDate = validateDate;
-}
-
-// Export functions for testing
-module.exports = {
-    validateEmail,
-    validatePhone,
-    validateRequired,
-    validateNumberOfPersons,
-    validateDate,
-    validateReservationForm,
-    displayValidationErrors
-};
+window.validateReservationForm = validateReservationForm;
+window.displayValidationErrors = displayValidationErrors;
+window.validateEmail = validateEmail;
+window.validatePhone = validatePhone;
+window.validateRequired = validateRequired;
+window.validateNumberOfPersons = validateNumberOfPersons;
+window.validateDate = validateDate;

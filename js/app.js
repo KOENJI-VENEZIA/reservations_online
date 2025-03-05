@@ -1,11 +1,11 @@
 // app.js
 
-import { db, getCollectionName, isDebugEnvironment } from '../js/services/firebase-config';
-import { initializeLocalization } from '../js/utils/locale';
+import { db, getCollectionName, isDebugEnvironment } from './services/firebase-config.js';
+import { initializeLocalization } from './utils/locale.js';
 import { initializeTheme } from './services/theme.js';
-import { initializeAdminPanel } from '../js/components/admin-panel';
-import { initializeFormHandlers } from '../js/components/form';
-import { initializeModal } from '../js/components/modal';
+import { initializeAdminPanel } from './components/admin-panel.js';
+import { initializeFormHandlers } from './components/form.js';
+import { initializeModal } from './components/modal.js';
 
 // ---------- EXPORT THE FUNCTIONS -----------
 export function verifyFirebaseConfiguration() {

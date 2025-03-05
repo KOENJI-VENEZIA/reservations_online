@@ -5,7 +5,7 @@ let currentLanguage = 'en';
 let translations = {};
 
 // Initialize localization
-function initializeLocalization() {
+export function initializeLocalization() {
     // Get browser language or use default
     const browserLang = navigator.language.split('-')[0];
     const supportedLanguages = ['en', 'ja', 'it'];
@@ -55,49 +55,23 @@ async function setLanguage(lang) {
 }
 
 // Update all elements with translations
-function updateAllTranslations() {
+export function updateAllTranslations() {
     const elements = document.querySelectorAll('[data-translate]');
     if (!elements || elements.length === 0) return;
     
     elements.forEach(element => {
         const key = element.dataset.translate;
-        
-        // In test environment, use global.translate if available
-        if (typeof global !== 'undefined' && typeof global.translate === 'function') {
-            element.textContent = global.translate(key);
-        } else {
-            element.textContent = getTranslation(key);
-        }
+        element.textContent = getTranslation(key);
     });
 }
 
 // Get translation for a key
-function getTranslation(key) {
+export function getTranslation(key) {
     if (!key) return '';
-    
-    // Special case for tests - if global.translations exists, use that
-    if (typeof global !== 'undefined' && typeof global.translations !== 'undefined') {
-        // We're in a test environment
-        const keys = key.split('.');
-        let currentObj = global.translations[global.currentLanguage];
-        
-        if (!currentObj) return key;
-        
-        // Navigate through the nested object
-        for (let i = 0; i < keys.length; i++) {
-            if (currentObj && typeof currentObj === 'object' && keys[i] in currentObj) {
-                currentObj = currentObj[keys[i]];
-            } else {
-                return key;
-            }
-        }
-        
-        return currentObj;
-    }
     
     // Normal environment behavior - use local translations
     const keys = key.split('.');
-    let result = translations[currentLanguage];
+    let result = translations;
     
     if (!result) return key;
     
@@ -114,63 +88,36 @@ function getTranslation(key) {
 }
 
 // Update translations and language
-function updateTranslations(language, newTranslations = null) {
+export function updateTranslations(language, newTranslations = null) {
     if (newTranslations) {
         translations = newTranslations;
-        
-        // Also set it on global for testing
-        if (typeof global !== 'undefined') {
-            global.translations = newTranslations;
-        }
     }
     
     currentLanguage = language;
     
-    // Also set it on global for testing
-    if (typeof global !== 'undefined') {
-        global.currentLanguage = language;
-    }
-    
-    // Call the appropriate updateAllTranslations function
-    // CRITICAL: Call the global mock in test environment if it exists
-    if (typeof global !== 'undefined' && global.updateAllTranslations && 
-        typeof global.updateAllTranslations === 'function') {
-        global.updateAllTranslations();
-    } else {
-        // Otherwise call the local function
-        updateAllTranslations();
-    }
+    // Call the local function
+    updateAllTranslations();
 }
 
 // Alias for setLanguage for better API naming
-function setLocale(lang) {
+export function setLocale(lang) {
     return setLanguage(lang);
 }
 
 // Get current locale
-function getCurrentLocale() {
+export function getCurrentLocale() {
     return currentLanguage;
 }
 
 // Alias for updateAllTranslations for better API naming
-function translateUI() {
+export function translateUI() {
     return updateAllTranslations();
 }
 
 // Make functions available globally
-if (typeof window !== 'undefined') {
-    window.translate = getTranslation;
-    window.updateTranslations = updateTranslations;
-    window.updateAllTranslations = updateAllTranslations;
-}
+window.translate = getTranslation;
+window.updateTranslations = updateTranslations;
+window.updateAllTranslations = updateAllTranslations;
 
-// Export functions for testing
-export {
-    getTranslation,
-    updateAllTranslations,
-    updateTranslations,
-    translateUI,
-    getCurrentLocale,
-    setLocale,
-    initializeLocalization
-};
+// Initialize localization when the DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeLocalization);

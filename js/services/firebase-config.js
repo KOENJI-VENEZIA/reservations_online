@@ -1,6 +1,5 @@
 // Firebase configuration and initialization
-// Use regular import for Jest compatibility
-import { initializeApp } from 'firebase/app';
+// Using Firebase compat version loaded from CDN in index.html
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBflMPHQnuye_Vj7h1Wwks65cVDkSo2JKQ",
@@ -11,15 +10,18 @@ export const firebaseConfig = {
     appId: "1:307119229497:ios:06d2841c6f20863c921be8"
 };
 
-
+// Initialize Firebase
 export const initializeFirebase = () => {
-  return initializeApp(firebaseConfig);
+  // Initialize Firebase with the compat version
+  firebase.initializeApp(firebaseConfig);
+  return firebase;
 };
 
-// For testing purposes, create mock objects
-export const db = { collection: () => ({}) };
-export const functions = { httpsCallable: () => ({}) };
-export const auth = { onAuthStateChanged: () => ({}) };
+// Initialize Firebase and export components
+const app = initializeFirebase();
+export const db = app.firestore();
+export const functions = app.functions();
+export const auth = app.auth();
 
 // Helper function to get current environment (debug/release)
 export function isDebugEnvironment() {
