@@ -134,6 +134,7 @@ h2::after {
 }
 
 .note {
+    display: flex;
     background-color: var(--secondary-light);
     padding: 16px;
     border-radius: var(--border-radius-sm);
@@ -142,7 +143,6 @@ h2::after {
     color: var(--text-primary);
     border-left: 4px solid var(--secondary-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    width: 100%;
     line-height: 1.6;
 }
 
