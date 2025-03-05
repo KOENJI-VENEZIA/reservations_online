@@ -55,7 +55,7 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         }
         
         // Update availability status with appropriate information
-        displayAvailabilityStatus(available, numberOfPersons, availableTables || 0, occupiedTables || [], tablesNeeded || 0, startTime);
+        displayAvailabilityStatus(available, numberOfPersons, capacityAvailable || 0, occupiedTables || [], tablesNeeded || 0, startTime);
         
         // Enable or disable submit button based on availability
         submitButton.disabled = !available;
@@ -88,11 +88,11 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
 }
 
 // Display availability status
-function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
+function displayAvailabilityStatus(available, numberOfPersons, capacityAvailable, occupiedTables, tablesNeeded, startTime) {
     const availabilityStatus = document.getElementById('availabilityStatus');
     
     // Default values if undefined
-    availableTables = availableTables || 0;
+    capacityAvailable = capacityAvailable || 0;
     occupiedTables = occupiedTables || [];
     tablesNeeded = tablesNeeded || 0;
     
@@ -104,7 +104,7 @@ function displayAvailabilityStatus(available, numberOfPersons, availableTables, 
         availabilityStatus.innerHTML = `
             <div style="display: flex; align-items: center;">
                 <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
-                ${translate('availability.tablesAvailable', { count: availableTables })}
+                ${translate('availability.tablesAvailable', { count: capacityAvailable })}
             </div>
             <div style="margin-top: 8px; font-size: 14px; color: var(--text-secondary);">
                 ${translate('availability.comfortablySeated', { count: numberOfPersons })}
