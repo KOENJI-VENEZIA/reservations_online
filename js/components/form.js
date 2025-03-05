@@ -384,14 +384,3 @@ export function showError(message) {
         });
     }
 }
-
-// Export other functions
-export {
-    updateTimeSlots,
-    updateEndTimeDisplay,
-    checkAvailabilityIfFormValid,
-    handleFormSubmit,
-    resetSubmitButton,
-    showSuccess,
-    showError
-};
