@@ -10,6 +10,10 @@
     gap: 12px;
 }
 
+.alert.show {
+    display: flex;
+}
+
 .alert-success {
     background-color: var(--success-light);
     color: var(--success-color);
@@ -23,9 +27,9 @@
 }
 
 .alert-warning {
-    background-color: var(--secondary-light);
-    color: var(--secondary-dark);
-    border-left: 4px solid var(--secondary-color);
+    background-color: var(--warning-light);
+    color: var(--warning-color);
+    border-left: 4px solid var(--warning-color);
 }
 
 .alert-icon {

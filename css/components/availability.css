@@ -1,0 +1,23 @@
+.availability-status {
+    margin: 16px 0;
+    padding: 16px;
+    border-radius: 8px;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.availability-status.show {
+    display: block;
+}
+
+.availability-status.available {
+    background-color: var(--success-light);
+    color: var(--success);
+    border-left: 4px solid var(--success);
+}
+
+.availability-status.unavailable {
+    background-color: var(--error-light);
+    color: var(--error);
+    border-left: 4px solid var(--error);
+} 

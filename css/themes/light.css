@@ -17,12 +17,14 @@
     --warning-color: #B89301; /* Using secondary brand color for warnings */
     --warning-light: rgba(184, 147, 1, 0.12);
     
+    --input-color: rgba(234, 235, 240, 0.587);
+
     /* Neutral colors */
     --neutral-color: #7076A2;
     --neutral-light: #E0E2F2;
     
     /* Background colors */
-    --bg-color: #f8f9fa;
+    --bg-color: #76829d;
     --bg-card: #ffffff;
     --bg-card-secondary: #f5f7fa;
     --bg-accent: #EEE8C0; /* Light version of secondary accent */

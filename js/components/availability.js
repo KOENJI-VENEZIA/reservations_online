@@ -1,5 +1,5 @@
 // Function to check availability via Cloud Function
-function checkAvailability(numberOfPersons, date, category, startTime) {
+export function checkAvailability(numberOfPersons, date, category, startTime) {
     // Calculate end time
     const endTime = calculateEndTime(startTime);
     
@@ -9,7 +9,6 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
     const submitButton = document.getElementById('submitButton');
     
     // Show checking status
-    availabilityAlert.style.display = 'block';
     availabilityAlert.innerHTML = `
         <div class="alert-icon">
             <i class="fas fa-exclamation-triangle"></i>
@@ -17,10 +16,11 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         ${translate('alerts.checking')}
         <span class="alert-close">&times;</span>
     `;
+    availabilityAlert.classList.add('show');
     
     // Set up alert close buttons
     availabilityAlert.querySelector('.alert-close').addEventListener('click', function() {
-        availabilityAlert.style.display = 'none';
+        availabilityAlert.classList.remove('show');
     });
     
     // Disable submit button during check
@@ -38,7 +38,7 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         isDebug: isDebugEnvironment() // Pass the environment flag
     }).then((result) => {
         // Hide checking alert
-        availabilityAlert.style.display = 'none';
+        availabilityAlert.classList.remove('show');
         
         const { 
             available, 
@@ -73,7 +73,7 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
         
     }).catch((error) => {
         console.error('Error checking availability:', error);
-        availabilityAlert.style.display = 'none';
+        availabilityAlert.classList.remove('show');
         submitButton.disabled = false;
         submitButton.innerHTML = translate('form.submit');
         
@@ -88,7 +88,7 @@ function checkAvailability(numberOfPersons, date, category, startTime) {
 }
 
 // Display availability status
-function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
+export function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
     const availabilityStatus = document.getElementById('availabilityStatus');
     
     // Default values if undefined
@@ -97,8 +97,8 @@ function displayAvailabilityStatus(available, numberOfPersons, availableTables, 
     tablesNeeded = tablesNeeded || 0;
     
     // Update availability status
-    availabilityStatus.style.display = 'block';
-    availabilityStatus.className = 'availability-status ' + (available ? 'available' : 'unavailable');
+    availabilityStatus.classList.add('show');
+    availabilityStatus.className = 'availability-status ' + (available ? 'available' : 'unavailable') + ' show';
     
     if (available) {
         availabilityStatus.innerHTML = `
@@ -150,5 +150,33 @@ function displayAvailabilityStatus(available, numberOfPersons, availableTables, 
             </div>
             ${alternativeMessage}
         `;
+    }
+}
+
+export function showAvailabilityAlert(message, isError = false) {
+    const availabilityAlert = document.getElementById('availabilityAlert');
+    if (!availabilityAlert) return;
+    
+    availabilityAlert.innerHTML = `
+        <div class="alert-icon">
+            <i class="fas fa-${isError ? 'exclamation' : 'info'}-circle"></i>
+        </div>
+        ${message}
+        <span class="alert-close">&times;</span>
+    `;
+    
+    // Use classList instead of style.display
+    availabilityAlert.classList.add('show');
+    
+    // Add event listener for close button
+    availabilityAlert.querySelector('.alert-close').addEventListener('click', function() {
+        availabilityAlert.classList.remove('show');
+    });
+}
+
+export function hideAvailabilityAlert() {
+    const availabilityAlert = document.getElementById('availabilityAlert');
+    if (availabilityAlert) {
+        availabilityAlert.classList.remove('show');
     }
 }

@@ -1,11 +1,11 @@
 :root {
     /* Primary colors - Main brand color: #4A4E6D */
-    --primary-color: #7076A2; /* Lighter version of main brand color for better contrast */
+    --primary-color: #daddf5; /* Lighter version of main brand color for better contrast */
     --primary-light: rgba(112, 118, 162, 0.2);
     --primary-dark: #4A4E6D;
     
     /* Secondary colors - Secondary brand color: #B89301 */
-    --secondary-color: #E8D18E; /* Using lighter version for better visibility */
+    --secondary-color: #e7c14e; /* Using lighter version for better visibility */
     --secondary-light: rgba(232, 209, 142, 0.2);
     --secondary-dark: #B89301;
     
@@ -17,15 +17,16 @@
     --warning-color: #E8D18E; /* Using secondary light for warnings */
     --warning-light: rgba(232, 209, 142, 0.2);
     
+    --input-color: rgba(36, 51, 96, 0.362);
     /* Neutral colors */
-    --neutral-color: #E0E2F2;
+    --neutral-color: #a4a6b6;
     --neutral-light: #7076A2;
     
     /* Background colors */
-    --bg-color: #232850; /* Using dark brand color for background */
-    --bg-card: #2D3361; /* Slightly lighter than bg-color */
-    --bg-card-secondary: #4A4E6D; /* Using main brand color for secondary cards */
-    --bg-accent: #968B54; /* Dark version of secondary accent */
+    --bg-color: #16192f; /* Using dark brand color for background */
+    --bg-card: #363956; /* Slightly lighter than bg-color */
+    --bg-card-secondary: #2f334f; /* Using main brand color for secondary cards */
+    --bg-accent: #8e8454; /* Dark version of secondary accent */
     
     /* Text colors */
     --text-primary: #E0E2F2; /* Using neutral light for primary text */
