@@ -22,7 +22,7 @@ if (isTestEnvironment) {
     signOut = firebaseAuth.signOut;
 }
 
-]import { getTranslation } from '../utils/locale.js';
+import { getTranslation } from '../utils/locale.js';
 import { logToAdmin } from './firebase-config.js';
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { initializeFirebase } from './firebase-config.js';
