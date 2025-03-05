@@ -1,5 +1,5 @@
 // Function to check availability via Cloud Function
-export function checkAvailability(numberOfPersons, date, category, startTime) {
+function checkAvailability(numberOfPersons, date, category, startTime) {
     // Calculate end time
     const endTime = calculateEndTime(startTime);
     
@@ -9,6 +9,7 @@ export function checkAvailability(numberOfPersons, date, category, startTime) {
     const submitButton = document.getElementById('submitButton');
     
     // Show checking status
+    availabilityAlert.style.display = 'block';
     availabilityAlert.innerHTML = `
         <div class="alert-icon">
             <i class="fas fa-exclamation-triangle"></i>
@@ -16,11 +17,10 @@ export function checkAvailability(numberOfPersons, date, category, startTime) {
         ${translate('alerts.checking')}
         <span class="alert-close">&times;</span>
     `;
-    availabilityAlert.classList.add('show');
     
     // Set up alert close buttons
     availabilityAlert.querySelector('.alert-close').addEventListener('click', function() {
-        availabilityAlert.classList.remove('show');
+        availabilityAlert.style.display = 'none';
     });
     
     // Disable submit button during check
@@ -38,13 +38,14 @@ export function checkAvailability(numberOfPersons, date, category, startTime) {
         isDebug: isDebugEnvironment() // Pass the environment flag
     }).then((result) => {
         // Hide checking alert
-        availabilityAlert.classList.remove('show');
+        availabilityAlert.style.display = 'none';
         
         const { 
             available, 
             capacityAvailable, 
             message, 
             availableTables, 
+            occupiedTables,
             tablesNeeded
         } = result.data;
         
@@ -54,7 +55,7 @@ export function checkAvailability(numberOfPersons, date, category, startTime) {
         }
         
         // Update availability status with appropriate information
-        displayAvailabilityStatus(available, numberOfPersons, availableTables || 0, [], tablesNeeded || 0, startTime);
+        displayAvailabilityStatus(available, numberOfPersons, availableTables || 0, occupiedTables || [], tablesNeeded || 0, startTime);
         
         // Enable or disable submit button based on availability
         submitButton.disabled = !available;
@@ -72,7 +73,7 @@ export function checkAvailability(numberOfPersons, date, category, startTime) {
         
     }).catch((error) => {
         console.error('Error checking availability:', error);
-        availabilityAlert.classList.remove('show');
+        availabilityAlert.style.display = 'none';
         submitButton.disabled = false;
         submitButton.innerHTML = translate('form.submit');
         
@@ -87,16 +88,17 @@ export function checkAvailability(numberOfPersons, date, category, startTime) {
 }
 
 // Display availability status
-export function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
+function displayAvailabilityStatus(available, numberOfPersons, availableTables, occupiedTables, tablesNeeded, startTime) {
     const availabilityStatus = document.getElementById('availabilityStatus');
     
     // Default values if undefined
     availableTables = availableTables || 0;
+    occupiedTables = occupiedTables || [];
     tablesNeeded = tablesNeeded || 0;
     
     // Update availability status
-    availabilityStatus.classList.add('show');
-    availabilityStatus.className = 'availability-status ' + (available ? 'available' : 'unavailable') + ' show';
+    availabilityStatus.style.display = 'block';
+    availabilityStatus.className = 'availability-status ' + (available ? 'available' : 'unavailable');
     
     if (available) {
         availabilityStatus.innerHTML = `
@@ -133,14 +135,18 @@ export function displayAvailabilityStatus(available, numberOfPersons, availableT
                 ${translate('availability.recommendTimes')}
                 <ul style="margin-top: 4px; margin-bottom: 0; padding-left: 24px;">
         `;
-        
+        // Show occupied tables info
         // Add earlier slot if available
         if (hasEarlierSlot) {
             const earlierTime = timeSlots[currentIndex - 1];
             alternativeMessage += `<li>${earlierTime} (${translate('availability.earlier')})</li>`;
         }
         
-        // Add later slot if available
+                {translate('availability.tablesNeeded', { 
+                    tablesNeeded: tablesNeeded,
+                    numberOfPersons: numberOfPersons,
+                    occupiedTables: occupiedTables.join(', ')
+                })}
         if (hasLaterSlot) {
             const laterTime = timeSlots[currentIndex + 1];
             alternativeMessage += `<li>${laterTime} (${translate('availability.later')})</li>`;
