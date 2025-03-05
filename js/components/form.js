@@ -274,35 +274,29 @@ function resetSubmitButton() {
 }
 
 // Show success alert
-export function showSuccess(message) {
+function showSuccess(message) {
     const successAlert = document.getElementById('successAlert');
-    if (!successAlert) return;
-    
     successAlert.innerHTML = `
         <div class="alert-icon">
             <i class="fas fa-check-circle"></i>
         </div>
-        ${(typeof translate === 'function') ? translate('alerts.success') : 'Reservation successful'}
+        ${message}
         <span class="alert-close">&times;</span>
     `;
+    successAlert.style.display = 'block';
     
-    // Use classList instead of style.display
-    successAlert.classList.add('show');
-    
-    // Add event listener for close button
+    // Set up alert close button again
     successAlert.querySelector('.alert-close').addEventListener('click', function() {
-        successAlert.classList.remove('show');
+        successAlert.style.display = 'none';
     });
     
-    // Scroll to the alert
+    // Smoothly scroll to success message
     successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 // Show error alert
-export function showError(message) {
+function showError(message) {
     const errorAlert = document.getElementById('errorAlert');
-    if (!errorAlert) return;
-    
     errorAlert.innerHTML = `
         <div class="alert-icon">
             <i class="fas fa-exclamation-circle"></i>
@@ -310,62 +304,10 @@ export function showError(message) {
         ${message}
         <span class="alert-close">&times;</span>
     `;
+    errorAlert.style.display = 'block';
     
-    // Use classList instead of style.display
-    errorAlert.classList.add('show');
-    
-    // Add event listener for close button
+    // Set up alert close button again
     errorAlert.querySelector('.alert-close').addEventListener('click', function() {
-        errorAlert.classList.remove('show');
+        errorAlert.style.display = 'none';
     });
-}
-
-// Initialize form
-export function initializeForm() {
-    // Initialize form elements
-    const form = document.getElementById('reservationForm');
-    if (!form) return;
-    
-    // Initialize alerts (no need to set display: none as it's handled by CSS now)
-    const successAlert = document.getElementById('successAlert');
-    const errorAlert = document.getElementById('errorAlert');
-    const availabilityStatus = document.getElementById('availabilityStatus');
-    
-    // Get form elements
-    const numberOfPersonsInput = document.getElementById('numberOfPersons');
-    const categorySelect = document.getElementById('category');
-    const startTimeSelect = document.getElementById('startTime');
-    const dateInput = document.getElementById('date');
-    const endTimeValue = document.getElementById('endTimeValue');
-    
-    // Populate initial time slots
-    updateTimeSlots();
-    
-    // Add event listeners
-    categorySelect.addEventListener('change', updateTimeSlots);
-    startTimeSelect.addEventListener('change', function() {
-        updateEndTimeDisplay(this.value);
-        checkAvailabilityIfFormValid();
-    });
-    
-    dateInput.addEventListener('change', function(e) {
-        const selectedDate = new Date(e.target.value);
-        if (selectedDate.getDay() === 1) { // Monday
-            // Show custom styled alert
-            showError(translate('alerts.closedMonday'));
-            e.target.value = new Date().toISOString().split('T')[0]; // Reset to today
-        } else {
-            checkAvailabilityIfFormValid();
-        }
-    });
-    
-    // Check availability when form fields change
-    [numberOfPersonsInput, dateInput, categorySelect, startTimeSelect].forEach(element => {
-        element.addEventListener('change', function() {
-            checkAvailabilityIfFormValid();
-        });
-    });
-    
-    // Handle form submission
-    form.addEventListener('submit', handleFormSubmit);
 }

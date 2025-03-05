@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Initialization error: ${error.message}
                 <span class="alert-close">&times;</span>
             `;
-            errorAlert.classList.add('show');
+            errorAlert.style.display = 'block';
         }
     }
 });
@@ -70,7 +70,7 @@ function verifyFirebaseConfiguration() {
                 Firebase configuration error. Please check console for details.
                 <span class="alert-close">&times;</span>
             `;
-            errorAlert.classList.add('show');
+            errorAlert.style.display = 'block';
         }
     }
 }
@@ -79,7 +79,7 @@ function verifyFirebaseConfiguration() {
 function setupAlerts() {
     document.querySelectorAll('.alert-close').forEach(button => {
         button.addEventListener('click', function() {
-            this.parentElement.classList.remove('show');
+            this.parentElement.style.display = 'none';
         });
     });
 }
@@ -93,28 +93,5 @@ function initializeDateTimeConstraints() {
         // Set min date to today
         dateInput.min = today.toISOString().split('T')[0];
         dateInput.value = today.toISOString().split('T')[0];
-    }
-}
-
-// Handle errors
-function handleError(error) {
-    console.error('Error:', error);
-    const errorAlert = document.getElementById('errorAlert');
-    if (errorAlert) {
-        errorAlert.innerHTML = `
-            <div class="alert-icon">
-                <i class="fas fa-exclamation-circle"></i>
-            </div>
-            ${error.message || 'An error occurred'}
-            <span class="alert-close">&times;</span>
-        `;
-        
-        // Use classList instead of style.display
-        errorAlert.classList.add('show');
-        
-        // Add event listener for close button
-        errorAlert.querySelector('.alert-close').addEventListener('click', function() {
-            errorAlert.classList.remove('show');
-        });
     }
 }
