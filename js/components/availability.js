@@ -1,11 +1,11 @@
 // Import required functions
 import { getTranslation as translate } from '../utils/locale.js';
-import { calculateEndTime } from './form.js';
+import { calculateEndTime } from '../utils/time-utils.js';
 
 // Function to check availability via Cloud Function
 export function checkAvailability(numberOfPersons, date, category, startTime) {
     // Calculate end time
-    const endTime = calculateEndTime(startTime);
+    const endTime = calculateEndTime(startTime, category);
     
     // Get elements
     const availabilityAlert = document.getElementById('availabilityAlert');

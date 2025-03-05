@@ -1,3 +1,8 @@
+// Import required functions
+import { getTranslation as translate } from '../utils/locale.js';
+import { checkAvailability } from './availability.js';
+import { calculateEndTime } from '../utils/time-utils.js';
+
 // Initialize form handlers
 export function initializeFormHandlers() {
     // Get form elements
@@ -114,16 +119,14 @@ export function updateEndTimeDisplay(startTime) {
         return;
     }
     
-    const [startHour, startMinute] = startTime.split(':').map(Number);
-    let endHour = startHour + 1;
-    let endMinute = startMinute + 45;
+    // Get the current category
+    const categoryElement = document.getElementById('category');
+    const category = categoryElement ? categoryElement.value : 'dinner';
     
-    if (endMinute >= 60) {
-        endHour += 1;
-        endMinute -= 60;
-    }
+    // Use the calculateEndTime utility function
+    const endTime = calculateEndTime(startTime, category);
     
-    const endTime = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
+    // Update the display
     endTimeValue.textContent = endTime;
 }
 
@@ -146,25 +149,6 @@ export function checkAvailabilityIfFormValid() {
             checkAvailability(numberOfPersons, date, category, startTime);
         }
     }
-}
-
-// Calculate end time from start time
-export function calculateEndTime(startTime, category) {
-    const [startHour, startMinute] = startTime.split(':').map(Number);
-    let endHour = startHour + 1;
-    let endMinute = category === 'lunch' ? startMinute + 20 : startMinute + 45;
-    
-    if (endMinute >= 60) {
-        endHour += 1;
-        endMinute -= 60;
-    }
-    
-    // Handle day rollover (when end hour goes past midnight)
-    if (endHour >= 24) {
-        endHour -= 24;
-    }
-    
-    return `${String(endHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
 }
 
 // Handle form submission
@@ -401,18 +385,11 @@ export function showError(message) {
     }
 }
 
-// Placeholder for checkAvailability function
-export function checkAvailability() {
-    // This is a stub that can be overridden
-    console.log('Checking availability...');
-}
-
 // Export other functions
 export {
     updateTimeSlots,
     updateEndTimeDisplay,
     checkAvailabilityIfFormValid,
-    calculateEndTime,
     handleFormSubmit,
     resetSubmitButton,
     showSuccess,
