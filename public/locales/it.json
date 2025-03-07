@@ -1,0 +1,104 @@
+{
+  "title": "Prenota da KOENJI. VENEZIA",
+  "status": {
+    "pending": "Richiesta di Prenotazione Online"
+  },
+  "alerts": {
+    "success": "La tua richiesta di prenotazione è stata inviata con successo! Ti contatteremo presto per confermare.",
+    "error": "Si è verificato un errore durante l'invio della prenotazione. Riprova per favore.",
+    "checking": "Verifica disponibilità in corso...",
+    "processingError": "Si è verificato un errore durante l'elaborazione della tua prenotazione. Riprova per favore.",
+    "availabilityError": "Si è verificato un errore durante la verifica della disponibilità. Riprova per favore.",
+    "noLongerAvailable": "Ci dispiace, non ci sono più tavoli disponibili per questa fascia oraria. Seleziona un orario diverso.",
+    "closedMonday": "Siamo chiusi il lunedì. Seleziona un altro giorno."
+  },
+  "form": {
+    "guestInfo": "Informazioni Ospite",
+    "name": "Nome *",
+    "email": "Email *",
+    "phone": "Numero di Telefono *",
+    "people": "Numero di Persone *",
+    "reservationDetails": "Dettagli Prenotazione",
+    "date": "Data *",
+    "meal": "Categoria *",
+    "lunch": "Pranzo",
+    "dinner": "Cena",
+    "time": "Orario *",
+    "endTime": "Tavolo libero fino alle (circa):",
+    "specialRequests": "Richieste Speciali",
+    "notes": "Note / Richieste Speciali",
+    "submit": "Invia Richiesta",
+    "submitting": "Invio in corso...",
+    "checking": "Verifica in corso...",
+    "noTablesAvailable": "Nessun Tavolo Disponibile",
+    "preferredLanguage": "Vorrei essere contattato in (lingua): *"
+  },
+  "policy": {
+    "holdTime": "La tua prenotazione sarà tenuta per",
+    "minutes": "minuti",
+    "afterTime": "dopo l'orario di prenotazione in caso di ritardo.",
+    "minimumPeople": "Minimo",
+    "people": "persone",
+    "perReservation": "per prenotazione richieste.",
+    "weClosed": "Siamo",
+    "closedOn": "chiusi il lunedì",
+    "confirmation": "La prenotazione è soggetta a conferma. Riceverai un'email una volta che la tua prenotazione sarà processata."
+  },
+  "availability": {
+    "tablesAvailable": "Tavoli disponibili: {{count}}",
+    "comfortablySeated": "Il tuo gruppo di {{count}} persone sarà comodamente seduto.",
+    "notEnoughTables": "Ci dispiace, non abbiamo abbastanza tavoli disponibili per questo orario.",
+    "tablesNeeded": "Abbiamo bisogno di più tavoli per il tuo gruppo di {{numberOfPersons}} in questo momento.",
+    "recommendTimes": "Ti consigliamo di verificare la disponibilità a:",
+    "earlier": "opzione precedente",
+    "later": "opzione successiva",
+    "noAlternativeTimes": "Ci dispiace, non ci sono orari alternativi disponibili per {{category}}."
+  },
+  "modal": {
+    "confirmation": "Conferma",
+    "confirmAction": "Sei sicuro di voler proseguire?",
+    "cancel": "Annulla",
+    "confirm": "Conferma"
+  },
+  "admin": {
+    "panelTitle": "Pannello di Amministrazione",
+    "signInPrompt": "Accedi con il tuo account Google per accedere alle funzionalità di amministrazione.",
+    "signInWithGoogle": "Accedi con Google",
+    "environmentSettings": "Impostazioni Ambiente",
+    "environment": "Ambiente",
+    "debug": "Debug",
+    "release": "Produzione",
+    "environmentChanged": "Ambiente cambiato a",
+    "authorizedAdmins": "Amministratori Autorizzati",
+    "adminDescription": "Questi indirizzi email hanno accesso come amministratore.",
+    "addNewAdmin": "Aggiungi nuovo email amministratore",
+    "add": "Aggiungi",
+    "debugInfo": "Informazioni di Debug",
+    "clearLogs": "Cancella Log",
+    "signOut": "Disconnetti",
+    "enterEmail": "Inserisci un indirizzo email.",
+    "invalidEmail": "Inserisci un indirizzo email valido.",
+    "alreadyAdmin": "Questa email è già un amministratore.",
+    "noAccess": "Non hai accesso come amministratore. Contatta un amministratore.",
+    "cannotRemoveDefault": "Impossibile rimuovere l'amministratore predefinito.",
+    "confirmAdd": "Sei sicuro di voler aggiungere {{email}} come amministratore?",
+    "confirmRemove": "Sei sicuro di voler rimuovere l'accesso amministratore per {{email}}?",
+    "confirmClearLogs": "Sei sicuro di voler cancellare tutti i log?",
+    "logsCleared": "Log cancellati"
+  },
+  "validation": {
+    "requiredField": "Questo campo è obbligatorio",
+    "invalidEmail": "Inserisci un indirizzo email valido",
+    "invalidPhone": "Inserisci un numero di telefono valido",
+    "invalidNumberOfPersons": "Sono richieste minimo 2 persone",
+    "invalidDate": "Inserisci una data valida",
+    "pastDate": "La data non può essere nel passato",
+    "monday": "Siamo chiusi il lunedì"
+  },
+  "language": {
+    "english": "English",
+    "italian": "Italiano",
+    "japanese": "日本語",
+    "selector": "Lingua"
+  }
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Reservation</title>
+    <!-- Main CSS file that imports all other CSS files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- We'll dynamically load theme CSS based on user preference -->
+    <link rel="stylesheet" href="css/themes/light.css" id="theme-stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Language selector -->
+    <div class="language-selector">
+        <div class="language-selector-label">
+            <i class="fas fa-globe"></i>
+            <span data-i18n="language.selector">Language</span>
+        </div>
+        <select id="language-select">
+            <option value="en">🇬🇧 English</option>
+            <option value="ja">🇯🇵 日本語</option>
+            <option value="it">🇮🇹 Italiano</option>
+        </select>
+    </div>
+
+
+    <div class="container">
+        <div class="status-tag status-pending">
+            <span class="status-tag-icon">
+                <i class="fas fa-clock"></i>
+            </span>
+            <span data-i18n="status.pending">Online Reservation Request</span>
+        </div>
+
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="assets/logo_light.png" alt="Restaurant Logo" class="logo logo-light">
+            <img src="assets/logo_dark.png" alt="Restaurant Logo" class="logo logo-dark">
+        </div>
+
+        <h1 data-i18n="title">Table Reservation</h1>
+        
+        <!-- Alert containers -->
+        <div id="successAlert" class="alert alert-success">
+            <div class="alert-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <span data-i18n="alerts.success">Your reservation request has been submitted successfully! We will contact you soon to confirm.</span>
+            <span class="alert-close">&times;</span>
+        </div>
+        
+        <div id="errorAlert" class="alert alert-error">
+            <div class="alert-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <span data-i18n="alerts.error">There was an error submitting your reservation. Please try again.</span>
+            <span class="alert-close">&times;</span>
+        </div>
+        
+        <div id="availabilityAlert" class="alert alert-warning">
+            <div class="alert-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <span data-i18n="alerts.checking">Checking availability...</span>
+            <span class="alert-close">&times;</span>
+        </div>
+        
+        <!-- Reservation Form -->
+        <form id="reservationForm">
+            <div class="card-section">
+                <h2 data-i18n="form.guestInfo">Guest Information</h2>
+                <div class="form-field-group">
+                    <div class="form-group">
+                        <label for="name" data-i18n="form.name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferredLanguage" data-i18n="form.preferredLanguage">Preferred Language for Communications *</label>
+                        <select id="preferredLanguage" name="preferredLanguage" required>
+                          <option value="en" data-i18n="language.english">English</option>
+                          <option value="it" data-i18n="language.italian">Italiano</option>
+                          <option value="ja" data-i18n="language.japanese">日本語</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" data-i18n="form.email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-field-group">
+                    <div class="form-group">
+                        <label for="phone" data-i18n="form.phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="numberOfPersons" data-i18n="form.people">Number of People *</label>
+                        <input type="number" id="numberOfPersons" name="numberOfPersons" min="2" value="2" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-section">
+                <h2 data-i18n="form.reservationDetails">Reservation Details</h2>
+                <div class="form-field-group">
+                    <div class="form-group">
+                        <label for="date" data-i18n="form.date">Date *</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category" data-i18n="form.meal">Meal *</label>
+                        <select id="category" name="category" required>
+                            <option value="lunch" data-i18n="form.lunch">Lunch</option>
+                            <option value="dinner" data-i18n="form.dinner">Dinner</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-field-group">
+                    <div class="form-group">
+                        <label for="startTime" data-i18n="form.time">Time *</label>
+                        <select id="startTime" name="startTime" required>
+                            <!-- Time slots will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div id="endTimeDisplay" class="detail-tag">
+                            <div class="detail-tag-icon">
+                                <i class="fas fa-hourglass-end"></i>
+                            </div>
+                            <span class="detail-tag-label" data-i18n="form.endTime">Approximate End Time</span>
+                            <span class="detail-tag-value" id="endTimeValue">--:--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-section">
+                <h2 data-i18n="form.specialRequests">Special Requests</h2>
+                <div class="form-group">
+                    <label for="notes" data-i18n="form.notes">Notes or Special Requests</label>
+                    <textarea id="notes" name="notes" rows="3"></textarea>
+                </div>
+                
+                <div id="availabilityStatus" class="availability-status">
+                    <!-- Availability status will be displayed here -->
+                </div>
+            </div>
+            
+            <div class="reservation-details">
+                <div class="detail-row">
+                    <div class="detail-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="detail-text">
+                        <span data-i18n="policy.holdTime">Your reservation will be held for</span> <strong>15 <span data-i18n="policy.minutes">minutes</span></strong> <span data-i18n="policy.afterTime">after the reserved time.</span>
+                    </div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="detail-text">
+                        <span data-i18n="policy.minimumPeople">Minimum</span> <strong>2 <span data-i18n="policy.people">people</span></strong> <span data-i18n="policy.perReservation">per reservation required.</span>
+                    </div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <div class="detail-text">
+                        <span data-i18n="policy.weClosed">We are</span> <strong><span data-i18n="policy.closedOn">closed on Mondays</span></strong>.
+                    </div>
+                </div>
+                
+                <p class="note">* <span data-i18n="policy.confirmation">Reservation is subject to confirmation. You will receive an email once your reservation is confirmed.</span></p>
+            </div>
+            
+            <button type="submit" id="submitButton" class="large with-icon" data-i18n="form.submit">
+                <i class="fas fa-calendar-check"></i>
+                Request Reservation
+            </button>
+        </form>
+    </div>
+
+    <!-- Admin Button -->
+    <button class="admin-button" id="adminButton">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <!-- Admin Panel (loaded dynamically) -->
+    <div class="admin-panel" id="adminPanel"></div>
+    
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" data-i18n="modal.confirmation">Confirmation</div>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalMessage">
+                <span data-i18n="modal.confirmAction">Are you sure you want to perform this action?</span>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button secondary small" id="modalCancel" data-i18n="modal.cancel">Cancel</button>
+                <button class="modal-button small" id="modalConfirm" data-i18n="modal.confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-functions-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-auth-compat.min.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="js/services/firebase-config.js"></script>
+    <script src="js/utils/locale.js"></script>
+    <script src="js/utils/validation.js"></script>
+    <script src="js/services/theme.js"></script>
+    <script src="js/services/auth.js"></script>
+    <script src="js/services/reservations.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/admin-panel.js"></script>
+    <script src="js/components/availability.js"></script>
+    <script src="js/components/form.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

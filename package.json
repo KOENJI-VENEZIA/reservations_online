@@ -1,0 +1,24 @@
+{
+  "name": "reservations_online",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KOENJI-VENEZIA/reservations_online.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KOENJI-VENEZIA/reservations_online/issues"
+  },
+  "homepage": "https://github.com/KOENJI-VENEZIA/reservations_online#readme",
+  "description": "",
+  "dependencies": {
+    "@hapi/hapi": "^21.4.0",
+    "@hapi/inert": "^7.1.0"
+  }
+}
