@@ -13,14 +13,22 @@ const init = async () => {
   // Register Inert to serve static files
   await server.register(Inert);
 
+  // Route to serve index.html from the root directory
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: {
+      file: Path.join(__dirname, 'index.html')
+    }
+  });
+
   // Route to serve static files from the "public" directory
   server.route({
     method: 'GET',
-    path: '/{param*}', // Catch-all route for any file path
+    path: '/public/{param*}',
     handler: {
       directory: {
         path: Path.join(__dirname, 'public'),
-        index: ['index.html'], // Serve index.html if no file is specified
       },
     },
   });

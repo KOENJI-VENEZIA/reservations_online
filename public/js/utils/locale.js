@@ -28,7 +28,7 @@ async function setLanguage(lang) {
     if (!translations[lang]) {
         try {
             // Load language file
-            const response = await fetch(`locales/${lang}.json`);
+            const response = await fetch(`/public/locales/${lang}.json`);
             
             if (!response.ok) {
                 throw new Error(`Failed to load language: ${lang}`);
