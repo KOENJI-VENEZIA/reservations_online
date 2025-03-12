@@ -30,7 +30,7 @@ function initializeTheme() {
 function applyDarkTheme() {
     document.body.classList.add('dark-theme');
     document.body.setAttribute('data-theme', 'dark');
-    document.getElementById('theme-stylesheet').href = 'reservations_online/public/css/themes/dark.css';
+    document.getElementById('theme-stylesheet').href = './public/css/themes/dark.css';
     
     console.log('Applied dark theme based on system preference');
 }
@@ -39,7 +39,7 @@ function applyDarkTheme() {
 function applyLightTheme() {
     document.body.classList.remove('dark-theme');
     document.body.setAttribute('data-theme', 'light');
-    document.getElementById('theme-stylesheet').href = 'reservations_online/public/css/themes/light.css';
+    document.getElementById('theme-stylesheet').href = './public/css/themes/light.css';
     
     console.log('Applied light theme based on system preference');
 }
